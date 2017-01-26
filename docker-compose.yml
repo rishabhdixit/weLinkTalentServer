@@ -1,0 +1,10 @@
+version: '2'
+services:
+  web:
+    build: .
+    links:
+      - mongo
+    environment:
+      MONGODB_HOST: 'mongo'
+  mongo:
+    image: mongo
