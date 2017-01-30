@@ -6,5 +6,7 @@ services:
       - mongo
     environment:
       MONGODB_HOST: 'mongo'
+    depends_on:
+      - mongo
   mongo:
     image: mongo

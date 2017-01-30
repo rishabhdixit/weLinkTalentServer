@@ -3,7 +3,7 @@ import { Router } from 'express';
 /**
  * Modified version of https://github.com/developit/resource-router-middleware
  *
- * Added support for `async` functions and error propagation to express error handlers
+ *  - Added support for `async` functions and error propagation to express error handlers
  *
  *    async index () {}
  *    async create () {}
@@ -15,6 +15,7 @@ const map = { index: 'get', list: 'get', read: 'get', create: 'post', update: 'p
 export default function ResourceRouter(route) {
 	const router = Router();
 
+	if (!route.id) route.id = 'id';
 	if (route.middleware) router.use(route.middleware);
 
 	if (route.load) {

@@ -2,20 +2,20 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import ejwt from 'express-jwt';
+import unless from 'express-unless';
 
 import { Router } from 'express';
 import { Strategy } from 'passport-local';
 
 import User from '../models/users';
 
-import { UnauthorizedError } from '../lib/errors';
+import { UnauthorizedError, InternalServerError } from '../lib/errors';
 
 /* eslint no-unused-vars: 0 */
 export default ({ config, app }) => {
-	const api = Router();
+	const routes = Router();
 
 	// Authenticate using email, password fields in POST body
-	// TODO: Query DB if user is registered
 	passport.use(new Strategy({
 		usernameField: 'email',
 		passwordField: 'password',
@@ -38,44 +38,67 @@ export default ({ config, app }) => {
 		return cb(null, user);
 	}));
 
-	api.use(passport.initialize());
-	api.use(ejwt({ secret: config.jwt.secret, userProperty: 'tokenPayload' })
-			.unless({ path: ['/authenticate', { url: '/api/users', methods: ['POST'] }] }));
+	routes.use(passport.initialize());
+	routes.use(ejwt({ secret: config.jwt.secret, userProperty: 'tokenPayload' })
+			.unless({ path: config.excludedRoutes }));
 
-	// Authenticate endpoint for logging in users
-	api.post('/authenticate', (req, res, next) => {
+	// Authenticate endpoint using email and password
+	routes.post('/authenticate', (req, res, next) => {
 		passport.authenticate('local', (err, user, info) => {
 			if (err) {
-				return next(err);
+				return next(new InternalServerError(err));
 			}
 
 			if (!user) {
 				return res.status(401).json({ status: 'error', code: 'unauthorized' });
 			}
 
-			return res.json({ token: jwt.sign(user, config.jwt.secret) });
+			return res.json({ token: jwt.sign({ email: user.email }, config.jwt.secret) });
 		})(req, res, next);
 	});
 
-	// TODO: Load user from database if token is found
-	api.use((req, res, next) => {
-		if (req.tokenPayload || req.body.email) {
-			return next();
-		}
+	// Saves profile returned from linkedin and generates
+	// user token for the user
+	routes.post('/authenticate/linkedin', async ({ body }, res, next) => {
+		// we're using try catch here since express routes doesn't
+		// support async functions and does not catch errors
+		try {
+			let user = await app.models.user.findOne({ email: body.emailAddress });
 
-		return next(new UnauthorizedError('Token payload not found.'));
+			if (!user) {
+				user = await app.models.user.create({ email: body.emailAddress });
+				const linkedinId = body.id;
+
+				const data = { ...body, user: user.id, linkedinId };
+				// delete linkedin generated id, auto generate db id
+				delete data.id;
+				const profile = await app.models.profile.create(data);
+
+				await app.models.user.update(user.id, { profile: profile.id });
+			}
+
+			res.json({ token: jwt.sign({ email: user.email }, config.jwt.secret) });
+		} catch (error) {
+			next(new InternalServerError(error));
+		}
 	});
 
 	// Auth middleware error handler
-	api.use((err, req, res, next) => {
+	routes.use((err, req, res, next) => {
 		if (err.name === 'UnauthorizedError') {
-			return res.status(401).json({
+			return res.status(err.status).json({
+				message: err.message,
+			});
+		} else if (err.name === 'InternalServerError') {
+			return res.status(err.status).json({
 				message: err.message,
 			});
 		}
 
-		return next();
+		return res.status(400).json({
+			message: `Something went wrong. ${err.message}`,
+		});
 	});
 
-	return api;
+	return routes;
 };

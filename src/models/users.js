@@ -11,27 +11,42 @@ const User = Waterline.Collection.extend({
 		email: {
 			type: 'string',
 			required: true,
+			unique: true,
+			index: true,
 		},
 
 		password: {
 			type: 'string',
 			minLength: 6,
-			required: true,
+		},
+
+		profile: {
+			model: 'profile',
+		},
+
+		toJSON() {
+			const obj = this.toObject();
+			delete obj.password;
+			return obj;
 		},
 	},
 
 	beforeCreate(values, next) {
-		/* eslint consistent-return: 0, no-param-reassign: 0 */
-		bcrypt.genSalt(config.bcrypt.rounds, (saltErr, salt) => {
-			if (saltErr) return next(saltErr);
+		if (values.password) {
+			/* eslint consistent-return: 0, no-param-reassign: 0 */
+			bcrypt.genSalt(config.bcrypt.rounds, (saltErr, salt) => {
+				if (saltErr) return next(saltErr);
 
-			bcrypt.hash(values.password, salt, (hashErr, hash) => {
-				if (hashErr) return next(hashErr);
+				bcrypt.hash(values.password, salt, (hashErr, hash) => {
+					if (hashErr) return next(hashErr);
 
-				values.password = hash;
-				next();
+					values.password = hash;
+					next();
+				});
 			});
-		});
+		} else {
+			next();
+		}
 	},
 });
 
