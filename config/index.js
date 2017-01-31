@@ -43,6 +43,6 @@ module.exports = {
 		{
 			url: '/api/users', methods: ['POST'],
 		},
-		'/api/jobs'
+		'/api/jobs',
 	],
 };

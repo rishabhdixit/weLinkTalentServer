@@ -1,15 +1,23 @@
 import { Router } from 'express';
 import users from './users';
-import profile from './profile';
-import jobs from './jobs'
+import profiles from './profiles';
+import jobs from './jobs';
+import positions from './positions';
 import { version } from '../../package.json';
 
 export default ({ config, app }) => {
 	const api = Router();
 
 	// mount the resources
-	api.use('/users', users({ config, app }));
-	api.use('/profile', profile({ config, app }));
+	const userApi = users({ config, app });
+	const profileApi = profiles({ config, app });
+	const positionApi = positions({ config, app });
+
+	// Generate /api/users/:id/profile route
+	userApi.use('/:user/profiles', profileApi);
+	profileApi.use('/:profile/positions', positionApi);
+
+	api.use('/users', userApi);
 	api.use('/jobs', jobs({ config, app }));
 
 	// perhaps expose some API metadata at the root

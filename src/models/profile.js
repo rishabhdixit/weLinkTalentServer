@@ -8,13 +8,12 @@ const Profile = Waterline.Collection.extend({
 
 		linkedinId: {
 			type: 'string',
-			unique: true,
-			index: true,
 		},
 
 		emailAddress: {
 			type: 'string',
 			unique: true,
+			index: true,
 		},
 
 		firstName: {
@@ -33,12 +32,18 @@ const Profile = Waterline.Collection.extend({
 			type: 'string',
 		},
 
-		positions: {
-			type: 'array',
-		},
-
 		user: {
 			model: 'user',
+		},
+
+		positions: {
+			collection: 'position',
+			via: 'profile',
+		},
+
+		skills: {
+			collection: 'skill',
+			via: 'profile',
 		},
 	},
 });

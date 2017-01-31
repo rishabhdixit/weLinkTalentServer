@@ -13,7 +13,8 @@ const keyed = ['get', 'read', 'put', 'patch', 'update', 'del', 'delete'];
 const map = { index: 'get', list: 'get', read: 'get', create: 'post', update: 'put', modify: 'patch' };
 
 export default function ResourceRouter(route) {
-	const router = Router();
+	const mergeParams = route.mergeParams;
+	const router = Router({ mergeParams });
 
 	if (!route.id) route.id = 'id';
 	if (route.middleware) router.use(route.middleware);

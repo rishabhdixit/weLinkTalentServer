@@ -7,9 +7,8 @@ import unless from 'express-unless';
 import { Router } from 'express';
 import { Strategy } from 'passport-local';
 
-import User from '../models/users';
-
 import { UnauthorizedError, InternalServerError } from '../lib/errors';
+import { createProfile } from '../api/profiles';
 
 /* eslint no-unused-vars: 0 */
 export default ({ config, app }) => {
@@ -67,12 +66,10 @@ export default ({ config, app }) => {
 
 			if (!user) {
 				user = await app.models.user.create({ email: body.emailAddress });
-				const linkedinId = body.id;
+			}
 
-				const data = { ...body, user: user.id, linkedinId };
-				// delete linkedin generated id, auto generate db id
-				delete data.id;
-				const profile = await app.models.profile.create(data);
+			if (!user.profile) {
+				const profile = await createProfile({ app, user, body });
 
 				await app.models.user.update(user.id, { profile: profile.id });
 			}
