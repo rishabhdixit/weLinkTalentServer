@@ -65,20 +65,25 @@ export default ({ config, app }) => {
 		// support async functions and does not catch errors
 		try {
 			let user = await app.models.user.findOne({ email: body.emailAddress });
+			let profile;
 
 			if (!user) {
 				user = await app.models.user.create({ email: body.emailAddress });
 			}
 
 			if (!user.profile) {
-				const profile = await createProfile({ app, user, body });
-
-				await app.models.user.update(user.id, { profile: profile.id });
+				profile = await createProfile({ app, user, body });
+				user = await app.models.user.update(user.id, { profile: profile.id });
+				user = user[0];
 			}
+
+			profile = await app.models.profile.findOne(user.profile)
+					.populate('positions')
+					.populate('skills');
 
 			const token = jwt.sign({ id: user.id, email: user.email }, config.jwt.secret);
 
-			res.json({ token });
+			res.json({ token, profile });
 		} catch (error) {
 			next(new InternalServerError(error));
 		}

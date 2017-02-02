@@ -4,11 +4,7 @@ import { createPosition } from './positions';
 
 /* eslint no-param-reassign: 1 */
 export async function createProfile({ app, user, body }) {
-	// delete linkedin generated id and let db generate id
-	const linkedinId = body.id;
-	delete body.id;
-
-	const profileData = { ...body, user: user.id, linkedinId };
+	const profileData = { ...body, user: user.id };
 	const profile = await app.models.profile.create(profileData);
 
 	await createPosition({ app, profile, body: body.positions });
@@ -47,6 +43,13 @@ export default ({ app }) => resource({
 			.populate('skills');
 
 		res.json(profile);
+	},
+
+	/** PUT /api/users/{user}/profiles/{profile} - Get full profile entity by profile id*/
+	async update({ params, body }, res) {
+		const profile = await app.models.profile.update(params.profile, body);
+
+		res.json(profile[0]);
 	},
 
 	/** DELETE /api/users/{user}/profiles/{profile} - Delete a profile entity by profile id */

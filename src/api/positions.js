@@ -28,12 +28,13 @@ export default ({ app }) => resource({
 
 	/** POST /api/users/{user}/profiles/{profile}/positions - Create a new position entity */
 	async create({ params, body }, res) {
-		const position = await createPosition({ app, profile: params.profile, body });
+		const position = await createPosition({ app, profile: { id: params.profile }, body });
 
 		res.json(position);
 	},
 
-	/** GET /api/users/{user}/profiles/{profile}/positions/{position} - Get user profile position */
+	/** GET /api/users/{user}/profiles/{profile}/positions/{position}
+		- Get user profile position */
 	async read({ params }, res) {
 		const position = await app.models.position.findOne({
 			id: params.position,
@@ -41,5 +42,18 @@ export default ({ app }) => resource({
 		});
 
 		res.json(position);
+	},
+
+	/** PUT /api/users/{user}/profiles/{profile}/positions/{position}
+		- Update user profile position */
+	async update({ params, body }, res) {
+		const positions = await app.models.position.update({
+			id: params.position,
+			profile: params.profile,
+		}, body);
+
+		// Waterline update always returns an array of updated documents
+		// so we just return index 0 to client for the position object
+		res.json(positions[0]);
 	},
 });
