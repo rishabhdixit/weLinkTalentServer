@@ -45,6 +45,16 @@ const Profile = Waterline.Collection.extend({
 			collection: 'skill',
 			via: 'profile',
 		},
+
+		toJSON() {
+			const obj = this.toObject();
+
+			delete obj.createdAt;
+			delete obj.updatedAt;
+			delete obj.user;
+
+			return obj;
+		},
 	},
 });
 

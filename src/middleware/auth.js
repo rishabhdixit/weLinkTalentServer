@@ -52,7 +52,9 @@ export default ({ config, app }) => {
 				return res.status(401).json({ status: 'error', code: 'unauthorized' });
 			}
 
-			return res.json({ token: jwt.sign({ email: user.email }, config.jwt.secret) });
+			const token = jwt.sign({ id: user.id, email: user.email }, config.jwt.secret);
+
+			return res.json({ token });
 		})(req, res, next);
 	});
 
@@ -74,7 +76,9 @@ export default ({ config, app }) => {
 				await app.models.user.update(user.id, { profile: profile.id });
 			}
 
-			res.json({ token: jwt.sign({ email: user.email }, config.jwt.secret) });
+			const token = jwt.sign({ id: user.id, email: user.email }, config.jwt.secret);
+
+			res.json({ token });
 		} catch (error) {
 			next(new InternalServerError(error));
 		}

@@ -25,9 +25,9 @@ const User = Waterline.Collection.extend({
 		},
 
 		toJSON() {
-			const obj = this.toObject();
-			delete obj.password;
-			return obj;
+			const { id, email, profile } = this.toObject();
+
+			return { id, email, profile };
 		},
 	},
 

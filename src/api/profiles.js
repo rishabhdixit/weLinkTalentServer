@@ -21,6 +21,16 @@ export default ({ app }) => resource({
 	mergeParams: true,
 	id: 'profile',
 
+	/** GET /api/users/{user}/profiles - Returns full profile data of user based on parameter user */
+	async index({ params }, res) {
+		const user = await app.models.user.findOne(params.user);
+		const profile = await app.models.profile.findOne({ id: user.profile, user: params.user })
+			.populate('positions')
+			.populate('skills');
+
+		res.json(profile);
+	},
+
 	/** POST /api/users/{user}/profile - Create user profile with skills and positions*/
 	async create({ params, body }, res) {
 		const profile = await createProfile({ app, user: params.user, body });
@@ -30,12 +40,16 @@ export default ({ app }) => resource({
 		res.json();
 	},
 
-	/** GET /api/users/{user}/profiles/{profile} - Get profile entity by profile id*/
+	/** GET /api/users/{user}/profiles/{profile} - Get full profile entity by profile id*/
 	async read({ params }, res) {
-		res.json(await app.models.profile.findOne(params.profile).populate('positions'));
+		const profile = await app.models.profile.findOne({ id: params.profile, user: params.user })
+			.populate('positions')
+			.populate('skills');
+
+		res.json(profile);
 	},
 
-	/** Delete /api/users/{user}/profiles/{profile} - Delete a profile entity by profile id */
+	/** DELETE /api/users/{user}/profiles/{profile} - Delete a profile entity by profile id */
 	async delete({ params }, res) {
 		const [user, profile, positions] = await bluebird.all([
 			app.models.user.update(params.user, { profile: null }),
