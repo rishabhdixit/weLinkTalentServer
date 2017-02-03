@@ -1,7 +1,8 @@
 const sailsMongo = require('sails-mongo');
 
 module.exports = {
-	port: 8080,
+	host: process.env.HOST || 'localhost',
+	port: process.env.PORT || 8080,
 	bodyLimit: '100kb',
 	corsHeaders: ['link'],
 

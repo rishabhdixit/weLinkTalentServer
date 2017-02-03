@@ -33,8 +33,8 @@ export default function bootServer(callback) {
 		// api router
 		app.use('/api', api({ config, app }));
 
-		app.server.listen(process.env.PORT || config.port);
+		app.server.listen(config.port, config.host);
 
-		callback(app);
+		app.server.on('listening', callback);
 	});
 }

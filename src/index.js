@@ -1,9 +1,10 @@
 import bootServer from './boot';
+import config from '../config';
 
 process.on('unhandledRejection', (error) => {
 	console.log(error);
 });
 
-bootServer((app) => {
-	console.log(`Started on port ${app.server.address().port}`);
+bootServer(() => {
+	console.log(`Started on ${config.host}:${config.port}`);
 });
