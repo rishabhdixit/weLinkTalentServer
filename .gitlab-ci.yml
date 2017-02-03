@@ -1,0 +1,35 @@
+variables:
+  IMAGE_NAME: registry.gitlab.com/viseo-digital-squads/welinktalent-server
+  DOCKER_DRIVER: overlay
+
+image: docker:latest
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - deploy
+
+# Runs the docker login on each jobs and pulls the already built container
+before_script:
+ - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+ - docker pull $IMAGE_NAME:$CI_BUILD_REF_NAME || true
+
+# Runs lint and unit tests
+# Note:
+#  - Unit test currently not working
+test:
+  stage: test
+  script:
+    - docker build --cache-from $IMAGE_NAME:$CI_BUILD_REF_NAME -t $IMAGE_NAME:$CI_BUILD_REF_NAME .
+    - docker run --name welinktalent-server-test $IMAGE_NAME:$CI_BUILD_REF_NAME /bin/bash -c 'npm run lint'
+
+# Pushes the built container to registry only if in upstream repository
+deploy:
+  stage: deploy
+  only:
+    - branches@viseo-digital-squads/welinktalent-server
+  script:
+    - docker build --cache-from $IMAGE_NAME:$CI_BUILD_REF_NAME -t $IMAGE_NAME:$CI_BUILD_REF_NAME .
+    - docker push $IMAGE_NAME:$CI_BUILD_REF_NAME
