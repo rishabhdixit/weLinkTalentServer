@@ -52,9 +52,9 @@ export default ({ config, app }) => {
 				return res.status(401).json({ status: 'error', code: 'unauthorized' });
 			}
 
-			const token = jwt.sign({ id: user.id, email: user.email }, config.jwt.secret);
+			const token = jwt.sign({ id: user.id }, config.jwt.secret);
 
-			return res.json({ token });
+			return res.json({ token, user });
 		})(req, res, next);
 	});
 
@@ -81,9 +81,9 @@ export default ({ config, app }) => {
 					.populate('positions')
 					.populate('skills');
 
-			const token = jwt.sign({ id: user.id, email: user.email }, config.jwt.secret);
+			const token = jwt.sign({ id: user.id }, config.jwt.secret);
 
-			res.json({ token, profile });
+			res.json({ token, profile, user });
 		} catch (error) {
 			next(new InternalServerError(error));
 		}

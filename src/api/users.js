@@ -1,4 +1,4 @@
-import resource from '../lib/resource-router-middleware';
+import resource from '../lib/resource-router';
 
 export default ({ app }) => resource({
 	id: 'user',

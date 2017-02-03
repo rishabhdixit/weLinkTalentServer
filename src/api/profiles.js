@@ -1,5 +1,5 @@
 import bluebird from 'bluebird';
-import resource from '../lib/resource-router-middleware';
+import resource from '../lib/resource-router';
 import { createPosition } from './positions';
 
 /* eslint no-param-reassign: 1 */

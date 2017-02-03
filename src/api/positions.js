@@ -1,4 +1,4 @@
-import resource from '../lib/resource-router-middleware';
+import resource from '../lib/resource-router';
 
 /* eslint no-param-reassign: 1 */
 export async function createPosition({ app, profile, body }) {

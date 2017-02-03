@@ -32,6 +32,10 @@ const Profile = Waterline.Collection.extend({
 			type: 'string',
 		},
 
+		summary: {
+			type: 'string',
+		},
+
 		user: {
 			model: 'user',
 		},

@@ -3,6 +3,7 @@ import users from './users';
 import profiles from './profiles';
 import jobs from './jobs';
 import positions from './positions';
+import skills from './skills';
 import { version } from '../../package.json';
 
 export default ({ config, app }) => {
@@ -11,11 +12,13 @@ export default ({ config, app }) => {
 	// mount the resources
 	const userApi = users({ config, app });
 	const profileApi = profiles({ config, app });
-	const positionApi = positions({ config, app });
 
 	// Generate /api/users/:id/profile route
 	userApi.use('/:user/profiles', profileApi);
-	profileApi.use('/:profile/positions', positionApi);
+
+	// Generate profile child routes
+	profileApi.use('/:profile/positions', positions({ config, app }));
+	profileApi.use('/:profile/skills', skills({ config, app }));
 
 	api.use('/users', userApi);
 	api.use('/jobs', jobs({ config, app }));
