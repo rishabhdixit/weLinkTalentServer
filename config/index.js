@@ -18,6 +18,9 @@ module.exports = {
 				database: process.env.MONGODB_DBNAME || 'welinktalent',
 			},
 		},
+		defaults: {
+			migrate: 'safe',
+		},
 	},
 
 	jwt: {

@@ -2,16 +2,18 @@ version: '2'
 services:
   web:
     image: registry.gitlab.com/viseo-digital-squads/welinktalent-server:dev
-    fip: 209.177.90.14
+    fip: 209.177.88.199
     links:
       - mongo
     environment:
       HOST: '0.0.0.0'
+      PORT: 80
+      NODE_ENV: 'production'
       MONGODB_HOST: 'mongo'
     depends_on:
       - mongo
     ports:
-      - "8080:80"
+      - "80:80"
   mongo:
     image: mongo
     ports:
