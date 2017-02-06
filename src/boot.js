@@ -2,6 +2,8 @@ import http from 'http';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import winston from 'winston';
+import expressWinston from 'express-winston';
 import initializeDb from './db';
 import auth from './middleware/auth';
 import api from './api';
@@ -19,6 +21,19 @@ export default function bootServer(callback) {
 
 	app.use(bodyParser.json({
 		limit: config.bodyLimit,
+	}));
+
+	// middleware for req-res logs
+	app.use(expressWinston.logger({
+		transports: [
+			new winston.transports.Console({
+				colorize: process.env.NODE_ENV !== 'production',
+				prettyPrint: true,
+			}),
+		],
+		meta: true,
+		msg: 'HTTP {{req.method}} {{req.url}}',
+		responseWhitelist: ['statusCode'],
 	}));
 
 	// connect to db

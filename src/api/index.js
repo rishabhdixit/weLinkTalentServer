@@ -29,11 +29,10 @@ export default ({ config, app }) => {
 	});
 
 	// error handler for routes under /api
-	// TODO: make it more informative, add error code
 	api.use((err, req, res, next) => {
 		if (err) {
 			return res.status(500).json({
-				message: err.message,
+				error: err.message,
 			});
 		}
 

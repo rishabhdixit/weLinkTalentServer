@@ -34,7 +34,7 @@ module.exports = {
 	linkedin: {
 		appid: process.env.LINKEDIN_APPID || '81xkask6b0vp2j',
 		secret: process.env.LINKEDIN_SECRET || 'omT8koGocxFVU0Vm',
-		callback: process.env.LINKEDIN_CALLBACK_URL || 'http://localhost:8080/auth/linkedin/callback',
+		callback: process.env.LINKEDIN_CALLBACK_URL || 'http://localhost:8080/oauth/linkedin/callback',
 		scope: ['r_basicprofile', 'r_emailaddress'],
 	},
 
@@ -42,11 +42,8 @@ module.exports = {
 	excludedRoutes: [
 		'/authenticate',
 		'/authenticate/linkedin',
-		'/auth/linkedin',
-		'/auth/linkedin/callback',
-		{
-			url: '/api/users', methods: ['POST'],
-		},
+		'/oauth/linkedin',
+		'/oauth/linkedin/callback',
 		'/api/jobs',
 	],
 };
