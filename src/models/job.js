@@ -10,6 +10,11 @@ const Job = Waterline.Collection.extend({
 
     attributes: {
 
+        employer_id: {
+            type: 'string',
+            required: true
+        },
+
         description: {
             type: 'string',
             required: true
