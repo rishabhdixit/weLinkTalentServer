@@ -15,33 +15,33 @@ const Job = Waterline.Collection.extend({
             required: true
         },
 
-        type: {
+        employment_type: {
             type: 'string'
         },
 
         company: {
-            type: 'string',
+            type: 'json',
             required: true
         },
 
         responsibilities: {
-            type: 'string',
+            type: 'array',
         },
 
         ideal_talent: {
-            type: 'string',
+            type: 'array',
         },
 
         skills: {
-            type: 'string',
+            type: 'array',
         },
 
         criteria: {
-            type: 'string',
+            type: 'array',
         },
 
         questions: {
-            type: 'string',
+            type: 'array',
         },
 
         title: {
@@ -78,6 +78,10 @@ const Job = Waterline.Collection.extend({
         },
 
         contact_number: {
+            type: 'string'
+        },
+
+        contact_email: {
             type: 'string'
         },
 
