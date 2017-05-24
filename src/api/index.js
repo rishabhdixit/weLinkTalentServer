@@ -22,6 +22,7 @@ export default ({ config, app }) => {
 
 	api.use('/users', userApi);
 	api.use('/jobs', jobs({ config, app }));
+	api.use('/jobs/count', jobs({ config, app }));
 
 	// perhaps expose some API metadata at the root
 	api.get('/', (req, res) => {

@@ -9,8 +9,8 @@ import { Router } from 'express';
  *    async create () {}
  *
  */
-const keyed = ['get', 'read', 'put', 'patch', 'update', 'del', 'delete'];
-const map = { index: 'get', list: 'get', read: 'get', create: 'post', update: 'put', modify: 'patch' };
+const keyed = ['get', 'read', 'put', 'patch', 'update', 'del', 'delete', 'count'];
+const map = { index: 'get', list: 'get', read: 'get', create: 'post', update: 'put', modify: 'patch', count: 'get' };
 
 export default function ResourceRouter(route) {
 	const mergeParams = route.mergeParams;
