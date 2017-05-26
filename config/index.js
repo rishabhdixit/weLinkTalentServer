@@ -48,5 +48,6 @@ module.exports = {
 		'/oauth/linkedin/callback',
 		'/api/jobs',
 		'/api/jobs/count',
+		'/api/applications'
 	],
 };
