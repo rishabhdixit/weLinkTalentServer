@@ -38,6 +38,8 @@ module.exports = {
 		scope: ['r_basicprofile', 'r_emailaddress'],
 	},
 
+	pageLimit: 10,
+
 	// Routes excluded from authentication
 	excludedRoutes: [
 		'/authenticate',
