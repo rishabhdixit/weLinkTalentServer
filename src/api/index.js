@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import multer from 'multer';
+import mime from 'mime';
 import users from './users';
 import profiles from './profiles';
 import jobs from './jobs';
@@ -6,20 +8,18 @@ import applications from './applications';
 import positions from './positions';
 import skills from './skills';
 import { version } from '../../package.json';
-import multer from 'multer';
-import mime from 'mime';
 
 export default ({ config, app }) => {
 	const api = Router();
 	const storage = multer.diskStorage({
-		destination: function (req, file, cb) {
+		destination(req, file, cb) {
 			cb(null, 'uploads/');
 		},
-		filename: function (req, file, cb) {
-			cb(null, Date.now() + '.' + mime.extension(file.mimetype)); //Appending .jpg
-		}
-	})
-	const upload = multer({storage:storage});
+		filename(req, file, cb) {
+			cb(null, `${Date.now()}.${mime.extension(file.mimetype)}`); // Appending .jpg
+		},
+	});
+	const upload = multer({ storage });
 	// mount the resources
 	const userApi = users({ config, app });
 	const profileApi = profiles({ config, app });

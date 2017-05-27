@@ -63,8 +63,8 @@ const Application = Waterline.Collection.extend({
 		},
 
 		resume_url: {
-			type: 'string'
-		}
+			type: 'string',
+		},
 	},
 });
 
