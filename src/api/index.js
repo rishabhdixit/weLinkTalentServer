@@ -33,7 +33,7 @@ export default ({ config, app }) => {
 
 	api.use('/users', userApi);
 	api.use('/jobs', jobs({ config, app }));
-	api.use('/jobs/count', jobs({ config, app }));
+	api.use('/jobs/:id', jobs({ config, app }));
 
 	api.use('/applications', upload.single('file'), applications({ config, app }));
 

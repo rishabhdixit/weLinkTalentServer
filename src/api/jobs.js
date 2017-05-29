@@ -1,3 +1,4 @@
+import { ObjectID } from 'mongodb';
 import resource from '../lib/resource-router';
 import jobsService from '../services/jobsService';
 import config from '../../config/index';
@@ -30,12 +31,17 @@ export default ({ app }) => resource({
 		res.json(finalResponse);
 	},
 
-    /*
-     GET /api/jobs/count - Fetching count of jobs in db
-     */
-	async count({ params, query }, res) {
-		const count = await app.models.job.count(query);
-		res.json(count);
+	/*
+	 GET /api/jobs/id - Fetching single job
+	 */
+	async load(req, id, callback) {
+		const job = await app.models.job.findOne({ _id: ObjectID(id) });
+		const	err = job ? null : 'Not found';
+		callback(err, job);
+	},
+
+	async read(req, res) {
+		res.json(req.job);
 	},
 
     /*
@@ -45,6 +51,5 @@ export default ({ app }) => resource({
 		const job = await app.models.job.create(body);
 		res.json(job);
 	},
-
 
 });
