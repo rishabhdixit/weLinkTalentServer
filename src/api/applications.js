@@ -9,7 +9,7 @@ export default ({ app }) => resource({
 	id: 'application',
 
 	/*
-	 POST /api/applications - Create a new job in db
+	 POST /api/applications - Create a new application in db
 	 */
 	async create(req, res) {
 		const applicationObj = _.cloneDeep(req.body);
@@ -17,6 +17,16 @@ export default ({ app }) => resource({
 			applicationObj.resume_url = path.join(__dirname, req.file.path);
 		}
 		const application = await app.models.application.create(applicationObj);
+		res.json(application);
+	},
+
+	/*
+	 PUT /api/applications/{id} - Update existing application(Add references info)
+	 */
+	async update({ params, body }, res) {
+		const application = await app.models.application.update({
+			id: params.application,
+		}, body);
 		res.json(application);
 	},
 

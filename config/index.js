@@ -49,5 +49,6 @@ module.exports = {
 		'/api/jobs',
 		/^\/api\/jobs\/.*/,
 		'/api/applications',
+		/^\/api\/applications\/.*/,
 	],
 };
