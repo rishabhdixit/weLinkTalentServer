@@ -103,6 +103,20 @@ const Job = Waterline.Collection.extend({
 			required: true,
 		},
 
+		application_slots: {
+			type: 'integer',
+			required: true,
+			defaultsTo: 10,
+		},
+
+		remaining_slots: {
+			type: 'integer',
+		},
+
+		applications_waiting: {
+			type: 'array',
+			defaultsTo: [],
+		},
 	},
 });
 

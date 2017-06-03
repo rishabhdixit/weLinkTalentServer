@@ -3,6 +3,7 @@
  */
 import _ from 'lodash';
 import path from 'path';
+import jobsSerivce from '../services/jobsService';
 import resource from '../lib/resource-router';
 
 export default ({ app }) => resource({
@@ -24,10 +25,19 @@ export default ({ app }) => resource({
 	 PUT /api/applications/{id} - Update existing application(Add references info)
 	 */
 	async update({ params, body }, res) {
-		const application = await app.models.application.update({
+		app.models.application.update({
 			id: params.application,
-		}, body);
-		res.json(application);
+		}, body, async (err, application) => {
+			if (application && application.length) {
+				try {
+					const jobId = application[0].job_id;
+					const jobData = await jobsSerivce.updateJobSlots(app, jobId, params.application);
+					res.json(jobData.value);
+				} catch (e) {
+					res.json({ Error: e });
+				}
+			}
+		});
 	},
 
 });

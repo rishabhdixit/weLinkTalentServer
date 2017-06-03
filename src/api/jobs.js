@@ -1,4 +1,3 @@
-import { ObjectID } from 'mongodb';
 import resource from '../lib/resource-router';
 import jobsService from '../services/jobsService';
 import config from '../../config/index';
@@ -35,7 +34,7 @@ export default ({ app }) => resource({
 	 GET /api/jobs/id - Fetching single job
 	 */
 	async load(req, id, callback) {
-		const job = await app.models.job.findOne({ _id: ObjectID(id) });
+		const job = await app.models.job.findOne({ id });
 		const	err = job ? null : 'Not found';
 		callback(err, job);
 	},
