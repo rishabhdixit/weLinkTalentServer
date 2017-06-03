@@ -46,6 +46,8 @@ module.exports = {
 		'/authenticate/linkedin',
 		'/oauth/linkedin',
 		'/oauth/linkedin/callback',
+		'/api/users',
+		/^\/api\/users\/.*/,
 		'/api/jobs',
 		/^\/api\/jobs\/.*/,
 		'/api/applications',
