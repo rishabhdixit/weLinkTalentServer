@@ -39,8 +39,9 @@ export default ({ app }) => resource({
 		callback(err, job);
 	},
 
-	async read(req, res) {
-		res.json(req.job);
+	async read({ params }, res) {
+		const job = await app.models.job.findOne({ id: params.job });
+		res.json(job);
 	},
 
     /*
