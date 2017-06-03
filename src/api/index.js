@@ -33,11 +33,8 @@ export default ({ config, app }) => {
 
 	api.use('/users', userApi);
 	api.use('/jobs', jobs({ config, app }));
-	api.use('/jobs/:id', jobs({ config, app }));
 
 	api.use('/applications', upload.single('file'), applications({ config, app }));
-	api.use('/applications/:id', applications({ config, app }));
-
 
 	// perhaps expose some API metadata at the root
 	api.get('/', (req, res) => {
