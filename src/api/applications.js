@@ -27,7 +27,7 @@ export default ({ app }) => resource({
 	async update({ params, body }, res) {
 		app.models.application.update({
 			id: params.application,
-		}, body, async (err, application) => {
+		}, { references_info: body }, async (err, application) => {
 			if (application && application.length) {
 				try {
 					const jobId = application[0].job_id;
