@@ -5,9 +5,7 @@ export default ({ app }) => resource({
 
 	/** GET /api/users - Returns user data of user based on jwt token */
 	async index({ tokenPayload }, res) {
-		const user = await app.models.user.findOne(tokenPayload.id);
-
-		res.json(user);
+		res.json(await app.models.user.findOne(tokenPayload.id));
 	},
 
 	/** POST /api/users - Create a new entity */
