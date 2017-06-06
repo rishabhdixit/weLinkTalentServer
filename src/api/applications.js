@@ -13,7 +13,7 @@ export default ({ app }) => resource({
 	 POST /api/applications - Create a new application in db
 	 */
 	async create(req, res) {
-		let applicationObj = {};
+		const applicationObj = {};
 		applicationObj.form_data = _.cloneDeep(req.body);
 		if (_.get(req, 'file.path')) {
 			applicationObj.resume_url = path.join(__dirname, req.file.path);
