@@ -13,10 +13,16 @@ export default ({ app }) => resource({
 	 POST /api/applications - Create a new application in db
 	 */
 	async create(req, res) {
-		const applicationObj = _.cloneDeep(req.body);
+		let applicationObj = {};
+		applicationObj.form_data = _.cloneDeep(req.body);
 		if (_.get(req, 'file.path')) {
 			applicationObj.resume_url = path.join(__dirname, req.file.path);
 		}
+		applicationObj.user_id = applicationObj.form_data.user_id;
+		applicationObj.job_id = applicationObj.form_data.job_id;
+		delete applicationObj.form_data.user_id;
+		delete applicationObj.form_data.job_id;
+		delete applicationObj.form_data.file;
 		const application = await app.models.application.create(applicationObj);
 		res.json(application);
 	},
