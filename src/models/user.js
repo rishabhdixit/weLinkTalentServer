@@ -20,14 +20,19 @@ const User = Waterline.Collection.extend({
 			minLength: 6,
 		},
 
+		bookmark_ids: {
+			type: 'array',
+			defaultsTo: [],
+		},
+
 		profile: {
 			model: 'profile',
 		},
 
 		toJSON() {
-			const { id, email, profile } = this.toObject();
+			const { id, email, profile, bookmark_ids } = this.toObject();
 
-			return { id, email, profile };
+			return { id, email, profile, bookmark_ids };
 		},
 	},
 
