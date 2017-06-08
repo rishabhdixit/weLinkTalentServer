@@ -35,9 +35,9 @@ export default ({ config, app }) => {
 
 	api.use('/users', userApi);
 
-	//Generate /api/users/:id/bookmarks route
+	// Generate /api/users/:id/bookmarks route
 	userApi.use('/:user/bookmarks', bookmarkApi);
-	//Generate bookmarks child route
+	// Generate bookmarks child route
 	bookmarkApi.use('/:post', bookmarkApi);
 
 	api.use('/jobs', jobs({ config, app }));

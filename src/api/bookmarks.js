@@ -16,10 +16,10 @@ export default ({ app }) => resource({
 		const limit = config.pageLimit;
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
-		const user = await app.models.user.findOne({where: {id: params.user}, select: ['bookmark_ids']});
+		const user = await app.models.user.findOne({ where: { id: params.user }, select: ['bookmark_ids'] });
 		let jobs = [];
 		if (user && user.bookmark_ids && user.bookmark_ids.length) {
-			jobs = await app.models.job.find().where({id: user.bookmark_ids}).skip(skip).limit(limit);
+			jobs = await app.models.job.find().where({ id: user.bookmark_ids }).skip(skip).limit(limit);
 		}
 		res.json(jobs);
 	},

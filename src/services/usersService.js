@@ -9,13 +9,16 @@ module.exports = {
 			if (err) {
 				reject(err);
 			} else {
-				collection.update({_id: new ObjectID(userId.toString())}, {$addToSet: {bookmark_ids: postId}}, (error, result) => {
-					if (error) {
-						reject(error);
-					} else {
-						resolve(result);
-					}
-				});
+				collection.update(
+					{ _id: new ObjectID(userId.toString()) },
+					{ $addToSet: { bookmark_ids: postId } },
+					(error, result) => {
+						if (error) {
+							reject(error);
+						} else {
+							resolve(result);
+						}
+					});
 			}
 		});
 	}),
@@ -24,13 +27,16 @@ module.exports = {
 			if (err) {
 				reject(err);
 			} else {
-				collection.update({_id: new ObjectID(userId.toString())}, {$pull: {bookmark_ids: postId}}, (error, result) => {
-					if (error) {
-						reject(error);
-					} else {
-						resolve(result);
-					}
-				});
+				collection.update(
+					{ _id: new ObjectID(userId.toString()) },
+					{ $pull: { bookmark_ids: postId } },
+					(error, result) => {
+						if (error) {
+							reject(error);
+						} else {
+							resolve(result);
+						}
+					});
 			}
 		});
 	}),
