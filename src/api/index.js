@@ -3,6 +3,7 @@ import multer from 'multer';
 import mime from 'mime';
 import users from './users';
 import profiles from './profiles';
+import bookmarks from './bookmarks';
 import jobs from './jobs';
 import applications from './applications';
 import positions from './positions';
@@ -23,6 +24,7 @@ export default ({ config, app }) => {
 	// mount the resources
 	const userApi = users({ config, app });
 	const profileApi = profiles({ config, app });
+	const bookmarkApi = bookmarks({ config, app });
 
 	// Generate /api/users/:id/profile route
 	userApi.use('/:user/profiles', profileApi);
@@ -32,6 +34,12 @@ export default ({ config, app }) => {
 	profileApi.use('/:profile/skills', skills({ config, app }));
 
 	api.use('/users', userApi);
+
+	// Generate /api/users/:id/bookmarks route
+	userApi.use('/:user/bookmarks', bookmarkApi);
+	// Generate bookmarks child route
+	bookmarkApi.use('/:post', bookmarkApi);
+
 	api.use('/jobs', jobs({ config, app }));
 
 	api.use('/applications', upload.single('file'), applications({ config, app }));

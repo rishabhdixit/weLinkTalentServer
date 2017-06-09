@@ -47,6 +47,7 @@ module.exports = {
 		'/oauth/linkedin',
 		'/oauth/linkedin/callback',
 		'/api/jobs',
+		/^\/api\/users\/.*\/bookmarks/,
 		/^\/api\/jobs\/.*/,
 		'/api/applications',
 		/^\/api\/applications\/.*/,
