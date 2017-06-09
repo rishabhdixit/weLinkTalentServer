@@ -5,18 +5,28 @@ import _ from 'lodash';
 import path from 'path';
 import jobsSerivce from '../services/jobsService';
 import resource from '../lib/resource-router';
+import config from '../../config/index';
 
 export default ({ app }) => resource({
 	id: 'application',
 
 	/*
-    GET /api/applications - Fetching jobs at max 10 per request
+    GET /api/applications - Fetching applications at max 10 per request
      */
 	async index({ params, query }, res) {
-		const userId = query.user_id;
-		const jobId = query.job_id;
-		const application = await app.models.application.findOne({ user_id: userId, job_id: jobId });
-		res.json({ status: application.form_status });
+		const searhQuery = {
+			user_id: query.userId,
+		};
+		if (query.jobId) {		// returning application status of a specific job by a user
+			searhQuery.job_id = query.jobId;
+			const application = await app.models.application.findOne(searhQuery);
+			res.json({ status: application.form_status });
+		} else {		// returning all applications of a user
+			const limit = config.pageLimit;
+			const page = parseInt(query.page || 1, 10);
+			const skip = limit * (page - 1);
+			res.json(await app.models.application.find(searhQuery)).skip(skip).limit(limit);
+		}
 	},
 
 	/*
@@ -51,19 +61,25 @@ export default ({ app }) => resource({
 	 PUT /api/applications/{id} - Update existing application(Add references info)
 	 */
 	async update({ params, body }, res) {
-		app.models.application.update({
-			id: params.application,
-		}, { references_info: body, form_status: 'complete' }, async (err, application) => {
-			if (application && application.length) {
-				try {
-					const jobId = application[0].job_id;
-					const jobData = await jobsSerivce.updateJobSlots(app, jobId, params.application);
-					res.json(jobData.value);
-				} catch (e) {
-					res.json({ Error: e });
+		const updateObj = _.cloneDeep(body);
+		if (body && body.references_info) {
+			updateObj.form_status = 'complete';
+			app.models.application.update({
+				id: params.application,
+			}, updateObj, async (err, application) => {
+				if (application && application.length) {
+					try {
+						const jobId = application[0].job_id;
+						const jobData = await jobsSerivce.updateJobSlots(app, jobId, params.application);
+						res.json(jobData.value);
+					} catch (e) {
+						res.json({ Error: e });
+					}
 				}
-			}
-		});
+			});
+		} else {
+			res.json(await app.models.application.update({ id: params.application }, updateObj));
+		}
 	},
 
 });
