@@ -12,6 +12,9 @@
     "lint": "npm run eslint -- ./",
     "test": "mocha --compilers js:babel-register --recursive test/"
   },
+  "engines": {
+    "node": "7.10.0"
+  },
   "repository": "https://gitlab.com/viseo-digital-squads/express-es6-api",
   "author": "Viseo Digital Squad",
   "license": "MIT",
