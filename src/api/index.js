@@ -4,6 +4,7 @@ import mime from 'mime';
 import users from './users';
 import profiles from './profiles';
 import bookmarks from './bookmarks';
+import feedbacks from './feedbacks';
 import jobs from './jobs';
 import applications from './applications';
 import positions from './positions';
@@ -25,6 +26,8 @@ export default ({ config, app }) => {
 	const userApi = users({ config, app });
 	const profileApi = profiles({ config, app });
 	const bookmarkApi = bookmarks({ config, app });
+	const applicationApi = applications({ config, app });
+	const feedbackApi = feedbacks({ config, app });
 
 	// Generate /api/users/:id/profile route
 	userApi.use('/:user/profiles', profileApi);
@@ -42,7 +45,8 @@ export default ({ config, app }) => {
 
 	api.use('/jobs', jobs({ config, app }));
 
-	api.use('/applications', upload.single('file'), applications({ config, app }));
+	api.use('/applications', upload.single('file'), applicationApi);
+	applicationApi.use('/:application/feedback', feedbackApi);
 
 	// perhaps expose some API metadata at the root
 	api.get('/', (req, res) => {

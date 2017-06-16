@@ -51,7 +51,7 @@ const Application = Waterline.Collection.extend({
 		},
 
 		feedback: {
-			type: 'string',
+			type: 'json',
 		},
 
 		form_data: {
