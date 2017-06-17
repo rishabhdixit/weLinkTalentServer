@@ -13,16 +13,16 @@ module.exports = {
 				const referee_id = _.get(feedbackRecord, 'referee_id');
 				const feedbackObj = _.omit(feedbackRecord, ['referee_id']);
 				const updateObj = {
-					["feedback." + referee_id]: feedbackObj
+					[`feedback.${referee_id}`]: feedbackObj,
 				};
-				collection.update({_id: new ObjectID(applicationId.toString())},
-					{$set: updateObj}, (error, result) => {
-					if (error) {
-						reject(error);
-					} else {
-						resolve(result);
-					}
-				});
+				collection.update({ _id: new ObjectID(applicationId.toString()) },
+					{ $set: updateObj }, (error, result) => {
+						if (error) {
+							reject(error);
+						} else {
+							resolve(result);
+						}
+					});
 			}
 		});
 	}),
