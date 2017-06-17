@@ -10,7 +10,7 @@ export default ({ app }) => resource({
 	id: 'feedback',
 
 	/*
-	 POST /api/applications/{application}/feedback - Save referee feedback inside application collection
+	 POST /api/applications/{application}/feedback - Save referee feedback
 	 */
 	async create({ params, body }, res) {
 		res.json(await applicationsService.addFeedback(app, params.application, body));

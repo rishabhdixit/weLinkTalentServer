@@ -10,10 +10,10 @@ module.exports = {
 			if (err) {
 				reject(err);
 			} else {
-				const referee_id = _.get(feedbackRecord, 'referee_id');
+				const refereeId = _.get(feedbackRecord, 'referee_id');
 				const feedbackObj = _.omit(feedbackRecord, ['referee_id']);
 				const updateObj = {
-					[`feedback.${referee_id}`]: feedbackObj,
+					[`feedback.${refereeId}`]: feedbackObj,
 				};
 				collection.update({ _id: new ObjectID(applicationId.toString()) },
 					{ $set: updateObj }, (error, result) => {
