@@ -6,6 +6,7 @@ import path from 'path';
 import jobsSerivce from '../services/jobsService';
 import resource from '../lib/resource-router';
 import config from '../../config/index';
+import emailService from '../services/emailService';
 
 export default ({ app }) => resource({
 	id: 'application',
@@ -64,6 +65,25 @@ export default ({ app }) => resource({
 					try {
 						const jobId = application[0].job_id;
 						const jobData = await jobsSerivce.updateJobSlots(app, jobId, params.application);
+						const profileData = await app.models.profile.findOne({ user: application[0].user_id });
+						const referencesInfo = application[0].references_info;
+						const promiseArray = [];
+						// logic for sending emails to referees
+						for (let i = 0; i < referencesInfo.length; i += 1) {
+							if (referencesInfo[i].canContact === 'Yes') {
+								const requestBody = {
+									refereeEmail: referencesInfo[i].email,
+									refereeName: `${referencesInfo[i].fname} ${referencesInfo[i].lname}`,
+									candidateName: `${profileData.firstName} ${profileData.lastName}`,
+								};
+								promiseArray.push(emailService.sendRefereeEmail(requestBody));
+							}
+						}
+						Promise.all(promiseArray)
+							.then((emails) => {
+								console.log('emails sent to referees ', emails);
+							});
+						// end of logic for email
 						res.json(jobData.value);
 					} catch (e) {
 						res.json({ Error: e });

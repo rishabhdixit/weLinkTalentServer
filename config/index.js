@@ -1,4 +1,5 @@
 const sailsMongo = require('sails-mongo');
+const nodemailer = require('nodemailer');
 
 module.exports = {
 	host: process.env.HOST || 'localhost',
@@ -37,6 +38,16 @@ module.exports = {
 		callback: process.env.LINKEDIN_CALLBACK_URL || 'http://localhost:8080/oauth/linkedin/callback',
 		scope: ['r_basicprofile', 'r_emailaddress'],
 	},
+
+	transporter: nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: 587,
+		secure: false, // secure:true for port 465, secure:false for port 587
+		auth: {
+			user: 'welinktalent@gmail.com',
+			pass: 'welinktalentviseo123',
+		},
+	}),
 
 	pageLimit: 10,
 
