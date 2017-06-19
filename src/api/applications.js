@@ -30,16 +30,6 @@ export default ({ app }) => resource({
 	},
 
 	/*
-    GET /api/applications - Fetching jobs at max 10 per request
-     */
-	async index({ params, query }, res) {
-		const userId = query.user_id;
-		const jobId = query.job_id;
-		const application = await app.models.application.findOne({ user_id: userId, job_id: jobId });
-		res.json({ status: application.form_status });
-	},
-
-	/*
 	 POST /api/applications - Create a new application in db
 	 */
 	async create(req, res) {
