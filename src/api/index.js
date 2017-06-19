@@ -45,7 +45,7 @@ export default ({ config, app }) => {
 
 	api.use('/jobs', jobs({ config, app }));
 
-	api.use('/applications', upload.array('files', 4), applicationApi);
+	api.use('/applications', upload.array('files', 5), applicationApi);
 	applicationApi.use('/:application/feedback', feedbackApi);
 
 	// perhaps expose some API metadata at the root
