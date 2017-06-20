@@ -15,7 +15,7 @@ module.exports = {
 				const updateObj = {
 					[`feedback.${refereeId}`]: feedbackObj,
 				};
-				collection.update({ _id: new ObjectID(applicationId.toString()) },
+				collection.findOneAndUpdate({ _id: new ObjectID(applicationId.toString()) },
 					{ $set: updateObj }, (error, result) => {
 						if (error) {
 							reject(error);

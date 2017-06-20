@@ -3,7 +3,6 @@
  */
 import * as _ from 'lodash';
 import path from 'path';
-import jobsSerivce from '../services/jobsService';
 import resource from '../lib/resource-router';
 import config from '../../config/index';
 import emailService from '../services/emailService';
@@ -64,7 +63,7 @@ export default ({ app }) => resource({
 				if (application && application.length) {
 					try {
 						const jobId = application[0].job_id;
-						const jobData = await jobsSerivce.updateJobSlots(app, jobId, params.application);
+						const jobData = await app.models.job.findOne(jobId);
 						const profileData = await app.models.profile.findOne({ user: application[0].user_id });
 						const referencesInfo = application[0].references_info;
 						const promiseArray = [];
@@ -84,7 +83,7 @@ export default ({ app }) => resource({
 								console.log('emails sent to referees ', emails);
 							});
 						// end of logic for email
-						res.json(jobData.value);
+						res.json(jobData);
 					} catch (e) {
 						res.json({ Error: e });
 					}

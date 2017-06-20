@@ -61,15 +61,13 @@ module.exports = {
 						reject(error);
 					} else {
 						// Update the job and return previously saved object not latest updated one
-						collection.findAndModify(
+						collection.findOneAndUpdate(
 							{ _id: new ObjectID(jobId.toString()) },
-							{},
 							updateObj,
-							{ new: false },
 							(updationError, updatedJob) => {
 								if (updationError) reject(updationError);
 								else if (updatedJob) {
-									resolve(updatedJob);
+									resolve(updatedJob.value);
 								} else {
 									reject('Job not updated');
 								}
