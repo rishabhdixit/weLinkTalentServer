@@ -41,13 +41,11 @@ const Profile = Waterline.Collection.extend({
 		},
 
 		positions: {
-			collection: 'position',
-			via: 'profile',
+			type: 'array',
 		},
 
 		skills: {
-			collection: 'skill',
-			via: 'profile',
+			type: 'array',
 		},
 
 		toJSON() {
