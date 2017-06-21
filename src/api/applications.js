@@ -25,8 +25,16 @@ export default ({ app }) => resource({
 			const limit = config.pageLimit;
 			const page = parseInt(query.page || 1, 10);
 			const skip = limit * (page - 1);
-			res.json(await app.models.application.find(searhQuery)).skip(skip).limit(limit);
+			res.json(await app.models.application.find(searhQuery).skip(skip).limit(limit));
 		}
+	},
+
+	/*
+	 GET /api/applications/id - Fetching single application
+	 */
+	async read({ params }, res) {
+		const application = await app.models.application.findOne({ id: params.application });
+		res.json(application);
 	},
 
 	/*
