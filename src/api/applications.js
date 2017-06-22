@@ -6,6 +6,8 @@ import path from 'path';
 import resource from '../lib/resource-router';
 import config from '../../config/index';
 import emailService from '../services/emailService';
+import encryptDecryptService from '../services/encryptDecryptService';
+import Constants from '../constants';
 
 export default ({ app }) => resource({
 	id: 'application',
@@ -34,7 +36,8 @@ export default ({ app }) => resource({
 	 */
 	async read({ params }, res) {
 		const application = await app.models.application.findOne({ id: params.application });
-		res.json(application);
+		const result = application && application.id ? application : {error: Constants.APPLICATION_NOT_FOUND};
+		res.json(result);
 	},
 
 	/*
@@ -82,6 +85,7 @@ export default ({ app }) => resource({
 									refereeEmail: referencesInfo[i].email,
 									refereeName: `${referencesInfo[i].fname} ${referencesInfo[i].lname}`,
 									candidateName: `${profileData.firstName} ${profileData.lastName}`,
+									token: encryptDecryptService.encrypt(application[0].id),
 								};
 								promiseArray.push(emailService.sendRefereeEmail(requestBody));
 							}

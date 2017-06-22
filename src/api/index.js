@@ -9,6 +9,8 @@ import jobs from './jobs';
 import applications from './applications';
 import positions from './positions';
 import skills from './skills';
+import encryptDecryptService from '../services/encryptDecryptService';
+import Constants from '../constants';
 import { version } from '../../package.json';
 
 export default ({ config, app }) => {
@@ -47,6 +49,20 @@ export default ({ config, app }) => {
 
 	api.use('/applications', upload.array('files', 5), applicationApi);
 	applicationApi.use('/:application/feedback', feedbackApi);
+
+	// decrypt token and return application id
+	api.post('/referee-token', (req, res) => {
+		if (req.body && req.body.token) {
+			let result = encryptDecryptService.decrypt(req.body.token);
+			if(result === Constants.APPLICATION_NOT_FOUND) {
+				res.json({error: result});
+			} else {
+				res.json({data: result});
+			}
+		} else {
+			res.json({error: Constants.TOKEN_NOT_FOUND});
+		}
+	});
 
 	// perhaps expose some API metadata at the root
 	api.get('/', (req, res) => {

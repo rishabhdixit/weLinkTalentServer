@@ -6,6 +6,7 @@ module.exports = {
 	port: process.env.PORT || 8080,
 	bodyLimit: '100kb',
 	corsHeaders: ['link'],
+	encryptionKey: process.env.ENCRYPTION_KEY || 'sKCx49VgtHZ59bJOTLcU0Gr06ogUnDJi',
 
 	db: {
 		adapters: {
@@ -57,6 +58,7 @@ module.exports = {
 		'/authenticate/linkedin',
 		'/oauth/linkedin',
 		'/oauth/linkedin/callback',
+		'/api/referee-token',
 		'/api/jobs',
 		/^\/api\/users\/.*\/bookmarks/,
 		/^\/api\/jobs\/.*/,
