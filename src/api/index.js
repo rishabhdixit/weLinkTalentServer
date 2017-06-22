@@ -53,14 +53,14 @@ export default ({ config, app }) => {
 	// decrypt token and return application id
 	api.post('/referee-token', (req, res) => {
 		if (req.body && req.body.token) {
-			let result = encryptDecryptService.decrypt(req.body.token);
-			if(result === Constants.APPLICATION_NOT_FOUND) {
-				res.json({error: result});
+			const result = encryptDecryptService.decrypt(req.body.token);
+			if (result === Constants.APPLICATION_NOT_FOUND) {
+				res.json({ error: result });
 			} else {
-				res.json({data: result});
+				res.json({ data: result });
 			}
 		} else {
-			res.json({error: Constants.TOKEN_NOT_FOUND});
+			res.json({ error: Constants.TOKEN_NOT_FOUND });
 		}
 	});
 

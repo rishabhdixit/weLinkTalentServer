@@ -36,7 +36,8 @@ export default ({ app }) => resource({
 	 */
 	async read({ params }, res) {
 		const application = await app.models.application.findOne({ id: params.application });
-		const result = application && application.id ? application : {error: Constants.APPLICATION_NOT_FOUND};
+		const applicationId = application && application.id;
+		const result = applicationId ? application : { error: Constants.APPLICATION_NOT_FOUND };
 		res.json(result);
 	},
 
