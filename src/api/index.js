@@ -50,6 +50,9 @@ export default ({ config, app }) => {
 	api.use('/applications', upload.array('files', 5), applicationApi);
 	applicationApi.use('/:application/feedback', feedbackApi);
 
+	// Generate /api/users/:id/applications route
+	userApi.use('/:user/applications', applicationApi);
+
 	// decrypt token and return application id
 	api.post('/referee-token', (req, res) => {
 		if (req.body && req.body.token) {

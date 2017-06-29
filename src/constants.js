@@ -4,4 +4,9 @@
 module.exports = {
 	APPLICATION_NOT_FOUND: 'Application not found',
 	TOKEN_NOT_FOUND: 'Token not found',
+	APPLICATION_STATUS: {
+		INCOMPLETE: 'incomplete',
+		COMPLETE: 'complete',
+		SUBMITTED: 'submitted',
+	},
 };

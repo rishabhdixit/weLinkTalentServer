@@ -4,24 +4,25 @@
 import { ObjectID } from 'mongodb';
 
 module.exports = {
-	getJobs: async (app, searchCriteria, limit, skip) => new Promise((resolve, reject) => {
-		app.models.job.native((err, collection) => {
-			if (err) {
-				reject(err);
-			} else {
-				collection.find(searchCriteria, {}, {
-					limit,
-					skip,
-				}).toArray((error, results) => {
-					if (error) {
-						reject(error);
-					} else {
-						resolve(results);
-					}
-				});
-			}
-		});
-	}),
+	getJobs: async (app, searchCriteria, projectionObj, limit, skip) =>
+		new Promise((resolve, reject) => {
+			app.models.job.native((err, collection) => {
+				if (err) {
+					reject(err);
+				} else {
+					collection.find(searchCriteria, projectionObj, {
+						limit,
+						skip,
+					}).toArray((error, results) => {
+						if (error) {
+							reject(error);
+						} else {
+							resolve(results);
+						}
+					});
+				}
+			});
+		}),
 	getJobsCount: async (app, searchCriteria) => new Promise((resolve, reject) => {
 		app.models.job.native((err, collection) => {
 			if (err) {

@@ -61,6 +61,7 @@ module.exports = {
 		'/api/referee-token',
 		'/api/jobs',
 		/^\/api\/users\/.*\/bookmarks/,
+		/^\/api\/users\/.*\/applications/,
 		/^\/api\/jobs\/.*/,
 		'/api/applications',
 		/^\/api\/applications\/.*/,

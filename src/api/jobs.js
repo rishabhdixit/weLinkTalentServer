@@ -13,9 +13,10 @@ export default ({ app }) => resource({
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
 		const searchCriteria = {};
+		const projectionObj = {};
 		if (query && query.location)			{ searchCriteria.location = query.location; }
 		if (query && query.title)			{ searchCriteria.$text = { $search: `"${query.title}"` }; }
-		const jobs = await jobsService.getJobs(app, searchCriteria, limit, skip);
+		const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
 		const jobsCount = await jobsService.getJobsCount(app, searchCriteria);
 		const pageMetaData = {
 			size: (jobs && jobs.length) || 0,

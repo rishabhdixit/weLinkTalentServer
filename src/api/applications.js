@@ -3,31 +3,62 @@
  */
 import * as _ from 'lodash';
 import path from 'path';
+import { ObjectID } from 'mongodb';
 import resource from '../lib/resource-router';
 import config from '../../config/index';
 import emailService from '../services/emailService';
+import jobsService from '../services/jobsService';
 import encryptDecryptService from '../services/encryptDecryptService';
 import Constants from '../constants';
 
 export default ({ app }) => resource({
 	id: 'application',
+	mergeParams: 'true',
 
 	/*
-	 GET /api/applications - Fetching applications at max 10 per request
+	 GET /api/users/{user}/applications - Fetching applications at max 10, and
+	 GET /api/users/{user}/applications?jobId={id} - Return status of application regarding this job
 	 */
 	async index({ params, query }, res) {
-		const searhQuery = {
-			user_id: query.userId,
-		};
-		if (query.jobId) {		// returning application status of a specific job by a user
-			searhQuery.job_id = query.jobId;
+		const limit = config.pageLimit;
+		const page = parseInt(query.page || 1, 10);
+		const skip = limit * (page - 1);
+		if (_.isUndefined(query.jobId)) {
+			let applications = await app.models.application.find({
+				select: ['user_id', 'job_id', 'form_status', 'validation_status', 'submission_status', 'acceptance_status', 'feedback_requested'],
+				where: { user_id: params.user },
+			})
+				.skip(skip)
+				.limit(limit);
+			if (applications && applications.length) {
+				const jobIds = [];
+				applications.forEach((application) => {
+					jobIds.push(new ObjectID(application.job_id.toString()));
+				});
+				const searchCriteria = {
+					_id: { $in: jobIds },
+				};
+				const projectionObj = {
+					company: 1,
+					description: 1,
+					location: 1,
+					title: 1,
+					application_slots: 1,
+					remaining_slots: 1,
+				};
+				const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
+				applications = _.map(applications, application => _.extend(application, _.omit(_.find(jobs, { _id: new ObjectID(application.job_id.toString()) }), ['_id'])));
+			}
+			res.json(applications);
+		} else {
+			const searhQuery = {
+				user_id: params.user,
+				job_id: query.jobId,
+			};
 			const application = await app.models.application.findOne(searhQuery);
-			res.json({ status: application.form_status });
-		} else {		// returning all applications of a user
-			const limit = config.pageLimit;
-			const page = parseInt(query.page || 1, 10);
-			const skip = limit * (page - 1);
-			res.json(await app.models.application.find(searhQuery).skip(skip).limit(limit));
+			let applicationStatus = application && application.form_status;
+			applicationStatus = applicationStatus || Constants.APPLICATION_STATUS.INCOMPLETE;
+			res.json({ status: applicationStatus });
 		}
 	},
 
