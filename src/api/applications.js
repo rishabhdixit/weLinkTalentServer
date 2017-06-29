@@ -24,6 +24,7 @@ export default ({ app }) => resource({
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
 		if (_.isUndefined(query.jobId)) {
+			const applicationsCount = await app.models.application.count({ user_id: params.user });
 			let applications = await app.models.application.find({
 				select: ['user_id', 'job_id', 'form_status', 'validation_status', 'submission_status', 'acceptance_status', 'feedback_requested'],
 				where: { user_id: params.user },
@@ -49,7 +50,17 @@ export default ({ app }) => resource({
 				const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
 				applications = _.map(applications, application => _.extend(application, _.omit(_.find(jobs, { _id: new ObjectID(application.job_id.toString()) }), ['_id'])));
 			}
-			res.json(applications);
+			const pageMetaData = {
+				size: (applications && applications.length) || 0,
+				pageNumber: page,
+				totalPages: Math.ceil(applicationsCount / limit),
+				totalSize: applicationsCount,
+			};
+			const finalResponse = {
+				applicationsList: applications,
+				pageMetaData,
+			};
+			res.json(finalResponse);
 		} else {
 			const searhQuery = {
 				user_id: params.user,
