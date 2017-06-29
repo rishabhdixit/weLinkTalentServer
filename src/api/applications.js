@@ -47,7 +47,7 @@ export default ({ app }) => resource({
 					application_slots: 1,
 					remaining_slots: 1,
 				};
-				const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
+				const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj);
 				applications = _.map(applications, application => _.extend(application, _.omit(_.find(jobs, { _id: new ObjectID(application.job_id.toString()) }), ['_id'])));
 			}
 			const pageMetaData = {
