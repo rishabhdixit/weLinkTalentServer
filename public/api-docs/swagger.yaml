@@ -1,0 +1,1655 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Sample spec
+  description: Sample spec for Swagger
+  termsOfService: http://swagger.io/terms/
+basePath: "/"
+tags:
+- name: Jobs
+  description: API for jobs
+- name: Users
+  description: API for users
+- name: Applications
+  description: API for applications
+securityDefinitions:
+  Authorization:
+    type: apiKey
+    name: Authorization
+    in: header
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  "/api/users":
+    post:
+      tags:
+      - Users
+      description: For creating a new user
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: User Parameters
+        in: body
+        description: User to add to the database
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+              required: true
+              example: rishabh.dixit123@gmail.com
+            password:
+              type: string
+              required: true
+              example: '123456789'
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/createUser"
+  "/api/users/{id}":
+    get:
+      tags:
+      - Users
+      description: Return a single user
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getUserByID"
+  "/api/users/{id}/profiles":
+    get:
+      tags:
+      - Users
+      description: Return a single user profile
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getProfileByID"
+    post:
+      tags:
+      - Users
+      description: For creating user profile
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      - name: User Profile Parameters
+        in: body
+        description: User profile to be created
+        required: true
+        schema:
+          properties:
+            linkedinId:
+              type: string
+              required: true
+              example: 06AJeRtea1
+            emailAddress:
+              type: string
+              required: true
+              example: rishabh.dixit123@gmail.com
+            firstName:
+              type: string
+              required: true
+              example: Rishabh
+            lastName:
+              type: string
+              required: true
+              example: Dixit
+            pictureUrl:
+              type: string
+              required: true
+              example: https://media.licdn.com/mpr/mprx/0_i-QzCWK-6pVXzage8XyN7UM1i2c5vgjNo_rzXgN15pwXvS2Z69rUEUz13on5v2-kd_-zf2VPowck9M-eET_dEgRx7wcL9MeXuT_9TyatkEGWp7PZhrzZ3Hh_fODzxM0zLGFJ6GdT3-b
+            positions:
+              type: array
+              required: true
+              example:
+              - company:
+                  id: 246617
+                  industry: Computer Software
+                  name: To The New Digital
+                  size: 201-500
+                  type: Privately Held
+                id: 572004550
+                isCurrent: true
+                location:
+                  name: Noida
+                startDate:
+                  month: 6
+                  year: 2014
+                summary: Software engineer(node js developer) working on MEAN Stack
+                  technologies.
+                title: software engineer
+            skills:
+              type: array
+              required: true
+              example: []
+            birthDate:
+              type: string
+              required: true
+              example: '2017-06-20'
+            maritalStatus:
+              type: string
+              required: true
+              example: Single
+            mobile:
+              type: string
+              required: true
+              example: '555555555'
+            children:
+              type: number
+              required: true
+              example: 2
+            NRIC:
+              type: string
+              required: true
+              example: '33434334'
+            singaporeVisa:
+              type: string
+              required: true
+              example: No, I don't have one.
+            validityEnd:
+              type: string
+              required: true
+              example: '2017-06-20'
+            noticePeriod:
+              type: string
+              required: true
+              example: '2017-06-21'
+            negotiable:
+              type: string
+              required: true
+              example: 'Yes'
+            basePerMonth:
+              type: number
+              required: true
+              example: 333
+            bonus:
+              type: number
+              required: true
+              example: 333
+            bonusReceived:
+              type: string
+              required: true
+              example: 13 month
+            calculation:
+              type: string
+              required: true
+              example: sdfffs
+            description:
+              type: string
+              required: true
+              example: sdfsf
+            allowance:
+              type: number
+              required: true
+              example: 33
+            incentives:
+              type: string
+              required: true
+              example: sdfsfd
+            vestingPeriod:
+              type: string
+              required: true
+              example: '2017-06-14'
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getProfileByID"
+  "/api/users/{id}/profiles/{profileId}":
+    put:
+      tags:
+      - Users
+      description: For updating a user profile
+      operationId: for the URL
+      produces:
+      - application/json
+      security:
+      - Authorization: []
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      - name: profileId
+        in: path
+        description: profile id to be deleted
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc54
+      - name: profile update parameters
+        in: body
+        description: Profile to be updated in database
+        required: true
+        schema:
+          properties:
+            firstName:
+              type: string
+              required: false
+              example: rishabh
+            lastName:
+              type: string
+              required: false
+              example: dixit
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getProfileByID"
+    delete:
+      tags:
+      - Users
+      description: For deleting a user profile
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      - name: profileId
+        in: path
+        description: profile id to be deleted
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc54
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/deleteProfile"
+  "/api/users/{id}/applications":
+    get:
+      tags:
+      - Users
+      description: Return applications of a user
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getUserApplications"
+  "/api/users/{id}/bookmarks":
+    get:
+      tags:
+      - Users
+      description: Return bookmarked jobs done by a user
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/getJobByID"
+    post:
+      tags:
+      - Users
+      description: For creating a new bookmark
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      - name: User Bookmark Parameters
+        in: body
+        description: Bookmark to add
+        required: true
+        schema:
+          properties:
+            postId:
+              type: string
+              required: true
+              example: 592531e77868c5a68589a763
+      responses:
+        '200':
+          description: OK
+          schema:
+            properties:
+              n:
+                type: number
+                required: true
+                example: 1
+              nModified:
+                type: number
+                required: true
+                example: 1
+              ok:
+                type: number
+                required: true
+                example: 1
+  "/api/users/{id}/bookmarks/{jobId}":
+    delete:
+      tags:
+      - Users
+      description: For deleting a bookmark
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      - name: jobId
+        in: path
+        description: job id to delete bookmark
+        required: true
+        type: string
+        example: 592531e77868c5a68589a763
+      responses:
+        '200':
+          description: OK
+          schema:
+            properties:
+              n:
+                type: number
+                required: true
+                example: 1
+              nModified:
+                type: number
+                required: true
+                example: 1
+              ok:
+                type: number
+                required: true
+                example: 1
+  "/api/jobs":
+    post:
+      tags:
+      - Jobs
+      description: For creating a new job
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: Job Parameters
+        in: body
+        description: Job to add to the database
+        required: true
+        schema:
+          "$ref": "#/definitions/createJob"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/createJob"
+    get:
+      tags:
+      - Jobs
+      description: For fetching jobs(10 per page)
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        in: path
+        description: Page number to fetch
+        type: number
+        example: 1
+      - name: title
+        in: path
+        description: Title to search in jobs
+        type: string
+        example: java developer
+      - name: location
+        in: path
+        description: Location to search in jobs
+        type: string
+        example: Cebu
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getJobs"
+  "/api/jobs/{id}":
+    get:
+      tags:
+      - Jobs
+      description: Return a single job
+      operationId: findById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id to fetch
+        required: true
+        type: string
+        example: 592531db7868c5a68589a762
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getJobByID"
+  "/api/applications":
+    post:
+      tags:
+      - Applications
+      description: For creating a new application
+      operationId: for the URL
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - name: files
+        in: formData
+        required: true
+        type: file
+      - name: reasonForLeaving
+        in: formData
+        required: true
+        type: string
+        example: Not happy with the profile
+      - name: management
+        in: formData
+        required: true
+        type: string
+        example: good in managing projects as well
+      - name: achievements
+        in: formData
+        required: true
+        type: string
+        example: Won 1st prize in hackathon
+      - name: improvements
+        in: formData
+        required: true
+        type: string
+        example: 'Need to learn front end technologies like: AngularJS 2.0, React
+          JS etc.'
+      - name: strength
+        in: formData
+        required: true
+        type: string
+        example: 'Good in backend stuff like: Node.js'
+      - name: basePerMonth
+        in: formData
+        required: true
+        type: number
+        example: 444.44
+      - name: bonus
+        in: formData
+        required: true
+        type: number
+        example: 555
+      - name: user_id
+        in: formData
+        required: true
+        type: string
+        example: 592531ed7868c5a68589a764
+      - name: job_id
+        in: formData
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/createApplication"
+  "/api/applications/{id}":
+    get:
+      tags:
+      - Applications
+      description: Return a single application
+      operationId: findById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id to fetch
+        required: true
+        type: string
+        example: 593652cd8acaf3d812070550
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getApplicationByID"
+    put:
+      tags:
+      - Applications
+      description: Update an application - Add references info
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id to fetch
+        required: true
+        type: string
+        example: 593652cd8acaf3d812070550
+      - name: Update application parameters
+        in: body
+        description: references info to be added
+        schema:
+          properties:
+            references_info:
+              required: false
+              type: array
+              example:
+              - fname: Jojie
+                lname: Palahang
+                company: Viseo
+                title: Full Stack Developer
+                phone: '9999999999'
+                email: jojie@viseo.com
+                relationship: colleague
+                startYearOfWorking: '2017-06-01'
+                endYearOfWorking: '2017-06-06'
+                companyTogether: Viseo
+                canContact: 'no'
+              - fname: Philip
+                lname: Pulgade
+                company: Viseo
+                title: Full Stack Developer
+                phone: '9999999999'
+                email: philip@viseo.com
+                relationship: colleague
+                startYearOfWorking: '2017-06-01'
+                endYearOfWorking: '2017-06-06'
+                companyTogether: Viseo
+                canContact: 'no'
+      responses:
+        '200':
+          description: OK - Returns job data corresponding to this application
+          schema:
+            "$ref": "#/definitions/updateApplicationByID"
+  "/api/applications/{id}/feedback":
+    post:
+      tags:
+      - Applications
+      description: Update an application - Add referee feedback
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: application id
+        required: true
+        type: string
+        example: 593652cd8acaf3d812070550
+      - name: Update application parameters
+        in: body
+        description: references info to be added
+        schema:
+          "$ref": "#/definitions/createFeedback"
+      responses:
+        '200':
+          description: OK - Returns job data corresponding to this application
+          schema:
+            "$ref": "#/definitions/getJobByID"
+definitions:
+  createJob:
+    properties:
+      id:
+        type: string
+        required: true
+        example: 592531db7868c5a68589a762
+      employer_id:
+        type: string
+        required: true
+        example: 592531db7868c5a68589a762
+      description:
+        type: string
+        required: true
+        example: Nice company, Nice Infrastrure, Good culture, Work from home available
+      employment_type:
+        type: string
+        example: Full
+      company:
+        type: json
+        required: true
+        example:
+          name: Cognizant
+          address: Philippines
+          about: This is a great company. We believe in what people make possible.
+            Our mission is to empower every person and every organization on the planet
+            to achieve more.
+          phone_numbers:
+          - 4444444444
+          - 5555555555
+          email: rishabh.dixit123@gmail.com
+          twitter_profile: https://www.twitter.com/microsoft
+          linkedin_profile: https://www.linkedin.com/company-beta/1035/
+      responsibilities:
+        type: array
+        example:
+        - Brainstorm with product managers and designers to conceptualize new features
+        - Develop web applications with the latest technologies
+        - Collaborate with other engineers to build new features
+        - Resolve complex technical issues
+        - Participate in Code Review and Unit testing
+        - Work closely with the CTO to help realize company objectives
+        - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+          application system Define physical program units and data structures based
+          on the logical model to satisfy the requirements of the application
+        - Prepare deployment and post deployment plans to support the conversion and
+          deployment of the solution Interact with architects, analysts, project managers,
+          developers, customer representatives, and QA managers to ensure that application
+          solution meets customer needs
+      ideal_talent:
+        type: array
+        example:
+        - Improve application quality and reliability by implementing good standards
+          and processes
+        - Increase productivity by implementing tools and processes
+        - Serve as the technology go-to person on any technical questions
+        - Resolve complex technical issues
+        - Ensure quality is maintained by following development patterns and standards
+        - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+          application system Define physical program units and data structures based
+          on the logical model to satisfy the requirements of the application
+        - Prepare deployment and post deployment plans to support the conversion and
+          deployment of the solution Interact with architects, analysts, project managers,
+          developers, customer representatives, and QA managers to ensure that application
+          solution meets customer needs
+      skills:
+        type: array
+        example:
+        - oracle
+        - mongodb
+        - pl/sql
+        - bigdata
+      criteria:
+        type: array
+        example:
+        - first criteria
+        - second criteria
+      questions:
+        type: array
+        example:
+        - question1
+        - question2
+      title:
+        type: string
+        required: true
+        example: Database Administrator
+      years_experience:
+        type: number
+        required: true
+        example: 3
+      location:
+        type: string
+        required: true
+        example: Cebu
+      visa_passport_constraints:
+        type: string
+        example: nothing
+      salary_from:
+        type: number
+        required: true
+        example: 3333.4
+      salary_to:
+        type: number
+        required: true
+        example: 4444.55
+      contact_name:
+        type: string
+        example: rishabh
+      contact_number:
+        type: string
+        example: '9497325276'
+      contact_email:
+        type: string
+        example: rishabh.dixit123@gmail.com
+      industry:
+        type: string
+        example: IT
+      expertise:
+        type: string
+        example: Database(Sql/NoSql)
+      salary_currency:
+        type: string
+        required: true
+        example: SGD
+      application_slots:
+        type: integer
+        required: true
+        example: 10
+      remaining_slots:
+        type: integer
+        example: 3
+      applications_waiting:
+        type: array
+        example: []
+  createUser:
+    properties:
+      id:
+        type: string
+        required: true
+        example: 5948a1b8b2f3cc3c9572bc53
+      email:
+        type: string
+        required: true
+        example: rishabh.dixit123@gmail.com
+  createApplication:
+    properties:
+      id:
+        type: string
+        required: true
+        example: 5949fc53cf1ff6cc9c4b36e1
+      form_data:
+        type: json
+        required: true
+        example:
+          reasonForLeaving: Not happy with the profile
+          management: good in managing projects as well
+          achievements: Won 1st prize in hackathon
+          improvements: 'Need to learn front end technologies like: AngularJS 2.0,
+            React JS etc.'
+          strength: 'Good in backend stuff like: Node.js'
+          basePerMonth: 444.44
+          bonus: 444.4
+      resume_urls:
+        type: array
+        required: true
+        example:
+        - "/Users/rishabhdixit/WebstormProjects/welinktalent-server/src/api/uploads/1498020947611.jpeg"
+      user_id:
+        type: string
+        required: true
+        example: 592531ed7868c5a68589a764
+      job_id:
+        type: string
+        required: true
+        example: 5948a1b8b2f3cc3c9572bc53
+      form_status:
+        type: string
+        required: true
+        example: complete
+      validation_status:
+        type: string
+        required: true
+        example: incomplete
+      submission_status:
+        type: string
+        required: true
+        example: incomplete
+      acceptance_status:
+        type: string
+        required: true
+        example: pending
+      feedback_requested:
+        type: boolean
+        required: true
+        example: false
+      createdAt:
+        type: string
+        required: true
+        example: '2017-06-21T04:55:47.631Z'
+      updatedAt:
+        type: string
+        required: true
+        example: '2017-06-21T04:56:21.098Z'
+  createFeedback:
+    properties:
+      referee_id:
+        type: string
+        required: true
+        example: 5948a1b8b2f3cc3c9572bc53
+      reasonForLeaving:
+        type: json
+        required: true
+        example:
+          comment: valid
+          approved: true
+      strength:
+        type: json
+        required: true
+        example:
+          comment: all strengths mentioned are valid as per my knowledge
+          approved: true
+      improvement:
+        type: json
+        required: true
+        example:
+          comment: all improvements mentioned are valid as per my knowledge
+          approved: true
+      achievement:
+        type: json
+        required: true
+        example:
+          comment: all achievements mentioned are valid as per my knowledge
+          approved: true
+      management:
+        type: json
+        required: true
+        example:
+          comment: valid as per my knowledge
+          approved: true
+  getJobs:
+    properties:
+      jobsList:
+        type: array
+        required: true
+        example:
+        - _id: 592531db7868c5a68589a762
+          employer_id: 592531db7868c5a68589a762
+          description: Nice company, Nice Infrastrure, Good culture, Work from home
+            available
+          employment_type: Full
+          company:
+            name: Cognizant
+            address: Philippines
+            about: This is a great company. We believe in what people make possible.
+              Our mission is to empower every person and every organization on the
+              planet to achieve more.
+            phone_numbers:
+            - 4444444444
+            - 5555555555
+            email: rishabh.dixit123@gmail.com
+            twitter_profile: https://www.twitter.com/microsoft
+            linkedin_profile: https://www.linkedin.com/company-beta/1035/
+          responsibilities:
+          - Brainstorm with product managers and designers to conceptualize new features
+          - Develop web applications with the latest technologies
+          - Collaborate with other engineers to build new features
+          - Resolve complex technical issues
+          - Participate in Code Review and Unit testing
+          - Work closely with the CTO to help realize company objectives
+          - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+            application system Define physical program units and data structures based
+            on the logical model to satisfy the requirements of the application
+          - Prepare deployment and post deployment plans to support the conversion
+            and deployment of the solution Interact with architects, analysts, project
+            managers, developers, customer representatives, and QA managers to ensure
+            that application solution meets customer needs
+          ideal_talent:
+          - Improve application quality and reliability by implementing good standards
+            and processes
+          - Increase productivity by implementing tools and processes
+          - Serve as the technology go-to person on any technical questions
+          - Resolve complex technical issues
+          - Ensure quality is maintained by following development patterns and standards
+          - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+            application system Define physical program units and data structures based
+            on the logical model to satisfy the requirements of the application
+          - Prepare deployment and post deployment plans to support the conversion
+            and deployment of the solution Interact with architects, analysts, project
+            managers, developers, customer representatives, and QA managers to ensure
+            that application solution meets customer needs
+          skills:
+          - oracle
+          - mongodb
+          - pl/sql
+          - bigdata
+          criteria:
+          - first criteria
+          - second criteria
+          questions:
+          - question1
+          - question2
+          title:
+            type: string
+            required: true
+            example: Database Administrator
+          years_experience: 3
+          location: Cebu
+          visa_passport_constraints: nothing
+          salary_from: 3333.4
+          salary_to: 4444.55
+          contact_name: rishabh
+          contact_number: '9497325276'
+          contact_email: rishabh.dixit123@gmail.com
+          industry: IT
+          expertise: Database(Sql/NoSql)
+          salary_currency: SGD
+          application_slots: 10
+          remaining_slots: 3
+          applications_waiting: []
+      pageMetaData:
+        type: json
+        required: true
+        example:
+          size: 10
+          pageNumber: 1
+          totalPages: 4
+          totalSize: 35
+  getJobByID:
+    properties:
+      id:
+        type: string
+        required: true
+        example: 592531db7868c5a68589a762
+      employer_id:
+        type: string
+        required: true
+        example: 592531db7868c5a68589a762
+      description:
+        type: string
+        required: true
+        example: Nice company, Nice Infrastrure, Good culture, Work from home available
+      employment_type:
+        type: string
+        example: Full
+      company:
+        type: json
+        required: true
+        example:
+          name: Cognizant
+          address: Philippines
+          about: This is a great company. We believe in what people make possible.
+            Our mission is to empower every person and every organization on the planet
+            to achieve more.
+          phone_numbers:
+          - 4444444444
+          - 5555555555
+          email: rishabh.dixit123@gmail.com
+          twitter_profile: https://www.twitter.com/microsoft
+          linkedin_profile: https://www.linkedin.com/company-beta/1035/
+      responsibilities:
+        type: array
+        example:
+        - Brainstorm with product managers and designers to conceptualize new features
+        - Develop web applications with the latest technologies
+        - Collaborate with other engineers to build new features
+        - Resolve complex technical issues
+        - Participate in Code Review and Unit testing
+        - Work closely with the CTO to help realize company objectives
+        - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+          application system Define physical program units and data structures based
+          on the logical model to satisfy the requirements of the application
+        - Prepare deployment and post deployment plans to support the conversion and
+          deployment of the solution Interact with architects, analysts, project managers,
+          developers, customer representatives, and QA managers to ensure that application
+          solution meets customer needs
+      ideal_talent:
+        type: array
+        example:
+        - Improve application quality and reliability by implementing good standards
+          and processes
+        - Increase productivity by implementing tools and processes
+        - Serve as the technology go-to person on any technical questions
+        - Resolve complex technical issues
+        - Ensure quality is maintained by following development patterns and standards
+        - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+          application system Define physical program units and data structures based
+          on the logical model to satisfy the requirements of the application
+        - Prepare deployment and post deployment plans to support the conversion and
+          deployment of the solution Interact with architects, analysts, project managers,
+          developers, customer representatives, and QA managers to ensure that application
+          solution meets customer needs
+      skills:
+        type: array
+        example:
+        - oracle
+        - mongodb
+        - pl/sql
+        - bigdata
+      criteria:
+        type: array
+        example:
+        - first criteria
+        - second criteria
+      questions:
+        type: array
+        example:
+        - question1
+        - question2
+      title:
+        type: string
+        required: true
+        example: Database Administrator
+      years_experience:
+        type: number
+        required: true
+        example: 3
+      location:
+        type: string
+        required: true
+        example: Cebu
+      visa_passport_constraints:
+        type: string
+        example: nothing
+      salary_from:
+        type: number
+        required: true
+        example: 3333.4
+      salary_to:
+        type: number
+        required: true
+        example: 4444.55
+      contact_name:
+        type: string
+        example: rishabh
+      contact_number:
+        type: string
+        example: '9497325276'
+      contact_email:
+        type: string
+        example: rishabh.dixit123@gmail.com
+      industry:
+        type: string
+        example: IT
+      expertise:
+        type: string
+        example: Database(Sql/NoSql)
+      salary_currency:
+        type: string
+        required: true
+        example: SGD
+      application_slots:
+        type: integer
+        required: true
+        example: 10
+      remaining_slots:
+        type: integer
+        example: 3
+      applications_waiting:
+        type: array
+        example: []
+  getUserByID:
+    properties:
+      id:
+        type: string
+        required: true
+        example: 5948a1b8b2f3cc3c9572bc53
+      email:
+        type: string
+        required: true
+        example: rishabh.dixit123@gmail.com
+      profile:
+        type: json
+        required: true
+        example:
+          _id: 5948a1b8b2f3cc3c9572bc54
+          linkedinId: 06AJeRtea1
+          emailAddress: rishabh.dixit123@gmail.com
+          firstName: Rishabh
+          lastName: Dixit
+          pictureUrl: https://media.licdn.com/mpr/mprx/0_i-QzCWK-6pVXzage8XyN7UM1i2c5vgjNo_rzXgN15pwXvS2Z69rUEUz13on5v2-kd_-zf2VPowck9M-eET_dEgRx7wcL9MeXuT_9TyatkEGWp7PZhrzZ3Hh_fODzxM0zLGFJ6GdT3-b
+          positions:
+          - company:
+              id: 246617
+              industry: Computer Software
+              name: To The New Digital
+              size: 201-500
+              type: Privately Held
+            id: 572004550
+            isCurrent: true
+            location:
+              name: Noida
+            startDate:
+              month: 6
+              year: 2014
+            summary: Software engineer(node js developer) working on MEAN Stack technologies.
+            title: software engineer
+          skills: []
+          user: 5948a1b8b2f3cc3c9572bc53
+          createdAt: '2017-06-20T04:16:56.871Z'
+          updatedAt: '2017-06-20T04:20:34.103Z'
+          birthDate: '2017-06-20'
+          maritalStatus: Single
+          mobile: '555555555'
+          children: 2
+          NRIC: '33434334'
+          singaporeVisa: No, I don't have one.
+          validityEnd: '2017-06-20'
+          noticePeriod: '2017-06-21'
+          negotiable: 'Yes'
+          basePerMonth: 333
+          bonus: 333
+          bonusReceived: 13 month
+          calculation: sdfffs
+          description: sdfsf
+          allowance: 33
+          incentives: sdfsfd
+          vestingPeriod: '2017-06-14'
+  getApplicationByID:
+    properties:
+      id:
+        type: string
+        required: true
+        example: 5949fc53cf1ff6cc9c4b36e1
+      form_data:
+        type: json
+        required: true
+        example:
+          reasonForLeaving: Not happy with the profile
+          management: good in managing projects as well
+          achievements: Won 1st prize in hackathon
+          improvements: 'Need to learn front end technologies like: AngularJS 2.0,
+            React JS etc.'
+          strength: 'Good in backend stuff like: Node.js'
+          basePerMonth: 444.44
+          bonus: 444.4
+      resume_urls:
+        type: array
+        required: true
+        example:
+        - "/Users/rishabhdixit/WebstormProjects/welinktalent-server/src/api/uploads/1498020947611.jpeg"
+      user_id:
+        type: string
+        required: true
+        example: 592531ed7868c5a68589a764
+      job_id:
+        type: string
+        required: true
+        example: 5948a1b8b2f3cc3c9572bc53
+      form_status:
+        type: string
+        required: true
+        example: complete
+      validation_status:
+        type: string
+        required: true
+        example: incomplete
+      submission_status:
+        type: string
+        required: true
+        example: incomplete
+      acceptance_status:
+        type: string
+        required: true
+        example: pending
+      feedback_requested:
+        type: boolean
+        required: true
+        example: false
+      references_info:
+        type: array
+        required: false
+        example:
+        - fname: Jojie
+          lname: Palahang
+          company: Viseo
+          title: Full Stack Developer
+          phone: '9999999999'
+          email: jojie@viseo.com
+          relationship: colleague
+          startYearOfWorking: '2017-06-01'
+          endYearOfWorking: '2017-06-06'
+          companyTogether: Viseo
+          canContact: 'no'
+        - fname: Philip
+          lname: Pulgade
+          company: Viseo
+          title: Full Stack Developer
+          phone: '9999999999'
+          email: philip@viseo.com
+          relationship: colleague
+          startYearOfWorking: '2017-06-01'
+          endYearOfWorking: '2017-06-06'
+          companyTogether: Viseo
+          canContact: 'no'
+      feedback:
+        type: json
+        required: false
+        example:
+          5948a1b8b2f3cc3c9572bc53:
+            reasonForLeaving:
+              comment: valid
+              approved: true
+            strength:
+              comment: all strengths mentioned are valid as per my knowledge
+              approved: true
+            improvement:
+              comment: all improvements mentioned are valid as per my knowledge
+              approved: true
+            achievement:
+              comment: all achievements mentioned are valid as per my knowledge
+              approved: true
+            management:
+              comment: valid as per my knowledge
+              approved: true
+      createdAt:
+        type: string
+        required: true
+        example: '2017-06-21T04:55:47.631Z'
+      updatedAt:
+        type: string
+        required: true
+        example: '2017-06-21T04:56:21.098Z'
+  getProfileByID:
+    properties:
+      linkedinId:
+        type: string
+        required: true
+        example: 06AJeRtea1
+      emailAddress:
+        type: string
+        required: true
+        example: rishabh.dixit123@gmail.com
+      firstName:
+        type: string
+        required: true
+        example: Rishabh
+      lastName:
+        type: string
+        required: true
+        example: Dixit
+      pictureUrl:
+        type: string
+        required: true
+        example: https://media.licdn.com/mpr/mprx/0_i-QzCWK-6pVXzage8XyN7UM1i2c5vgjNo_rzXgN15pwXvS2Z69rUEUz13on5v2-kd_-zf2VPowck9M-eET_dEgRx7wcL9MeXuT_9TyatkEGWp7PZhrzZ3Hh_fODzxM0zLGFJ6GdT3-b
+      positions:
+        type: array
+        required: true
+        example:
+        - company:
+            id: 246617
+            industry: Computer Software
+            name: To The New Digital
+            size: 201-500
+            type: Privately Held
+          id: 572004550
+          isCurrent: true
+          location:
+            name: Noida
+          startDate:
+            month: 6
+            year: 2014
+          summary: Software engineer(node js developer) working on MEAN Stack technologies.
+          title: software engineer
+      skills:
+        type: array
+        required: true
+        example: []
+      birthDate:
+        type: string
+        required: true
+        example: '2017-06-20'
+      maritalStatus:
+        type: string
+        required: true
+        example: Single
+      mobile:
+        type: string
+        required: true
+        example: '555555555'
+      children:
+        type: number
+        required: true
+        example: 2
+      NRIC:
+        type: string
+        required: true
+        example: '33434334'
+      singaporeVisa:
+        type: string
+        required: true
+        example: No, I don't have one.
+      validityEnd:
+        type: string
+        required: true
+        example: '2017-06-20'
+      noticePeriod:
+        type: string
+        required: true
+        example: '2017-06-21'
+      negotiable:
+        type: string
+        required: true
+        example: 'Yes'
+      basePerMonth:
+        type: number
+        required: true
+        example: 333
+      bonus:
+        type: number
+        required: true
+        example: 333
+      bonusReceived:
+        type: string
+        required: true
+        example: 13 month
+      calculation:
+        type: string
+        required: true
+        example: sdfffs
+      description:
+        type: string
+        required: true
+        example: sdfsf
+      allowance:
+        type: number
+        required: true
+        example: 33
+      incentives:
+        type: string
+        required: true
+        example: sdfsfd
+      vestingPeriod:
+        type: string
+        required: true
+        example: '2017-06-14'
+      id:
+        type: string
+        required: true
+        example: 5948a1b8b2f3cc3c9572bc54
+  getUserApplications:
+    properties:
+      applicationsList:
+        type: array
+        required: true
+        example:
+        - user_id: 5948a1b8b2f3cc3c9572bc53
+          job_id: 592531f57868c5a68589a765
+          form_status: incomplete
+          validation_status: incomplete
+          submission_status: incomplete
+          acceptance_status: pending
+          feedback_requested: false
+          id: 5947900669e8820491910f92
+          description: Nice company, Nice Infrastrure, Good culture, Work from home
+            available
+          company:
+            name: Airtel
+            address: Philippines
+            about: This is a great company. We believe in what people make possible.
+              Our mission is to empower every person and every organization on the
+              planet to achieve more.
+            phone_numbers:
+            - 4444444444
+            - 5555555555
+            email: rishabh.dixit123@gmail.com
+            twitter_profile: https://www.twitter.com/microsoft
+            linkedin_profile: https://www.linkedin.com/company-beta/1035/
+          location: Cebu
+          title: Database Administrator
+          application_slots: 10
+          remaining_slots: 9
+        - user_id: 5948a1b8b2f3cc3c9572bc53
+          job_id: 592531ed7868c5a68589a764
+          form_status: complete
+          validation_status: incomplete
+          submission_status: incomplete
+          acceptance_status: pending
+          feedback_requested: false
+          id: 5947904c69e8820491910f93
+          description: Nice company, Nice Infrastrure, Good culture, Work from home
+            available
+          company:
+            name: Viseo
+            address: Philippines
+            about: This is a great company. We believe in what people make possible.
+              Our mission is to empower every person and every organization on the
+              planet to achieve more.
+            phone_numbers:
+            - 4444444444
+            - 5555555555
+            email: rishabh.dixit123@gmail.com
+            twitter_profile: https://www.twitter.com/microsoft
+            linkedin_profile: https://www.linkedin.com/company-beta/1035/
+          location: Cebu
+          title: Javascript Developer
+          application_slots: 10
+          remaining_slots: 0
+      pageMetaData:
+        type: json
+        required: true
+        example:
+          size: 9
+          pageNumber: 3
+          totalPages: 3
+          totalSize: 29
+  updateApplicationByID:
+    properties:
+      id:
+        type: string
+        required: true
+        example: 592531db7868c5a68589a762
+      employer_id:
+        type: string
+        required: true
+        example: 592531db7868c5a68589a762
+      description:
+        type: string
+        required: true
+        example: Nice company, Nice Infrastrure, Good culture, Work from home available
+      employment_type:
+        type: string
+        example: Full
+      company:
+        type: json
+        required: true
+        example:
+          name: Cognizant
+          address: Philippines
+          about: This is a great company. We believe in what people make possible.
+            Our mission is to empower every person and every organization on the planet
+            to achieve more.
+          phone_numbers:
+          - 4444444444
+          - 5555555555
+          email: rishabh.dixit123@gmail.com
+          twitter_profile: https://www.twitter.com/microsoft
+          linkedin_profile: https://www.linkedin.com/company-beta/1035/
+      responsibilities:
+        type: array
+        example:
+        - Brainstorm with product managers and designers to conceptualize new features
+        - Develop web applications with the latest technologies
+        - Collaborate with other engineers to build new features
+        - Resolve complex technical issues
+        - Participate in Code Review and Unit testing
+        - Work closely with the CTO to help realize company objectives
+        - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+          application system Define physical program units and data structures based
+          on the logical model to satisfy the requirements of the application
+        - Prepare deployment and post deployment plans to support the conversion and
+          deployment of the solution Interact with architects, analysts, project managers,
+          developers, customer representatives, and QA managers to ensure that application
+          solution meets customer needs
+      ideal_talent:
+        type: array
+        example:
+        - Improve application quality and reliability by implementing good standards
+          and processes
+        - Increase productivity by implementing tools and processes
+        - Serve as the technology go-to person on any technical questions
+        - Resolve complex technical issues
+        - Ensure quality is maintained by following development patterns and standards
+        - Design and build prototypes i.e. The Rapid Prototype, which becomes the
+          application system Define physical program units and data structures based
+          on the logical model to satisfy the requirements of the application
+        - Prepare deployment and post deployment plans to support the conversion and
+          deployment of the solution Interact with architects, analysts, project managers,
+          developers, customer representatives, and QA managers to ensure that application
+          solution meets customer needs
+      skills:
+        type: array
+        example:
+        - oracle
+        - mongodb
+        - pl/sql
+        - bigdata
+      criteria:
+        type: array
+        example:
+        - first criteria
+        - second criteria
+      questions:
+        type: array
+        example:
+        - question1
+        - question2
+      title:
+        type: string
+        required: true
+        example: Database Administrator
+      years_experience:
+        type: number
+        required: true
+        example: 3
+      location:
+        type: string
+        required: true
+        example: Cebu
+      visa_passport_constraints:
+        type: string
+        example: nothing
+      salary_from:
+        type: number
+        required: true
+        example: 3333.4
+      salary_to:
+        type: number
+        required: true
+        example: 4444.55
+      contact_name:
+        type: string
+        example: rishabh
+      contact_number:
+        type: string
+        example: '9497325276'
+      contact_email:
+        type: string
+        example: rishabh.dixit123@gmail.com
+      industry:
+        type: string
+        example: IT
+      expertise:
+        type: string
+        example: Database(Sql/NoSql)
+      salary_currency:
+        type: string
+        required: true
+        example: SGD
+      application_slots:
+        type: integer
+        required: true
+        example: 10
+      remaining_slots:
+        type: integer
+        example: 3
+      applications_waiting:
+        type: array
+        example: []
+  deleteProfile:
+    properties:
+      user:
+        type: json
+        required: true
+        example:
+          id: 5948a1b8b2f3cc3c9572bc53
+          email: rishabh.dixit123@gmail.com
+          profile:
+          bookmark_ids:
+          - 592531db7868c5a68589a762
+      profile:
+        type: json
+        required: true
+        example:
+          linkedinId: 06AJeRtea1
+          emailAddress: rishabh.dixit123@gmail.com
+          firstName: Rishabh
+          lastName: Dixit
+          pictureUrl: https://media.licdn.com/mpr/mprx/0_i-QzCWK-6pVXzage8XyN7UM1i2c5vgjNo_rzXgN15pwXvS2Z69rUEUz13on5v2-kd_-zf2VPowck9M-eET_dEgRx7wcL9MeXuT_9TyatkEGWp7PZhrzZ3Hh_fODzxM0zLGFJ6GdT3-b
+          positions:
+          - company:
+              id: 246617
+              industry: Computer Software
+              name: To The New Digital
+              size: 201-500
+              type: Privately Held
+            id: 572004550
+            isCurrent: true
+            location:
+              name: Noida
+            startDate:
+              month: 6
+              year: 2014
+            summary: Software engineer(node js developer) working on MEAN Stack technologies.
+            title: software engineer
+          skills: []
+          user: 5948a1b8b2f3cc3c9572bc53
+          createdAt: '2017-06-20T04:16:56.871Z'
+          updatedAt: '2017-06-20T04:20:34.103Z'
+          birthDate: '2017-06-20'
+          maritalStatus: Single
+          mobile: '555555555'
+          children: 2
+          NRIC: '33434334'
+          singaporeVisa: No, I don't have one.
+          validityEnd: '2017-06-20'
+          noticePeriod: '2017-06-21'
+          negotiable: 'Yes'
+          basePerMonth: 333
+          bonus: 333
+          bonusReceived: 13 month
+          calculation: sdfffs
+          description: sdfsf
+          allowance: 33
+          incentives: sdfsfd
+          vestingPeriod: '2017-06-14'
+          id: 5948a1b8b2f3cc3c9572bc54

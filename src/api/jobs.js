@@ -34,12 +34,6 @@ export default ({ app }) => resource({
 	/*
 	 GET /api/jobs/id - Fetching single job
 	 */
-	async load(req, id, callback) {
-		const job = await app.models.job.findOne({ id });
-		const	err = job ? null : 'Not found';
-		callback(err, job);
-	},
-
 	async read({ params }, res) {
 		const job = await app.models.job.findOne({ id: params.job });
 		res.json(job);

@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import winston from 'winston';
+import path from 'path';
 import expressWinston from 'express-winston';
 import initializeDb from './db';
 import auth from './middleware/auth';
@@ -13,6 +14,9 @@ export default function bootServer(callback) {
 	const app = express();
 
 	app.server = http.createServer(app);
+
+	app.use(express.static(path.resolve('./public/')));
+	app.use(express.static(path.resolve('./public/api-docs')));
 
 	// 3rd party middleware
 	app.use(cors({

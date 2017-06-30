@@ -13,7 +13,7 @@ export default ({ app }) => resource({
 		res.json(profile);
 	},
 
-	/** POST /api/users/{user}/profile - Create user profile with skills and positions*/
+	/** POST /api/users/{user}/profiles - Create user profile with skills and positions*/
 	async create({ params, body }, res) {
 		const profileData = { ...body, user: params.user };
 		const profile = await app.models.profile.create(profileData);
@@ -42,6 +42,6 @@ export default ({ app }) => resource({
 			app.models.profile.destroy({ id: params.profile, user: params.user }),
 		]);
 
-		res.json({ user, profile });
+		res.json({ user: user[0], profile: profile[0] });
 	},
 });
