@@ -9,7 +9,7 @@
     "start": "node dist",
     "prestart": "npm run -s build",
     "eslint": "eslint",
-    "lint": "npm run eslint -- ./",
+    "lint": "npm run eslint -- ./src",
     "test": "mocha --compilers js:babel-register --recursive test/"
   },
   "repository": "https://gitlab.com/viseo-digital-squads/express-es6-api",
