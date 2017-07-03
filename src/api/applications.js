@@ -68,7 +68,7 @@ export default ({ app }) => resource({
 			};
 			const application = await app.models.application.findOne(searhQuery);
 			let applicationStatus = application && application.form_status;
-			applicationStatus = applicationStatus || Constants.APPLICATION_STATUS.INCOMPLETE;
+			applicationStatus = applicationStatus ? Constants.APPLICATION_FOUND : Constants.APPLICATION_NOT_FOUND;
 			res.json({ status: applicationStatus });
 		}
 	},
