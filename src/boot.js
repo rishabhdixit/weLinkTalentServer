@@ -39,6 +39,7 @@ export default function bootServer(callback) {
 	// connect to db
 	initializeDb((db) => {
 		// save on app for convenience
+		console.log('db object ---- ', db.connections);
 		app.models = db.collections;
 		app.connections = db.connections;
 
