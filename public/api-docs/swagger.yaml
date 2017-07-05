@@ -657,6 +657,38 @@ paths:
           description: OK - Returns job data corresponding to this application
           schema:
             "$ref": "#/definitions/getJobByID"
+  "/api/referee-token":
+    post:
+      tags:
+      - Applications
+      description: Decrypt token and return application id
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: Parameters
+        in: body
+        description: token to be decrypted
+        schema:
+          properties:
+            token:
+              type: string
+              required: true
+              example: 80508b9e2656b2e1b75b6e5ed3ac6294:cf452aa8edec5a7844471d465c14446887dbdaa7c0481f433ca74cfe595b8bb9
+      responses:
+        '200':
+          description: OK - Returns application id after decrypting token
+          schema:
+            properties:
+              data:
+                type: string
+                required: true
+                example: 5949fc53cf1ff6cc9c4b36e1
+        '404':
+          properties:
+            error:
+              type: string
+              example: Application not found
 definitions:
   createJob:
     properties:

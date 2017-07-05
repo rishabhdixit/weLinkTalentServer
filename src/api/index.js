@@ -58,13 +58,15 @@ export default ({ config, app }) => {
 		if (req.body && req.body.token) {
 			const result = encryptDecryptService.decrypt(req.body.token);
 			if (result === Constants.APPLICATION_NOT_FOUND) {
-				res.json({ error: result });
-			} else {
-				res.json({ data: result });
+				return res.status(404).json({
+					error: result,
+				});
 			}
-		} else {
-			res.json({ error: Constants.TOKEN_NOT_FOUND });
+			return res.json({ data: result });
 		}
+		return res.status(404).json({
+			error: Constants.TOKEN_NOT_FOUND,
+		});
 	});
 
 	// perhaps expose some API metadata at the root
