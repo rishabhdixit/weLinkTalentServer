@@ -13,9 +13,10 @@ export default ({ app }) => resource({
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
 		const searchCriteria = {};
+		const projectionObj = {};
 		if (query && query.location)			{ searchCriteria.location = query.location; }
 		if (query && query.title)			{ searchCriteria.$text = { $search: `"${query.title}"` }; }
-		const jobs = await jobsService.getJobs(app, searchCriteria, limit, skip);
+		const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
 		const jobsCount = await jobsService.getJobsCount(app, searchCriteria);
 		const pageMetaData = {
 			size: (jobs && jobs.length) || 0,
@@ -33,12 +34,6 @@ export default ({ app }) => resource({
 	/*
 	 GET /api/jobs/id - Fetching single job
 	 */
-	async load(req, id, callback) {
-		const job = await app.models.job.findOne({ id });
-		const	err = job ? null : 'Not found';
-		callback(err, job);
-	},
-
 	async read({ params }, res) {
 		const job = await app.models.job.findOne({ id: params.job });
 		res.json(job);

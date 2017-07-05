@@ -4,10 +4,13 @@ import mime from 'mime';
 import users from './users';
 import profiles from './profiles';
 import bookmarks from './bookmarks';
+import feedbacks from './feedbacks';
 import jobs from './jobs';
 import applications from './applications';
 import positions from './positions';
 import skills from './skills';
+import encryptDecryptService from '../services/encryptDecryptService';
+import Constants from '../constants';
 import { version } from '../../package.json';
 
 export default ({ config, app }) => {
@@ -25,6 +28,8 @@ export default ({ config, app }) => {
 	const userApi = users({ config, app });
 	const profileApi = profiles({ config, app });
 	const bookmarkApi = bookmarks({ config, app });
+	const applicationApi = applications({ config, app });
+	const feedbackApi = feedbacks({ config, app });
 
 	// Generate /api/users/:id/profile route
 	userApi.use('/:user/profiles', profileApi);
@@ -42,7 +47,27 @@ export default ({ config, app }) => {
 
 	api.use('/jobs', jobs({ config, app }));
 
-	api.use('/applications', upload.single('file'), applications({ config, app }));
+	api.use('/applications', upload.array('files', 5), applicationApi);
+	applicationApi.use('/:application/feedback', feedbackApi);
+
+	// Generate /api/users/:id/applications route
+	userApi.use('/:user/applications', applicationApi);
+
+	// decrypt token and return application id
+	api.post('/referee-token', (req, res) => {
+		if (req.body && req.body.token) {
+			const result = encryptDecryptService.decrypt(req.body.token);
+			if (result === Constants.APPLICATION_NOT_FOUND) {
+				return res.status(404).json({
+					error: result,
+				});
+			}
+			return res.json({ data: result });
+		}
+		return res.status(404).json({
+			error: Constants.TOKEN_NOT_FOUND,
+		});
+	});
 
 	// perhaps expose some API metadata at the root
 	api.get('/', (req, res) => {

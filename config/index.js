@@ -1,10 +1,12 @@
 const sailsMongo = require('sails-mongo');
+const nodemailer = require('nodemailer');
 
 module.exports = {
 	host: process.env.HOST || 'localhost',
 	port: process.env.PORT || 8080,
 	bodyLimit: '100kb',
 	corsHeaders: ['link'],
+	encryptionKey: process.env.ENCRYPTION_KEY || 'sKCx49VgtHZ59bJOTLcU0Gr06ogUnDJi',
 
 	db: {
 		adapters: {
@@ -36,6 +38,16 @@ module.exports = {
 		scope: ['r_basicprofile', 'r_emailaddress'],
 	},
 
+	transporter: nodemailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: 587,
+		secure: false, // secure:true for port 465, secure:false for port 587
+		auth: {
+			user: 'welinktalent@gmail.com',
+			pass: 'welinktalentviseo123',
+		},
+	}),
+
 	pageLimit: 10,
 
 	// Routes excluded from authentication
@@ -44,8 +56,10 @@ module.exports = {
 		'/authenticate/linkedin',
 		'/oauth/linkedin',
 		'/oauth/linkedin/callback',
+		'/api/referee-token',
 		'/api/jobs',
 		/^\/api\/users\/.*\/bookmarks/,
+		/^\/api\/users\/.*\/applications/,
 		/^\/api\/jobs\/.*/,
 		'/api/applications',
 		/^\/api\/applications\/.*/,

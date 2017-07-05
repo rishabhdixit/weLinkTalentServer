@@ -9,7 +9,7 @@
     "start": "node dist",
     "prestart": "npm run -s build",
     "eslint": "eslint",
-    "lint": "npm run eslint -- ./",
+    "lint": "npm run eslint -- ./src",
     "test": "mocha --compilers js:babel-register --recursive test/"
   },
   "engines": {
@@ -34,6 +34,7 @@
     "mongodb": "2.1.17",
     "multer": "^1.3.0",
     "node-linkedin": "^0.5.4",
+    "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "request-promise": "^4.1.1",

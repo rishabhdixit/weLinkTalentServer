@@ -4,24 +4,25 @@
 import { ObjectID } from 'mongodb';
 
 module.exports = {
-	getJobs: async (app, searchCriteria, limit, skip) => new Promise((resolve, reject) => {
-		app.models.job.native((err, collection) => {
-			if (err) {
-				reject(err);
-			} else {
-				collection.find(searchCriteria, {}, {
-					limit,
-					skip,
-				}).toArray((error, results) => {
-					if (error) {
-						reject(error);
-					} else {
-						resolve(results);
-					}
-				});
-			}
-		});
-	}),
+	getJobs: async (app, searchCriteria, projectionObj, limit, skip) =>
+		new Promise((resolve, reject) => {
+			app.models.job.native((err, collection) => {
+				if (err) {
+					reject(err);
+				} else {
+					collection.find(searchCriteria, projectionObj, {
+						limit,
+						skip,
+					}).toArray((error, results) => {
+						if (error) {
+							reject(error);
+						} else {
+							resolve(results);
+						}
+					});
+				}
+			});
+		}),
 	getJobsCount: async (app, searchCriteria) => new Promise((resolve, reject) => {
 		app.models.job.native((err, collection) => {
 			if (err) {
@@ -61,15 +62,13 @@ module.exports = {
 						reject(error);
 					} else {
 						// Update the job and return previously saved object not latest updated one
-						collection.findAndModify(
+						collection.findOneAndUpdate(
 							{ _id: new ObjectID(jobId.toString()) },
-							{},
 							updateObj,
-							{ new: false },
 							(updationError, updatedJob) => {
 								if (updationError) reject(updationError);
 								else if (updatedJob) {
-									resolve(updatedJob);
+									resolve(updatedJob.value);
 								} else {
 									reject('Job not updated');
 								}

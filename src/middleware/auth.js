@@ -2,13 +2,10 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import ejwt from 'express-jwt';
-import unless from 'express-unless';
-
 import { Router } from 'express';
 import { Strategy } from 'passport-local';
 
 import { UnauthorizedError, InternalServerError } from '../lib/errors';
-import { createProfile } from '../api/profiles';
 
 /* eslint no-unused-vars: 0 */
 export default ({ config, app }) => {
@@ -72,14 +69,13 @@ export default ({ config, app }) => {
 			}
 
 			if (!user.profile) {
-				profile = await createProfile({ app, user, body });
+				const profileData = { ...body, user: user.id };
+				profile = await app.models.profile.create(profileData);
 				user = await app.models.user.update(user.id, { profile: profile.id });
 				user = user[0];
 			}
 
-			profile = await app.models.profile.findOne(user.profile)
-					.populate('positions')
-					.populate('skills');
+			profile = await app.models.profile.findOne(user.profile);
 
 			const token = jwt.sign({ id: user.id }, config.jwt.secret);
 

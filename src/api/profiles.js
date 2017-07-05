@@ -1,16 +1,4 @@
-import bluebird from 'bluebird';
 import resource from '../lib/resource-router';
-import { createPosition } from './positions';
-
-/* eslint no-param-reassign: 1 */
-export async function createProfile({ app, user, body }) {
-	const profileData = { ...body, user: user.id };
-	const profile = await app.models.profile.create(profileData);
-
-	await createPosition({ app, profile, body: body.positions });
-
-	return profile;
-}
 
 export default ({ app }) => resource({
 
@@ -20,27 +8,22 @@ export default ({ app }) => resource({
 	/** GET /api/users/{user}/profiles - Returns full profile data of user based on parameter user */
 	async index({ params }, res) {
 		const user = await app.models.user.findOne(params.user);
-		const profile = await app.models.profile.findOne({ id: user.profile, user: params.user })
-			.populate('positions')
-			.populate('skills');
+		const profile = await app.models.profile.findOne({ id: user.profile, user: params.user });
 
 		res.json(profile);
 	},
 
-	/** POST /api/users/{user}/profile - Create user profile with skills and positions*/
+	/** POST /api/users/{user}/profiles - Create user profile with skills and positions*/
 	async create({ params, body }, res) {
-		const profile = await createProfile({ app, user: params.user, body });
+		const profileData = { ...body, user: params.user };
+		const profile = await app.models.profile.create(profileData);
 
-		await app.models.user.update(params.user, { profile: profile.id });
-
-		res.json();
+		res.json(profile);
 	},
 
 	/** GET /api/users/{user}/profiles/{profile} - Get full profile entity by profile id*/
 	async read({ params }, res) {
-		const profile = await app.models.profile.findOne({ id: params.profile, user: params.user })
-			.populate('positions')
-			.populate('skills');
+		const profile = await app.models.profile.findOne({ id: params.profile, user: params.user });
 
 		res.json(profile);
 	},
@@ -54,12 +37,11 @@ export default ({ app }) => resource({
 
 	/** DELETE /api/users/{user}/profiles/{profile} - Delete a profile entity by profile id */
 	async delete({ params }, res) {
-		const [user, profile, positions] = await bluebird.all([
+		const [user, profile] = await Promise.all([
 			app.models.user.update(params.user, { profile: null }),
 			app.models.profile.destroy({ id: params.profile, user: params.user }),
-			app.models.position.destroy({ profile: params.profile }),
 		]);
 
-		res.json({ user, profile, positions });
+		res.json({ user: user[0], profile: profile[0] });
 	},
 });
