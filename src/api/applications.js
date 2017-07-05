@@ -95,6 +95,9 @@ export default ({ app }) => resource({
 				applicationObj.resume_urls.push(path.join(__dirname, req.files[i].path));
 			}
 		}
+		if (_.get(applicationObj, 'form_data.skills')) {
+			applicationObj.form_data.skills = JSON.parse(applicationObj.form_data.skills);
+		}
 		applicationObj.user_id = applicationObj.form_data.user_id;
 		applicationObj.job_id = applicationObj.form_data.job_id;
 		delete applicationObj.form_data.user_id;

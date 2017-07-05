@@ -12,6 +12,9 @@ module.exports = {
 			} else {
 				const refereeId = _.get(feedbackRecord, 'referee_id');
 				const feedbackObj = _.omit(feedbackRecord, ['referee_id']);
+				if (_.get(feedbackObj, 'skills')) {
+					feedbackObj.skills = JSON.parse(feedbackObj.skills);
+				}
 				const updateObj = {
 					[`feedback.${refereeId}`]: feedbackObj,
 				};
