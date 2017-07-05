@@ -1,7 +1,7 @@
 const sailsMongo = require('sails-mongo');
 
 module.exports = {
-	host: process.env.HOST || 'mongodb://rishabh:welinktalentpassword@ds053188.mlab.com:53188/welinktalent',
+	host: process.env.HOST || 'localhost',
 	port: process.env.PORT || 8080,
 	bodyLimit: '100kb',
 	corsHeaders: ['link'],
