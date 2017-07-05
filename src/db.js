@@ -20,9 +20,10 @@ export default (callback) => {
 	orm.loadCollection(Application);
 	orm.initialize(config.db, (err, db) => {
 		if (err) {
+			console.log('Error while connecting to the db: ', err);
 			throw err;
 		}
-
+		console.log('successfully connected to the db ');
 		callback(db);
 	});
 };
