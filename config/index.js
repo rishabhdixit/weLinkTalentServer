@@ -34,8 +34,8 @@ module.exports = {
 	},
 
 	linkedin: {
-		appid: process.env.LINKEDIN_APPID || '81xkask6b0vp2j',
-		secret: process.env.LINKEDIN_SECRET || 'omT8koGocxFVU0Vm',
+		appid: process.env.LINKEDIN_APPID || '81zeopu62nl2eb',
+		secret: process.env.LINKEDIN_SECRET || 'Htbk3FN13qQzGJl1',
 		callback: process.env.LINKEDIN_CALLBACK_URL || 'http://localhost:8080/oauth/linkedin/callback',
 		scope: ['r_basicprofile', 'r_emailaddress'],
 	},

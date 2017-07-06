@@ -52,7 +52,7 @@ export default function bootServer(callback) {
 		// api router
 		app.use('/api', api({ config, app }));
 
-		app.server.listen(config.port, config.host);
+		app.server.listen(config.port);
 
 		app.server.on('listening', callback);
 	});
