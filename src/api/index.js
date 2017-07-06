@@ -54,7 +54,7 @@ export default ({ config, app }) => {
 	userApi.use('/:user/applications', applicationApi);
 
 	// decrypt token and return application id
-	api.post('/referee-token', (req, res) => {
+	api.post('/referee-feedback', (req, res) => {
 		if (req.body && req.body.token) {
 			const result = encryptDecryptService.decrypt(req.body.token);
 			if (result === Constants.APPLICATION_NOT_FOUND) {

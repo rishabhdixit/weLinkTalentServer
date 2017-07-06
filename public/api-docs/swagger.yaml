@@ -657,7 +657,7 @@ paths:
           description: OK - Returns job data corresponding to this application
           schema:
             "$ref": "#/definitions/getJobByID"
-  "/api/referee-token":
+  "/api/referee-feedback":
     post:
       tags:
       - Applications
