@@ -23,7 +23,7 @@ module.exports = {
 	sendRefereeEmail(requestBody) {
 		const emailMessageBody = `Dear ${requestBody.refereeName},<br><br>` +
 			`This email has been sent to you because ${requestBody.candidateName} has added you as a referee in our application WeLinkTalent.com http://localhost:4200.<br><br>` +
-			`So we request you to kindly take out some time and provide your feedback on our application. Here is the link - <a href="http://localhost:4200/referee-token?token=${requestBody.token}">Click Here</a>`;
+			`So we request you to kindly take out some time and provide your feedback on our application. Here is the link - <a href="http://localhost:4200/referee-feedback?token=${requestBody.token}">Click Here</a>`;
 
 		console.log('Sending new verify email to referee...');
 
