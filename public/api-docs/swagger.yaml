@@ -440,7 +440,137 @@ paths:
         description: Job to add to the database
         required: true
         schema:
-          "$ref": "#/definitions/createJob"
+          properties:
+            employer_id:
+              type: string
+              required: true
+              example: 592531db7868c5a68589a762
+            description:
+              type: string
+              required: true
+              example: Nice company, Nice Infrastrure, Good culture, Work from home
+                available
+            employment_type:
+              type: string
+              example: Full
+            company:
+              type: json
+              required: true
+              example:
+                name: Cognizant
+                address: Philippines
+                about: This is a great company. We believe in what people make possible.
+                  Our mission is to empower every person and every organization on
+                  the planet to achieve more.
+                phone_numbers:
+                - 4444444444
+                - 5555555555
+                email: rishabh.dixit123@gmail.com
+                twitter_profile: https://www.twitter.com/microsoft
+                linkedin_profile: https://www.linkedin.com/company-beta/1035/
+            responsibilities:
+              type: array
+              example:
+              - Brainstorm with product managers and designers to conceptualize new
+                features
+              - Develop web applications with the latest technologies
+              - Collaborate with other engineers to build new features
+              - Resolve complex technical issues
+              - Participate in Code Review and Unit testing
+              - Work closely with the CTO to help realize company objectives
+              - Design and build prototypes i.e. The Rapid Prototype, which becomes
+                the application system Define physical program units and data structures
+                based on the logical model to satisfy the requirements of the application
+              - Prepare deployment and post deployment plans to support the conversion
+                and deployment of the solution Interact with architects, analysts,
+                project managers, developers, customer representatives, and QA managers
+                to ensure that application solution meets customer needs
+            ideal_talent:
+              type: array
+              example:
+              - Improve application quality and reliability by implementing good standards
+                and processes
+              - Increase productivity by implementing tools and processes
+              - Serve as the technology go-to person on any technical questions
+              - Resolve complex technical issues
+              - Ensure quality is maintained by following development patterns and
+                standards
+              - Design and build prototypes i.e. The Rapid Prototype, which becomes
+                the application system Define physical program units and data structures
+                based on the logical model to satisfy the requirements of the application
+              - Prepare deployment and post deployment plans to support the conversion
+                and deployment of the solution Interact with architects, analysts,
+                project managers, developers, customer representatives, and QA managers
+                to ensure that application solution meets customer needs
+            skills:
+              type: array
+              example:
+              - oracle
+              - mongodb
+              - pl/sql
+              - bigdata
+            criteria:
+              type: array
+              example:
+              - first criteria
+              - second criteria
+            questions:
+              type: array
+              example:
+              - question1
+              - question2
+            title:
+              type: string
+              required: true
+              example: Database Administrator
+            years_experience:
+              type: number
+              required: true
+              example: 3
+            location:
+              type: string
+              required: true
+              example: Cebu
+            visa_passport_constraints:
+              type: string
+              example: nothing
+            salary_from:
+              type: number
+              required: true
+              example: 3333.4
+            salary_to:
+              type: number
+              required: true
+              example: 4444.55
+            contact_name:
+              type: string
+              example: rishabh
+            contact_number:
+              type: string
+              example: '9497325276'
+            contact_email:
+              type: string
+              example: rishabh.dixit123@gmail.com
+            industry:
+              type: string
+              example: IT
+            expertise:
+              type: string
+              example: Database(Sql/NoSql)
+            salary_currency:
+              type: string
+              required: true
+              example: SGD
+            application_slots:
+              type: integer
+              required: true
+              example: 10
+            remaining_slots:
+              type: integer
+              example: 3
+            applications_waiting:
+              type: array
+              example: []
       responses:
         '200':
           description: OK

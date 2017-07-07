@@ -25,7 +25,8 @@ export default ({ app }) => resource({
 			const searchCriteria = {
 				_id: { $in: user.bookmark_ids.map(id => new ObjectID(id.toString())) },
 			};
-			jobs = await app.models.job.find().where({ id: user.bookmark_ids }).skip(skip).limit(limit);
+			const projectionObj = {};
+			jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
 			jobsCount = await jobsService.getJobsCount(app, searchCriteria);
 		}
 		const pageMetaData = {
