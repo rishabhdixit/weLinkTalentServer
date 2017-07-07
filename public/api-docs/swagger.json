@@ -497,10 +497,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/getJobByID"
-              }
+              "$ref": "#/definitions/getJobs"
             }
           }
         }
@@ -545,7 +542,7 @@
             "schema": {
               "properties": {
                 "n": {
-                 "type": "number",
+                  "type": "number",
                   "required": true,
                   "example": 1
                 },
@@ -995,7 +992,7 @@
             "properties": {
               "error": {
                 "type": "string",
-                "example" : "Application not found"
+                "example": "Application not found"
               }
             }
           }
