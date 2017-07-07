@@ -1,8 +1,10 @@
 /**
  * Created by rishabhdixit on 07/06/2017.
  */
+import { ObjectID } from 'mongodb';
 import resource from '../lib/resource-router';
 import usersService from '../services/usersService';
+import jobsService from '../services/jobsService';
 import config from '../../config/index';
 
 export default ({ app }) => resource({
@@ -18,10 +20,25 @@ export default ({ app }) => resource({
 		const skip = limit * (page - 1);
 		const user = await app.models.user.findOne({ where: { id: params.user }, select: ['bookmark_ids'] });
 		let jobs = [];
+		let jobsCount = 0;
 		if (user && user.bookmark_ids && user.bookmark_ids.length) {
+			const searchCriteria = {
+				_id: { $in: user.bookmark_ids.map(id => new ObjectID(id.toString())) },
+			};
 			jobs = await app.models.job.find().where({ id: user.bookmark_ids }).skip(skip).limit(limit);
+			jobsCount = await jobsService.getJobsCount(app, searchCriteria);
 		}
-		res.json(jobs);
+		const pageMetaData = {
+			size: (jobs && jobs.length) || 0,
+			pageNumber: page,
+			totalPages: Math.ceil(jobsCount / limit),
+			totalSize: jobsCount,
+		};
+		const finalResponse = {
+			jobsList: jobs,
+			pageMetaData,
+		};
+		res.json(finalResponse);
 	},
 
 	/*
