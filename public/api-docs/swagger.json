@@ -1089,7 +1089,21 @@
           "200": {
             "description": "OK - Returns job data corresponding to this application",
             "schema": {
-              "$ref": "#/definitions/getJobByID"
+              "properties": {
+                "candidate": {
+                  "type": "json",
+                  "required": true,
+                  "example": {
+                    "emailAddress": "rishabh.dixit123@gmail.com",
+                    "firstName": "Rishabh",
+                    "lastName": "Dixit",
+                    "id": "5948a1b8b2f3cc3c9572bc53"
+                  }
+                },
+                "job": {
+                  "$ref": "#/definitions/getJobByID"
+                }
+              }
             }
           }
         }
