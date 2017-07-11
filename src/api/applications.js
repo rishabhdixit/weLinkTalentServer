@@ -78,9 +78,28 @@ export default ({ app }) => resource({
 	 */
 	async read({ params }, res) {
 		const application = await app.models.application.findOne({ id: params.application });
-		const applicationId = application && application.id;
-		const result = applicationId ? application : { error: Constants.APPLICATION_NOT_FOUND };
-		res.json(result);
+		if (application && application.id) {
+			const refereeIds = [];
+			_.forOwn(application.feedback, (value, key) => {
+				refereeIds.push(key);
+			});
+			if (refereeIds && refereeIds.length) {
+				const refereeDetails = await app.models.profile.find({
+					select: ['emailAddress', 'firstName', 'lastName', 'user'],
+					where: { user: refereeIds },
+				});
+				_.forEach(refereeDetails, (value) => {
+					if (application.feedback[value.user])	{
+						application.feedback[value.user].referee_profile = value;
+					}
+				});
+			}
+			res.json(application);
+		} else {
+			res.status(404).json({
+				error: Constants.APPLICATION_NOT_FOUND,
+			});
+		}
 	},
 
 	/*
