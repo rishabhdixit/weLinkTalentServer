@@ -710,6 +710,11 @@ paths:
           description: OK
           schema:
             "$ref": "#/definitions/getApplicationByID"
+        '404':
+          properties:
+            error:
+              type: string
+              example: Application not found
     put:
       tags:
       - Applications
@@ -1441,6 +1446,11 @@ definitions:
             management:
               comment: valid as per my knowledge
               approved: true
+            referee_profile:
+              emailAddress: rishabh.dixit123@gmail.com
+              firstName: Rishabh
+              lastName: Dixit
+              id: 59589e510bb42441e7391c1b
       createdAt:
         type: string
         required: true
