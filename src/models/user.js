@@ -5,6 +5,7 @@ import config from '../../config';
 const User = Waterline.Collection.extend({
 	identity: 'user',
 	connection: 'default',
+	schema: true,
 
 	attributes: {
 
@@ -29,10 +30,16 @@ const User = Waterline.Collection.extend({
 			model: 'profile',
 		},
 
-		toJSON() {
-			const { id, email, profile, bookmark_ids } = this.toObject();
+		role: {
+			type: 'string',
+			enum: ['admin', 'user'],
+			defaultsTo: 'user'
+		},
 
-			return { id, email, profile, bookmark_ids };
+		toJSON() {
+			const { id, email, profile, role, bookmark_ids } = this.toObject();
+
+			return { id, email, profile, role, bookmark_ids };
 		},
 	},
 
