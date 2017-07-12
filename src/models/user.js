@@ -33,7 +33,7 @@ const User = Waterline.Collection.extend({
 		role: {
 			type: 'string',
 			enum: ['admin', 'user'],
-			defaultsTo: 'user'
+			defaultsTo: 'user',
 		},
 
 		toJSON() {
