@@ -20,6 +20,7 @@ securityDefinitions:
     in: header
 schemes:
 - http
+- https
 consumes:
 - application/json
 produces:
