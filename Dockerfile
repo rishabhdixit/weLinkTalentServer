@@ -4,6 +4,8 @@ MAINTAINER James Santos <icqhv.santos@gmail.com>
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+RUN mkdir -p /data/db
+
 COPY package.json yarn.lock /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
