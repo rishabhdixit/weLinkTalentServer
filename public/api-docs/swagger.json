@@ -28,9 +28,6 @@
       "in": "header"
     }
   },
-  "schemes": [
-    "https"
-  ],
   "consumes": [
     "application/json"
   ],
