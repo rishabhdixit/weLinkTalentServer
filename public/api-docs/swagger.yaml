@@ -19,7 +19,6 @@ securityDefinitions:
     name: Authorization
     in: header
 schemes:
-- http
 - https
 consumes:
 - application/json
