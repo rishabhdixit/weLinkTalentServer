@@ -18,8 +18,6 @@ securityDefinitions:
     type: apiKey
     name: Authorization
     in: header
-schemes:
-- http
 consumes:
 - application/json
 produces:
@@ -238,75 +236,6 @@ paths:
           description: OK
           schema:
             "$ref": "#/definitions/getProfileByID"
-  "/api/users/{id}/profiles/{profileId}":
-    put:
-      tags:
-      - Users
-      description: For updating a user profile
-      operationId: for the URL
-      produces:
-      - application/json
-      security:
-      - Authorization: []
-      parameters:
-      - name: id
-        in: path
-        description: user id to fetch
-        required: true
-        type: string
-        example: 5948a1b8b2f3cc3c9572bc53
-      - name: profileId
-        in: path
-        description: profile id to be deleted
-        required: true
-        type: string
-        example: 5948a1b8b2f3cc3c9572bc54
-      - name: profile update parameters
-        in: body
-        description: Profile to be updated in database
-        required: true
-        schema:
-          properties:
-            firstName:
-              type: string
-              required: false
-              example: rishabh
-            lastName:
-              type: string
-              required: false
-              example: dixit
-      responses:
-        '200':
-          description: OK
-          schema:
-            "$ref": "#/definitions/getProfileByID"
-    delete:
-      tags:
-      - Users
-      description: For deleting a user profile
-      operationId: for the URL
-      produces:
-      - application/json
-      parameters:
-      - name: id
-        in: path
-        description: user id to fetch
-        required: true
-        type: string
-        example: 5948a1b8b2f3cc3c9572bc53
-      - name: profileId
-        in: path
-        description: profile id to be deleted
-        required: true
-        type: string
-        example: 5948a1b8b2f3cc3c9572bc54
-      security:
-      - Authorization: []
-      responses:
-        '200':
-          description: OK
-          schema:
-            "$ref": "#/definitions/deleteProfile"
   "/api/users/{id}/applications":
     get:
       tags:
@@ -388,6 +317,95 @@ paths:
                 type: number
                 required: true
                 example: 1
+  "/api/users/{id}/jobs":
+    get:
+      tags:
+      - Users
+      description: Return jobs created by a user
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getJobs"
+  "/api/users/{id}/profiles/{profileId}":
+    put:
+      tags:
+      - Users
+      description: For updating a user profile
+      operationId: for the URL
+      produces:
+      - application/json
+      security:
+      - Authorization: []
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      - name: profileId
+        in: path
+        description: profile id to be deleted
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc54
+      - name: profile update parameters
+        in: body
+        description: Profile to be updated in database
+        required: true
+        schema:
+          properties:
+            firstName:
+              type: string
+              required: false
+              example: rishabh
+            lastName:
+              type: string
+              required: false
+              example: dixit
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getProfileByID"
+    delete:
+      tags:
+      - Users
+      description: For deleting a user profile
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: user id to fetch
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc53
+      - name: profileId
+        in: path
+        description: profile id to be deleted
+        required: true
+        type: string
+        example: 5948a1b8b2f3cc3c9572bc54
+      security:
+      - Authorization: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/deleteProfile"
   "/api/users/{id}/bookmarks/{jobId}":
     delete:
       tags:
