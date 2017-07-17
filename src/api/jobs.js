@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+import path from 'path';
 import resource from '../lib/resource-router';
 import jobsService from '../services/jobsService';
 import config from '../../config/index';
@@ -47,8 +49,13 @@ export default ({ app }) => resource({
     /*
      POST /api/jobs - Create a new job in db
      */
-	async create({ body }, res) {
-		const job = await app.models.job.create(body);
+	async create(req, res) {
+		const jobObj = _.cloneDeep(req.body);
+		if (_.get(req, 'file.path')) {
+			jobObj.company_logo = path.join(__dirname, req.file.path);
+		}
+		jobObj.remaining_slots = jobObj.application_slots;
+		const job = await app.models.job.create(jobObj);
 		res.json(job);
 	},
 

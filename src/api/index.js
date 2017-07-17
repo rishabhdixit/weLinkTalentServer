@@ -46,7 +46,7 @@ export default ({ config, app }) => {
 	// Generate bookmarks child route
 	bookmarkApi.use('/:post', bookmarkApi);
 
-	api.use('/jobs', jobsApi);
+	api.use('/jobs', upload.single('company_logo'), jobsApi);
 
 	// Generate /api/users/:id/jobs route
 	userApi.use('/:user/jobs', jobsApi);
