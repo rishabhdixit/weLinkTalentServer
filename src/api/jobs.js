@@ -7,7 +7,8 @@ export default ({ app }) => resource({
 	mergeParams: true,
 
     /*
-     GET /api/jobs - Fetching jobs at max 10 per request
+     GET /api/jobs - Fetching jobs at max 10 per request,
+	   GET /api/users/id/jobs - Fetching jobs of a specific user at max 10 per request
      */
 	async index({ params, query }, res) {
 		const limit = config.pageLimit;
@@ -17,35 +18,9 @@ export default ({ app }) => resource({
 		const projectionObj = {};
 		if (query && query.location)			{ searchCriteria.location = query.location; }
 		if (query && query.title)			{ searchCriteria.$text = { $search: `"${query.title}"` }; }
-		const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
-		const jobsCount = await jobsService.getJobsCount(app, searchCriteria);
-		const pageMetaData = {
-			size: (jobs && jobs.length) || 0,
-			pageNumber: page,
-			totalPages: Math.ceil(jobsCount / limit),
-			totalSize: jobsCount,
-		};
-		const finalResponse = {
-			jobsList: jobs,
-			pageMetaData,
-		};
-		res.json(finalResponse);
-	},
-
-
-	/*
-	 GET /api/users/id/jobs - Fetching jobs of a specific user at max 10 per request
-	 */
-	async index({ params, query }, res) {
-		const limit = config.pageLimit;
-		const page = parseInt(query.page || 1, 10);
-		const skip = limit * (page - 1);
-		const searchCriteria = {
-			employer_id: params.user
-		};
-		const projectionObj = {};
-		if (query && query.location)			{ searchCriteria.location = query.location; }
-		if (query && query.title)			{ searchCriteria.$text = { $search: `"${query.title}"` }; }
+		if (params && params.user) {
+			searchCriteria.employer_id = params.user;
+		}
 		const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
 		const jobsCount = await jobsService.getJobsCount(app, searchCriteria);
 		const pageMetaData = {
