@@ -4,5 +4,6 @@
 /npm-debug.log*
 /node_modules
 /uploads
+/public/uploads
 .DS_Store
 .idea

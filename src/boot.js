@@ -17,6 +17,7 @@ export default function bootServer(callback) {
 
 	app.use(express.static(path.resolve('./public/')));
 	app.use(express.static(path.resolve('./public/api-docs')));
+	app.use(express.static(path.resolve('./public/uploads')));
 
 	// 3rd party middleware
 	app.use(cors({

@@ -52,7 +52,13 @@ export default ({ app }) => resource({
 	async create(req, res) {
 		const jobObj = _.cloneDeep(req.body);
 		if (_.get(req, 'file.path')) {
-			jobObj.company_logo = path.join(__dirname, req.file.path);
+			// jobObj.company_logo = path.join(__dirname, req.file.path);
+			if (process.env.HOST) {
+				jobObj.company_logo = path.join(config.host, req.file.filename);
+			} else {
+				let domain = config.host + ':' + config.port;
+				jobObj.company_logo = path.join(domain, req.file.filename);
+			}
 		}
 		jobObj.remaining_slots = jobObj.application_slots;
 		const job = await app.models.job.create(jobObj);
