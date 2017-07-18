@@ -24,8 +24,22 @@ const Job = Waterline.Collection.extend({
 			type: 'string',
 		},
 
-		company: {
-			type: 'json',
+		job_type: {
+			type: 'string',
+		},
+
+		company_name: {
+			type: 'string',
+			required: true,
+		},
+
+		company_logo: {
+			type: 'string',
+			required: true,
+		},
+
+		company_about: {
+			type: 'string',
 			required: true,
 		},
 

@@ -17,7 +17,7 @@ export default ({ config, app }) => {
 	const api = Router();
 	const storage = multer.diskStorage({
 		destination(req, file, cb) {
-			cb(null, 'uploads/');
+			cb(null, 'public/uploads');
 		},
 		filename(req, file, cb) {
 			cb(null, `${Date.now()}.${mime.extension(file.mimetype)}`); // Appending .jpg
@@ -27,6 +27,7 @@ export default ({ config, app }) => {
 	// mount the resources
 	const userApi = users({ config, app });
 	const profileApi = profiles({ config, app });
+	const jobsApi = jobs({ config, app });
 	const bookmarkApi = bookmarks({ config, app });
 	const applicationApi = applications({ config, app });
 	const feedbackApi = feedbacks({ config, app });
@@ -45,7 +46,10 @@ export default ({ config, app }) => {
 	// Generate bookmarks child route
 	bookmarkApi.use('/:post', bookmarkApi);
 
-	api.use('/jobs', jobs({ config, app }));
+	api.use('/jobs', upload.single('company_logo'), jobsApi);
+
+	// Generate /api/users/:id/jobs route
+	userApi.use('/:user/jobs', jobsApi);
 
 	api.use('/applications', upload.array('files', 5), applicationApi);
 	applicationApi.use('/:application/feedback', feedbackApi);

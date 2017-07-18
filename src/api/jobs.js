@@ -1,12 +1,16 @@
+import * as _ from 'lodash';
+import path from 'path';
 import resource from '../lib/resource-router';
 import jobsService from '../services/jobsService';
 import config from '../../config/index';
 
 export default ({ app }) => resource({
 	id: 'job',
+	mergeParams: true,
 
     /*
-     GET /api/jobs - Fetching jobs at max 10 per request
+     GET /api/jobs - Fetching jobs at max 10 per request,
+	   GET /api/users/id/jobs - Fetching jobs of a specific user at max 10 per request
      */
 	async index({ params, query }, res) {
 		const limit = config.pageLimit;
@@ -16,6 +20,9 @@ export default ({ app }) => resource({
 		const projectionObj = {};
 		if (query && query.location)			{ searchCriteria.location = query.location; }
 		if (query && query.title)			{ searchCriteria.$text = { $search: `"${query.title}"` }; }
+		if (params && params.user) {
+			searchCriteria.employer_id = params.user;
+		}
 		const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
 		const jobsCount = await jobsService.getJobsCount(app, searchCriteria);
 		const pageMetaData = {
@@ -42,8 +49,19 @@ export default ({ app }) => resource({
     /*
      POST /api/jobs - Create a new job in db
      */
-	async create({ body }, res) {
-		const job = await app.models.job.create(body);
+	async create(req, res) {
+		const jobObj = _.cloneDeep(req.body);
+		if (_.get(req, 'file.path')) {
+			// jobObj.company_logo = path.join(__dirname, req.file.path);
+			if (process.env.HOST) {
+				jobObj.company_logo = path.join(config.host, req.file.filename);
+			} else {
+				const domain = `${config.host}:${config.port}`;
+				jobObj.company_logo = path.join(domain, req.file.filename);
+			}
+		}
+		jobObj.remaining_slots = jobObj.application_slots;
+		const job = await app.models.job.create(jobObj);
 		res.json(job);
 	},
 

@@ -336,110 +336,6 @@
         }
       }
     },
-    "/api/users/{id}/profiles/{profileId}": {
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "description": "For updating a user profile",
-        "operationId": "for the URL",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "user id to fetch",
-            "required": true,
-            "type": "string",
-            "example": "5948a1b8b2f3cc3c9572bc53"
-          },
-          {
-            "name": "profileId",
-            "in": "path",
-            "description": "profile id to be deleted",
-            "required": true,
-            "type": "string",
-            "example": "5948a1b8b2f3cc3c9572bc54"
-          },
-          {
-            "name": "profile update parameters",
-            "in": "body",
-            "description": "Profile to be updated in database",
-            "required": true,
-            "schema": {
-              "properties": {
-                "firstName": {
-                  "type": "string",
-                  "required": false,
-                  "example": "rishabh"
-                },
-                "lastName": {
-                  "type": "string",
-                  "required": false,
-                  "example": "dixit"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/getProfileByID"
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "description": "For deleting a user profile",
-        "operationId": "for the URL",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "user id to fetch",
-            "required": true,
-            "type": "string",
-            "example": "5948a1b8b2f3cc3c9572bc53"
-          },
-          {
-            "name": "profileId",
-            "in": "path",
-            "description": "profile id to be deleted",
-            "required": true,
-            "type": "string",
-            "example": "5948a1b8b2f3cc3c9572bc54"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/deleteProfile"
-            }
-          }
-        }
-      }
-    },
     "/api/users/{id}/applications": {
       "get": {
         "tags": [
@@ -559,6 +455,140 @@
         }
       }
     },
+    "/api/users/{id}/jobs": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Return jobs created by a user",
+        "operationId": "for the URL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id to fetch",
+            "required": true,
+            "type": "string",
+            "example": "5948a1b8b2f3cc3c9572bc53"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getJobs"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/profiles/{profileId}": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "For updating a user profile",
+        "operationId": "for the URL",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id to fetch",
+            "required": true,
+            "type": "string",
+            "example": "5948a1b8b2f3cc3c9572bc53"
+          },
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "profile id to be deleted",
+            "required": true,
+            "type": "string",
+            "example": "5948a1b8b2f3cc3c9572bc54"
+          },
+          {
+            "name": "profile update parameters",
+            "in": "body",
+            "description": "Profile to be updated in database",
+            "required": true,
+            "schema": {
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "required": false,
+                  "example": "rishabh"
+                },
+                "lastName": {
+                  "type": "string",
+                  "required": false,
+                  "example": "dixit"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getProfileByID"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "For deleting a user profile",
+        "operationId": "for the URL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id to fetch",
+            "required": true,
+            "type": "string",
+            "example": "5948a1b8b2f3cc3c9572bc53"
+          },
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "profile id to be deleted",
+            "required": true,
+            "type": "string",
+            "example": "5948a1b8b2f3cc3c9572bc54"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/deleteProfile"
+            }
+          }
+        }
+      }
+    },
     "/api/users/{id}/bookmarks/{jobId}": {
       "delete": {
         "tags": [
@@ -625,159 +655,180 @@
         ],
         "parameters": [
           {
-            "name": "Job Parameters",
-            "in": "body",
-            "description": "Job to add to the database",
+            "name": "company_logo",
+            "in": "formData",
             "required": true,
-            "schema": {
-              "properties": {
-                "employer_id": {
-                  "type": "string",
-                  "required": true,
-                  "example": "592531db7868c5a68589a762"
-                },
-                "description": {
-                  "type": "string",
-                  "required": true,
-                  "example": "Nice company, Nice Infrastrure, Good culture, Work from home available"
-                },
-                "employment_type": {
-                  "type": "string",
-                  "example": "Full"
-                },
-                "company": {
-                  "type": "json",
-                  "required": true,
-                  "example": {
-                    "name": "Cognizant",
-                    "address": "Philippines",
-                    "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-                    "phone_numbers": [
-                      4444444444.0,
-                      5555555555.0
-                    ],
-                    "email": "rishabh.dixit123@gmail.com",
-                    "twitter_profile": "https://www.twitter.com/microsoft",
-                    "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
-                  }
-                },
-                "responsibilities": {
-                  "type": "array",
-                  "example": [
-                    "Brainstorm with product managers and designers to conceptualize new features",
-                    "Develop web applications with the latest technologies",
-                    "Collaborate with other engineers to build new features",
-                    "Resolve complex technical issues",
-                    "Participate in Code Review and Unit testing",
-                    "Work closely with the CTO to help realize company objectives",
-                    "Design and build prototypes i.e. The Rapid Prototype, which becomes the application system Define physical program units and data structures based on the logical model to satisfy the requirements of the application",
-                    "Prepare deployment and post deployment plans to support the conversion and deployment of the solution Interact with architects, analysts, project managers, developers, customer representatives, and QA managers to ensure that application solution meets customer needs"
-                  ]
-                },
-                "ideal_talent": {
-                  "type": "array",
-                  "example": [
-                    "Improve application quality and reliability by implementing good standards and processes",
-                    "Increase productivity by implementing tools and processes",
-                    "Serve as the technology go-to person on any technical questions",
-                    "Resolve complex technical issues",
-                    "Ensure quality is maintained by following development patterns and standards",
-                    "Design and build prototypes i.e. The Rapid Prototype, which becomes the application system Define physical program units and data structures based on the logical model to satisfy the requirements of the application",
-                    "Prepare deployment and post deployment plans to support the conversion and deployment of the solution Interact with architects, analysts, project managers, developers, customer representatives, and QA managers to ensure that application solution meets customer needs"
-                  ]
-                },
-                "skills": {
-                  "type": "array",
-                  "example": [
-                    "oracle",
-                    "mongodb",
-                    "pl/sql",
-                    "bigdata"
-                  ]
-                },
-                "criteria": {
-                  "type": "array",
-                  "example": [
-                    "first criteria",
-                    "second criteria"
-                  ]
-                },
-                "questions": {
-                  "type": "array",
-                  "example": [
-                    "question1",
-                    "question2"
-                  ]
-                },
-                "title": {
-                  "type": "string",
-                  "required": true,
-                  "example": "Database Administrator"
-                },
-                "years_experience": {
-                  "type": "number",
-                  "required": true,
-                  "example": 3
-                },
-                "location": {
-                  "type": "string",
-                  "required": true,
-                  "example": "Cebu"
-                },
-                "visa_passport_constraints": {
-                  "type": "string",
-                  "example": "nothing"
-                },
-                "salary_from": {
-                  "type": "number",
-                  "required": true,
-                  "example": 3333.4
-                },
-                "salary_to": {
-                  "type": "number",
-                  "required": true,
-                  "example": 4444.55
-                },
-                "contact_name": {
-                  "type": "string",
-                  "example": "rishabh"
-                },
-                "contact_number": {
-                  "type": "string",
-                  "example": "9497325276"
-                },
-                "contact_email": {
-                  "type": "string",
-                  "example": "rishabh.dixit123@gmail.com"
-                },
-                "industry": {
-                  "type": "string",
-                  "example": "IT"
-                },
-                "expertise": {
-                  "type": "string",
-                  "example": "Database(Sql/NoSql)"
-                },
-                "salary_currency": {
-                  "type": "string",
-                  "required": true,
-                  "example": "SGD"
-                },
-                "application_slots": {
-                  "type": "integer",
-                  "required": true,
-                  "example": 10
-                },
-                "remaining_slots": {
-                  "type": "integer",
-                  "example": 3
-                },
-                "applications_waiting": {
-                  "type": "array",
-                  "example": []
-                }
-              }
-            }
+            "type": "file"
+          },
+          {
+            "name": "company_name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "Viseo"
+          },{
+            "name": "company_about",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more."
+          },
+          {
+            "name": "employer_id",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "5948a1b8b2f3cc3c9572bc53"
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "Database Administrator"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "Nice company, Nice Infrastrure, Good culture, Work from home available"
+          },
+          {
+            "name": "location",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "Cebu"
+          },
+          {
+            "name": "salary_from",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "example": 3333.4
+          },
+          {
+            "name": "salary_to",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "example": 5555.4
+          },
+          {
+            "name": "salary_currency",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "SGD"
+          },
+          {
+            "name": "industry",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "IT"
+          },
+          {
+            "name": "application_slots",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "example": 10
+          },
+          {
+            "name": "responsibilities",
+            "in": "formData",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Brainstorm with product managers and designers to conceptualize new features",
+              "Develop web applications with the latest technologies",
+              "Collaborate with other engineers to build new features",
+              "Resolve complex technical issues",
+              "Participate in Code Review and Unit testing",
+              "Work closely with the CTO to help realize company objectives",
+              "Design and build prototypes i.e. The Rapid Prototype, which becomes the application system Define physical program units and data structures based on the logical model to satisfy the requirements of the application",
+              "Prepare deployment and post deployment plans to support the conversion and deployment of the solution Interact with architects, analysts, project managers, developers, customer representatives, and QA managers to ensure that application solution meets customer needs"
+            ]
+          },
+          {
+            "name": "ideal_talent",
+            "in": "formData",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Improve application quality and reliability by implementing good standards and processes",
+              "Increase productivity by implementing tools and processes",
+              "Serve as the technology go-to person on any technical questions",
+              "Resolve complex technical issues",
+              "Ensure quality is maintained by following development patterns and standards",
+              "Design and build prototypes i.e. The Rapid Prototype, which becomes the application system Define physical program units and data structures based on the logical model to satisfy the requirements of the application",
+              "Prepare deployment and post deployment plans to support the conversion and deployment of the solution Interact with architects, analysts, project managers, developers, customer representatives, and QA managers to ensure that application solution meets customer needs"
+            ]
+          },
+          {
+            "name": "skills",
+            "in": "formData",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "oracle",
+              "mongodb",
+              "pl/sql",
+              "bigdata"
+            ]
+          },
+          {
+            "name": "employment_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "Full Time"
+          },
+          {
+            "name": "job_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "Permanent"
+          },
+          {
+            "name": "years_experience",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "example": 3
+          },
+          {
+            "name": "contact_name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "rishabh"
+          },
+          {
+            "name": "contact_number",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "9999999999"
+          },
+          {
+            "name": "contact_email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "example": "rishabh.dixit123@gmail.com"
           }
         ],
         "responses": {
@@ -1185,23 +1236,23 @@
         },
         "employment_type": {
           "type": "string",
-          "example": "Full"
+          "example": "Full Time"
         },
-        "company": {
-          "type": "json",
-          "required": true,
-          "example": {
-            "name": "Cognizant",
-            "address": "Philippines",
-            "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-            "phone_numbers": [
-              4444444444.0,
-              5555555555.0
-            ],
-            "email": "rishabh.dixit123@gmail.com",
-            "twitter_profile": "https://www.twitter.com/microsoft",
-            "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
-          }
+        "job_type": {
+          "type": "string",
+          "example": "Permanent"
+        },
+        "company_name": {
+          "type": "string",
+          "example": "Viseo"
+        },
+        "company_logo": {
+          "type": "string",
+          "example": "/Users/rishabhdixit/WebstormProjects/welinktalent-server/src/api/uploads/1500277674685.jpeg"
+        },
+        "company_about": {
+          "type": "string",
+          "example": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more."
         },
         "responsibilities": {
           "type": "array",
@@ -1266,10 +1317,6 @@
           "required": true,
           "example": "Cebu"
         },
-        "visa_passport_constraints": {
-          "type": "string",
-          "example": "nothing"
-        },
         "salary_from": {
           "type": "number",
           "required": true,
@@ -1312,7 +1359,7 @@
         },
         "remaining_slots": {
           "type": "integer",
-          "example": 3
+          "example": 10
         },
         "applications_waiting": {
           "type": "array",
