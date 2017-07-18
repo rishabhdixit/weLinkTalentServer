@@ -56,7 +56,7 @@ export default ({ app }) => resource({
 			if (process.env.HOST) {
 				jobObj.company_logo = path.join(config.host, req.file.filename);
 			} else {
-				let domain = config.host + ':' + config.port;
+				const domain = `${config.host}:${config.port}`;
 				jobObj.company_logo = path.join(domain, req.file.filename);
 			}
 		}
