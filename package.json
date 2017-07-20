@@ -10,18 +10,18 @@
     "prestart": "npm run -s build",
     "eslint": "eslint",
     "lint": "npm run eslint -- ./src",
-    "test": "mocha --compilers js:babel-register --recursive test/"
+    "e2e": "mocha -t 10000 --recursive test/e2e/**/*.js"
   },
   "repository": "https://gitlab.com/viseo-digital-squads/express-es6-api",
   "author": "Viseo Digital Squad",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^1.0.2",
-    "bluebird": "^3.4.7",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.13.3",
     "compression": "^1.5.2",
     "cors": "^2.7.1",
-    "express": "^4.13.3",
+    "express": "^4.15.3",
     "express-jwt": "^5.1.0",
     "express-unless": "^0.3.0",
     "express-winston": "^2.1.3",
@@ -34,6 +34,7 @@
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "pre-commit": "^1.2.2",
     "request-promise": "^4.1.1",
     "sails-mongo": "^0.12.2",
     "waterline": "^0.11.6",
@@ -46,11 +47,18 @@
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.24.1",
+    "chakram": "^1.5.0",
     "eslint": "^3.13.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
     "nodemon": "^1.9.2",
     "should": "^11.1.2",
     "supertest": "^2.0.1"
-  }
+  },
+  "pre-commit": [
+    "lint",
+    "build",
+    "e2e"
+  ]
 }

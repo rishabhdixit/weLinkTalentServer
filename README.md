@@ -45,6 +45,13 @@ docker run -p 8080:8080 es6/api-service
 
 ```
 
+E2E Test
+-------
+ * First run the api server running on specific port.
+ * Open Terminal, go to project directory.
+ * Type this command in the terminal `ex. HOST=http://localhost:8080 npm run e2e`
+ * See the result. (`Note. Run this always when we are going for production.`)
+
 License
 -------
 

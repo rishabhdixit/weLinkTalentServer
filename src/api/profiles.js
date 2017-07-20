@@ -13,7 +13,7 @@ export default ({ app }) => resource({
 		res.json(profile);
 	},
 
-	/** POST /api/users/{user}/profiles - Create user profile with skills and positions*/
+	/** POST /api/users/{user}/profiles - Create user profile with skills and positions */
 	async create({ params, body }, res) {
 		const profileData = { ...body, user: params.user };
 		const profile = await app.models.profile.create(profileData);
@@ -21,14 +21,14 @@ export default ({ app }) => resource({
 		res.json(profile);
 	},
 
-	/** GET /api/users/{user}/profiles/{profile} - Get full profile entity by profile id*/
+	/** GET /api/users/{user}/profiles/{profile} - Get full profile entity by profile id */
 	async read({ params }, res) {
 		const profile = await app.models.profile.findOne({ id: params.profile, user: params.user });
 
 		res.json(profile);
 	},
 
-	/** PUT /api/users/{user}/profiles/{profile} - Get full profile entity by profile id*/
+	/** PUT /api/users/{user}/profiles/{profile} - Get full profile entity by profile id */
 	async update({ params, body }, res) {
 		const profile = await app.models.profile.update(params.profile, body);
 
