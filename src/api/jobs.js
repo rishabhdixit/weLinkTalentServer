@@ -60,7 +60,14 @@ export default ({ app }) => resource({
 				jobObj.company_logo = path.join(domain, req.file.filename);
 			}
 		}
-		jobObj.remaining_slots = jobObj.application_slots;
+		_.forOwn(jobObj, (value, key) => {
+			try {
+				jobObj[key] = JSON.parse(value);
+			} catch (e) {
+				jobObj[key] = value;
+			}
+		});
+		jobObj.application_slots = jobObj.remaining_slots;
 		const job = await app.models.job.create(jobObj);
 		res.json(job);
 	},

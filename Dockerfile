@@ -2,6 +2,7 @@ FROM node:7.2.1
 MAINTAINER James Santos <icqhv.santos@gmail.com>
 
 RUN mkdir -p /usr/src/app/public/uploads
+RUN mkdir -p /data/db
 WORKDIR /usr/src/app
 
 RUN mkdir -p /data/db

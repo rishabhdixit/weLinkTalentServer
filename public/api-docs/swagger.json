@@ -667,11 +667,21 @@
             "type": "string",
             "example": "Viseo"
           },{
-            "name": "company_about",
+            "name": "company",
             "in": "formData",
             "required": true,
-            "type": "string",
-            "example": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more."
+            "type": "json",
+            "example": {
+              "name" : "Viseo",
+              "address" : "Singapore",
+              "about" : "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+              "email" : "support@viseo.com",
+              "twitter_profile" : "https://www.twitter.com/microsoft",
+              "linkedin_profile" : "https://www.linkedin.com/company-beta/1035/",
+              "phone_numbers" : [
+                "3333333333"
+              ]
+            }
           },
           {
             "name": "employer_id",
@@ -690,35 +700,30 @@
           {
             "name": "description",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "Nice company, Nice Infrastrure, Good culture, Work from home available"
           },
           {
             "name": "location",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "Cebu"
           },
           {
             "name": "salary_from",
             "in": "formData",
-            "required": true,
             "type": "number",
             "example": 3333.4
           },
           {
             "name": "salary_to",
             "in": "formData",
-            "required": true,
             "type": "number",
             "example": 5555.4
           },
           {
             "name": "salary_currency",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "SGD"
           },
@@ -730,7 +735,7 @@
             "example": "IT"
           },
           {
-            "name": "application_slots",
+            "name": "remaining_slots",
             "in": "formData",
             "required": true,
             "type": "number",
@@ -791,42 +796,36 @@
           {
             "name": "employment_type",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "Full Time"
           },
           {
             "name": "job_type",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "Permanent"
           },
           {
             "name": "years_experience",
             "in": "formData",
-            "required": true,
             "type": "number",
             "example": 3
           },
           {
             "name": "contact_name",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "rishabh"
           },
           {
             "name": "contact_number",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "9999999999"
           },
           {
             "name": "contact_email",
             "in": "formData",
-            "required": true,
             "type": "string",
             "example": "rishabh.dixit123@gmail.com"
           }
@@ -1248,11 +1247,21 @@
         },
         "company_logo": {
           "type": "string",
-          "example": "/Users/rishabhdixit/WebstormProjects/welinktalent-server/src/api/uploads/1500277674685.jpeg"
+          "example": "welinktalent-server-new.herokuapp.com/1500277674685.jpeg"
         },
-        "company_about": {
-          "type": "string",
-          "example": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more."
+        "company": {
+          "type": "json",
+          "example": {
+            "name" : "Viseo",
+            "address" : "Singapore",
+            "about" : "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+            "email" : "support@viseo.com",
+            "twitter_profile" : "https://www.twitter.com/microsoft",
+            "linkedin_profile" : "https://www.linkedin.com/company-beta/1035/",
+            "phone_numbers" : [
+              "3333333333"
+            ]
+          }
         },
         "responsibilities": {
           "type": "array",
