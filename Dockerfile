@@ -5,8 +5,6 @@ RUN mkdir -p /usr/src/app/public/uploads
 RUN mkdir -p /data/db
 WORKDIR /usr/src/app
 
-RUN mkdir -p /data/db
-
 COPY package.json yarn.lock /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
