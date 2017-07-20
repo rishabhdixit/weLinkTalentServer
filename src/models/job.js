@@ -17,7 +17,6 @@ const Job = Waterline.Collection.extend({
 
 		description: {
 			type: 'string',
-			required: true,
 		},
 
 		employment_type: {
@@ -38,8 +37,8 @@ const Job = Waterline.Collection.extend({
 			required: true,
 		},
 
-		company_about: {
-			type: 'string',
+		company: {
+			type: 'json',
 			required: true,
 		},
 
@@ -75,7 +74,6 @@ const Job = Waterline.Collection.extend({
 
 		location: {
 			type: 'string',
-			required: true,
 		},
 
 		visa_passport_constraints: {
@@ -84,12 +82,10 @@ const Job = Waterline.Collection.extend({
 
 		salary_from: {
 			type: 'float',
-			required: true,
 		},
 
 		salary_to: {
 			type: 'float',
-			required: true,
 		},
 
 		contact_name: {
@@ -114,13 +110,11 @@ const Job = Waterline.Collection.extend({
 
 		salary_currency: {
 			type: 'string',
-			required: true,
 		},
 
 		application_slots: {
 			type: 'integer',
 			required: true,
-			defaultsTo: 10,
 		},
 
 		remaining_slots: {
