@@ -1071,12 +1071,12 @@
                   "type": "array",
                   "example": [
                     {
-                      "fname": "Jojie",
-                      "lname": "Palahang",
+                      "firstName": "Jojie",
+                      "lastName": "Palahang",
                       "company": "Viseo",
                       "title": "Full Stack Developer",
                       "phone": "9999999999",
-                      "email": "jojie@viseo.com",
+                      "emailAddress": "jojie@viseo.com",
                       "relationship": "colleague",
                       "startYearOfWorking": "2017-06-01",
                       "endYearOfWorking": "2017-06-06",
@@ -1084,12 +1084,12 @@
                       "canContact": "no"
                     },
                     {
-                      "fname": "Philip",
-                      "lname": "Pulgade",
+                      "firstName": "Philip",
+                      "lastName": "Pulgade",
                       "company": "Viseo",
                       "title": "Full Stack Developer",
                       "phone": "9999999999",
-                      "email": "philip@viseo.com",
+                      "emailAddress": "philip@viseo.com",
                       "relationship": "colleague",
                       "startYearOfWorking": "2017-06-01",
                       "endYearOfWorking": "2017-06-06",
@@ -1893,12 +1893,12 @@
           "required": false,
           "example": [
             {
-              "fname": "Jojie",
-              "lname": "Palahang",
+              "firstName": "Jojie",
+              "lastName": "Palahang",
               "company": "Viseo",
               "title": "Full Stack Developer",
               "phone": "9999999999",
-              "email": "jojie@viseo.com",
+              "emailAddress": "jojie@viseo.com",
               "relationship": "colleague",
               "startYearOfWorking": "2017-06-01",
               "endYearOfWorking": "2017-06-06",
@@ -1906,12 +1906,12 @@
               "canContact": "no"
             },
             {
-              "fname": "Philip",
-              "lname": "Pulgade",
+              "firstName": "Philip",
+              "lastName": "Pulgade",
               "company": "Viseo",
               "title": "Full Stack Developer",
               "phone": "9999999999",
-              "email": "philip@viseo.com",
+              "emailAddress": "philip@viseo.com",
               "relationship": "colleague",
               "startYearOfWorking": "2017-06-01",
               "endYearOfWorking": "2017-06-06",
