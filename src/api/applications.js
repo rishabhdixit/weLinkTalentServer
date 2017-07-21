@@ -147,8 +147,8 @@ export default ({ app }) => resource({
 						for (let i = 0; i < referencesInfo.length; i += 1) {
 							if (referencesInfo[i].canContact === 'Yes') {
 								const requestBody = {
-									refereeEmail: referencesInfo[i].email,
-									refereeName: `${referencesInfo[i].fname} ${referencesInfo[i].lname}`,
+									refereeEmail: referencesInfo[i].emailAddress,
+									refereeName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
 									candidateName: `${profileData.firstName} ${profileData.lastName}`,
 									token: encryptDecryptService.encrypt(application[0].id),
 								};
