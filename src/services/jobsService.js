@@ -4,7 +4,7 @@
 import { ObjectID } from 'mongodb';
 
 module.exports = {
-	getJobs: async (app, searchCriteria, projectionObj, limit, skip) =>
+	getJobs: async (app, searchCriteria, projectionObj, limit, skip, sort) =>
 		new Promise((resolve, reject) => {
 			app.models.job.native((err, collection) => {
 				if (err) {
@@ -13,6 +13,7 @@ module.exports = {
 					collection.find(searchCriteria, projectionObj, {
 						limit,
 						skip,
+						sort,
 					}).toArray((error, results) => {
 						if (error) {
 							reject(error);

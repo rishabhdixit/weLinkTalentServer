@@ -29,7 +29,6 @@ const Job = Waterline.Collection.extend({
 
 		company_name: {
 			type: 'string',
-			required: true,
 		},
 
 		company_logo: {
@@ -39,7 +38,6 @@ const Job = Waterline.Collection.extend({
 
 		company: {
 			type: 'json',
-			required: true,
 		},
 
 		responsibilities: {
@@ -69,7 +67,6 @@ const Job = Waterline.Collection.extend({
 
 		years_experience: {
 			type: 'float',
-			required: true,
 		},
 
 		location: {
@@ -114,7 +111,6 @@ const Job = Waterline.Collection.extend({
 
 		application_slots: {
 			type: 'integer',
-			required: true,
 		},
 
 		remaining_slots: {
