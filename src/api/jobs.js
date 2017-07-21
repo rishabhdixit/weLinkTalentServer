@@ -16,6 +16,7 @@ export default ({ app }) => resource({
 		const limit = config.pageLimit;
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
+		const sort = { updatedAt: -1 };
 		const searchCriteria = {};
 		const projectionObj = {};
 		if (query && query.location)			{ searchCriteria.location = query.location; }
@@ -23,7 +24,7 @@ export default ({ app }) => resource({
 		if (params && params.user) {
 			searchCriteria.employer_id = params.user;
 		}
-		const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip);
+		const jobs = await jobsService.getJobs(app, searchCriteria, projectionObj, limit, skip, sort);
 		const jobsCount = await jobsService.getJobsCount(app, searchCriteria);
 		const pageMetaData = {
 			size: (jobs && jobs.length) || 0,
