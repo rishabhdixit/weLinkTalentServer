@@ -147,7 +147,7 @@ export default ({ app }) => resource({
 						for (let i = 0; i < referencesInfo.length; i += 1) {
 							if (referencesInfo[i].canContact === 'Yes') {
 								const requestBody = {
-									appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:8080',
+									appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
 									refereeEmail: referencesInfo[i].emailAddress,
 									refereeName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
 									candidateName: `${profileData.firstName} ${profileData.lastName}`,
