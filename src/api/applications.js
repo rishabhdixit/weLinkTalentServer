@@ -34,7 +34,7 @@ export default ({ app }) => resource({
 			}
 			const applicationsCount = await app.models.application.count(queryObj);
 			let applications = await app.models.application.find({
-				select: ['user_id', 'job_id', 'form_status', 'validation_status', 'submission_status', 'acceptance_status', 'feedback_requested'],
+				select: ['user_id', 'job_id', 'form_status', 'validation_status', 'submission_status', 'acceptance_status', 'feedback_requested', 'updatedAt'],
 				where: queryObj,
 				skip,
 				limit,
