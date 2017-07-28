@@ -2164,6 +2164,7 @@
               "submission_status": "incomplete",
               "acceptance_status": "pending",
               "feedback_requested": false,
+              "updatedAt": "2017-07-24T15:16:32.058Z",
               "id": "5975e2b46f289be482b3106e",
               "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
               "company": {
@@ -2195,6 +2196,7 @@
               "submission_status": "incomplete",
               "acceptance_status": "pending",
               "feedback_requested": false,
+              "updatedAt": "2017-07-24T06:49:24.938Z",
               "id": "5975984e6f289be482b3106d",
               "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
               "company": {
