@@ -606,17 +606,17 @@ paths:
       - application/json
       parameters:
       - name: page
-        in: path
+        in: query
         description: Page number to fetch
         type: number
         example: 1
       - name: title
-        in: path
+        in: query
         description: Title to search in jobs
         type: string
         example: java developer
       - name: location
-        in: path
+        in: query
         description: Location to search in jobs
         type: string
         example: Cebu
@@ -646,6 +646,29 @@ paths:
           schema:
             "$ref": "#/definitions/getJobByID"
   "/api/applications":
+    get:
+      tags:
+      - Applications
+      description: For fetching applications(10 per page)
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: page
+        in: query
+        description: Page number to fetch
+        type: number
+        example: 1
+      - name: search
+        in: query
+        description: Title or company name to search in jobs
+        type: string
+        example: java developer
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getApplications"
     post:
       tags:
       - Applications
@@ -1601,6 +1624,80 @@ definitions:
         type: string
         required: true
         example: 5948a1b8b2f3cc3c9572bc54
+  getApplications:
+    properties:
+      applicationsList:
+        type: array
+        required: true
+        example:
+        - user_id: 5948a1b8b2f3cc3c9572bc53
+          job_id: 592532077868c5a68589a768
+          form_status: submitted
+          validation_status: incomplete
+          submission_status: incomplete
+          acceptance_status: pending
+          feedback_requested: false
+          id: 5975e2b46f289be482b3106e
+          description: Nice company, Nice Infrastrure, Good culture, Work from home
+            available
+          company:
+            name: IBM
+            address: Philippines
+            about: This is a great company. We believe in what people make possible.
+              Our mission is to empower every person and every organization on the
+              planet to achieve more.
+            phone_numbers:
+            - 4444444444
+            - 5555555555
+            email: rishabh.dixit123@gmail.com
+            twitter_profile: https://www.twitter.com/microsoft
+            linkedin_profile: https://www.linkedin.com/company-beta/1035/
+          location: Cebu
+          title: Full Stack Developer
+          application_slots: 10
+          remaining_slots: 8
+          emailAddress: rishabh.dixit123@gmail.com
+          firstName: Rishabh
+          lastName: Dixit
+          user: 5948a1b8b2f3cc3c9572bc53
+        - user_id: 5948a1b8b2f3cc3c9572bc53
+          job_id: 592be4ab931e2a19ee29ca63
+          form_status: complete
+          validation_status: incomplete
+          submission_status: incomplete
+          acceptance_status: pending
+          feedback_requested: false
+          id: 5975984e6f289be482b3106d
+          description: Nice company, Nice Infrastrure, Good culture, Work from home
+            available
+          company:
+            name: Ola
+            address: Philippines
+            about: This is a great company. We believe in what people make possible.
+              Our mission is to empower every person and every organization on the
+              planet to achieve more.
+            phone_numbers:
+            - 4444444444
+            - 5555555555
+            email: rishabh.dixit123@gmail.com
+            twitter_profile: https://www.twitter.com/microsoft
+            linkedin_profile: https://www.linkedin.com/company-beta/1035/
+          location: Cebu
+          title: Full Stack Developer
+          application_slots: 10
+          remaining_slots: 10
+          emailAddress: rishabh.dixit123@gmail.com
+          firstName: Rishabh
+          lastName: Dixit
+          user: 5948a1b8b2f3cc3c9572bc53
+      pageMetaData:
+        type: json
+        required: true
+        example:
+          size: 9
+          pageNumber: 3
+          totalPages: 3
+          totalSize: 29
   getUserApplications:
     properties:
       applicationsList:
