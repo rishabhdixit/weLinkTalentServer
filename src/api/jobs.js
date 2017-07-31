@@ -73,4 +73,12 @@ export default ({ app }) => resource({
 		res.json(job);
 	},
 
+	/*
+	 PUT /api/jobs/{id} - Update a job in db
+	 */
+	async update({ params, body }, res) {
+		const updatedJob = await app.models.job.update({ id: params.job }, body);
+		res.json(updatedJob);
+	},
+
 });
