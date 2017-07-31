@@ -45,7 +45,12 @@ const Application = Waterline.Collection.extend({
 			enum: ['pending', 'rejected', 'accepted'],
 		},
 
-		feedback_requested: {
+		referee_feedback_requested: {
+			type: 'boolean',
+			defaultsTo: false,
+		},
+
+		recruiter_feedback_requested: {
 			type: 'boolean',
 			defaultsTo: false,
 		},
@@ -64,6 +69,40 @@ const Application = Waterline.Collection.extend({
 
 		resume_urls: {
 			type: 'array',
+		},
+
+		contacted: {
+			type: 'boolean',
+			defaultsTo: false,
+		},
+
+		recruiter_comment: {
+			type: 'string',
+		},
+
+		recruiter_reviewed: {
+			type: 'boolean',
+			defaultsTo: false,
+		},
+
+		reference_status: {
+			type: 'string',
+			enum: ['sent', 'replied', 'approved'],
+		},
+
+		application_status: {
+			type: 'string',
+			enum: ['completed', 'submitted', 'reviewed'],
+		},
+
+		approved_by_candidate: {
+			type: 'boolean',
+			defaultsTo: false,
+		},
+
+		applied_by_candidate: {
+			type: 'boolean',
+			defaultsTo: false,
 		},
 	},
 });
