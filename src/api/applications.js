@@ -46,7 +46,8 @@ export default ({ app }) => resource({
 			if (applications && applications.length) {
 				const jobIds = [];
 				const userIds = [];
-				applications.forEach((application) => {
+				applications.forEach((application, index) => {
+					applications[index].id = application._id;
 					jobIds.push(new ObjectID(application.job_id.toString()));
 					if (_.isUndefined(params.user)) {
 						userIds.push(new ObjectID(application.user_id.toString()));

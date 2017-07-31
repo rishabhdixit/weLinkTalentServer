@@ -3,6 +3,7 @@
 
   "rules" :{
     "indent": ["error", "tab"],
+		"no-underscore-dangle": [2, { "allow": ["_id"] }],
     "no-tabs": "off"
   }
 }
