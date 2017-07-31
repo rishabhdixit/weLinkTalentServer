@@ -29,4 +29,24 @@ module.exports = {
 			}
 		});
 	}),
+	getApplications: async (app, searchCriteria, projectionObj, limit, skip, sort) =>
+		new Promise((resolve, reject) => {
+			app.models.application.native((err, collection) => {
+				if (err) {
+					reject(err);
+				} else {
+					collection.find(searchCriteria, projectionObj, {
+						limit,
+						skip,
+						sort,
+					}).toArray((error, results) => {
+						if (error) {
+							reject(error);
+						} else {
+							resolve(results);
+						}
+					});
+				}
+			});
+		}),
 };

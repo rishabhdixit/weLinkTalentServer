@@ -9,6 +9,7 @@ import config from '../../config/index';
 import emailService from '../services/emailService';
 import jobsService from '../services/jobsService';
 import usersService from '../services/usersService';
+import applicationsService from '../services/applicationsService';
 import encryptDecryptService from '../services/encryptDecryptService';
 import Constants from '../constants';
 
@@ -32,14 +33,16 @@ export default ({ app }) => resource({
 			if (params.user) {
 				queryObj.user_id = params.user;
 			}
+			const applicationProjectionObj = {
+				form_data: 0,
+				feedback: 0,
+				references_info: 0,
+			};
 			const applicationsCount = await app.models.application.count(queryObj);
-			let applications = await app.models.application.find({
-				select: ['user_id', 'job_id', 'form_status', 'validation_status', 'submission_status', 'acceptance_status', 'feedback_requested', 'updatedAt'],
-				where: queryObj,
-				skip,
-				limit,
-				sort,
-			});
+			let applications = await applicationsService.getApplications(app,
+				queryObj,
+				applicationProjectionObj,
+				limit, skip, sort);
 			if (applications && applications.length) {
 				const jobIds = [];
 				const userIds = [];
