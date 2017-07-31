@@ -28,6 +28,8 @@ export default ({ app }) => resource({
 		}));
 		if (_.get(application, 'value') && _.get(application, 'value.references_info')) {
 			let formStatus;
+			let referenceStatus;
+			let applicationStatus;
 			const feedbacks = (_.get(application, 'value.feedback') && (_.size(application.value.feedback) + 1)) || 1;
 			application.value.references_info.forEach((reference) => {
 				if (reference.canContact === 'Yes') {
@@ -35,13 +37,21 @@ export default ({ app }) => resource({
 				}
 			});
 			if (feedbacks < canContactReferences) {
-				formStatus = Constants.APPLICATION_STATUS.COMPLETE;
+				formStatus = Constants.STATUS.COMPLETE;
+				referenceStatus = Constants.STATUS.REPLIED;
+				applicationStatus = Constants.STATUS.COMPLETED;
 			} else {
-				formStatus = Constants.APPLICATION_STATUS.SUBMITTED;
+				formStatus = Constants.STATUS.SUBMITTED;
+				referenceStatus = Constants.STATUS.REPLIED;
+				applicationStatus = Constants.STATUS.COMPLETED;
 			}
 			promiseArray.push(app.models.application.update({
 				id: params.application,
-			}, { form_status: formStatus }));
+			}, {
+				form_status: formStatus,
+				reference_status: referenceStatus,
+				application_status: applicationStatus,
+			}));
 		}
 
 		if (_.get(application, 'value') && _.isEmpty(application.value.feedback)) {

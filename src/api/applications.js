@@ -162,7 +162,8 @@ export default ({ app }) => resource({
 	async update({ params, body }, res) {
 		const updateObj = _.cloneDeep(body);
 		if (body && body.references_info) {
-			updateObj.form_status = 'complete';
+			updateObj.form_status = Constants.STATUS.COMPLETE;
+			updateObj.reference_status = Constants.STATUS.SENT;
 			app.models.application.update({
 				id: params.application,
 			}, updateObj, async (err, application) => {
