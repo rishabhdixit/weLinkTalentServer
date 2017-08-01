@@ -2157,68 +2157,92 @@
           "required": true,
           "example": [
             {
+              "_id": "593652cd8acaf3d812070550",
+              "resume_url": "/Users/rishabhdixit/WebstormProjects/welinktalent-server/dist/api/uploads/1496732365841.pdf",
               "user_id": "5948a1b8b2f3cc3c9572bc53",
-              "job_id": "592532077868c5a68589a768",
-              "form_status": "submitted",
-              "validation_status": "incomplete",
-              "submission_status": "incomplete",
-              "acceptance_status": "pending",
-              "feedback_requested": false,
-              "updatedAt": "2017-07-24T15:16:32.058Z",
-              "id": "5975e2b46f289be482b3106e",
-              "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
-              "company": {
-                "name": "IBM",
-                "address": "Philippines",
-                "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-                "phone_numbers": [
-                  4444444444,
-                  5555555555
-                ],
-                "email": "rishabh.dixit123@gmail.com",
-                "twitter_profile": "https://www.twitter.com/microsoft",
-                "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
-              },
-              "location": "Cebu",
-              "title": "Full Stack Developer",
-              "application_slots": 10,
-              "remaining_slots": 8,
-              "emailAddress": "rishabh.dixit123@gmail.com",
-              "firstName": "Rishabh",
-              "lastName": "Dixit",
-              "user": "5948a1b8b2f3cc3c9572bc53"
-            },
-            {
-              "user_id": "5948a1b8b2f3cc3c9572bc53",
-              "job_id": "592be4ab931e2a19ee29ca63",
+              "job_id": "592531db7868c5a68589a762",
               "form_status": "complete",
               "validation_status": "incomplete",
               "submission_status": "incomplete",
               "acceptance_status": "pending",
               "feedback_requested": false,
-              "updatedAt": "2017-07-24T06:49:24.938Z",
-              "id": "5975984e6f289be482b3106d",
-              "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
-              "company": {
-                "name": "Ola",
-                "address": "Philippines",
-                "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-                "phone_numbers": [
-                  4444444444,
-                  5555555555
-                ],
-                "email": "rishabh.dixit123@gmail.com",
-                "twitter_profile": "https://www.twitter.com/microsoft",
-                "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
+              "createdAt": "2017-06-06T06:59:25.858Z",
+              "updatedAt": "2017-06-30T05:27:51.021Z",
+              "reference_status": "replied",
+              "application_status": "completed",
+              "recruiter_feedback_requested": false,
+              "referee_feedback_requested": false,
+              "id": "593652cd8acaf3d812070550",
+              "job": {
+                "_id": "592531db7868c5a68589a762",
+                "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
+                "company": {
+                  "name": "Cognizant",
+                  "address": "Philippines",
+                  "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+                  "phone_numbers": [
+                    4444444444,
+                    5555555555
+                  ],
+                  "email": "rishabh.dixit123@gmail.com",
+                  "twitter_profile": "https://www.twitter.com/microsoft",
+                  "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
+                },
+                "location": "Cebu",
+                "title": "Full Stack Developer",
+                "application_slots": 10,
+                "remaining_slots": 8
               },
-              "location": "Cebu",
-              "title": "Full Stack Developer",
-              "application_slots": 10,
-              "remaining_slots": 10,
-              "emailAddress": "rishabh.dixit123@gmail.com",
-              "firstName": "Rishabh",
-              "lastName": "Dixit",
-              "user": "5948a1b8b2f3cc3c9572bc53"
+              "user": {
+                "emailAddress": "rishabh.dixit123@gmail.com",
+                "firstName": "Rishabh",
+                "lastName": "Dixit",
+                "_id": "5948a1b8b2f3cc3c9572bc53"
+              }
+            },
+            {
+              "_id": "593657cb8acaf3d812070551",
+              "resume_url": "/Users/rishabhdixit/WebstormProjects/welinktalent-server/dist/api/uploads/1496733643074.pdf",
+              "user_id": "5948a1b8b2f3cc3c9572bc53",
+              "job_id": "592531e77868c5a68589a763",
+              "form_status": "complete",
+              "validation_status": "incomplete",
+              "submission_status": "incomplete",
+              "acceptance_status": "pending",
+              "feedback_requested": false,
+              "createdAt": "2017-06-06T07:20:43.089Z",
+              "updatedAt": "2017-06-06T07:23:05.811Z",
+              "reference_status": "replied",
+              "application_status": "completed",
+              "recruiter_feedback_requested": false,
+              "referee_feedback_requested": false,
+              "id": "593657cb8acaf3d812070551",
+              "job": {
+                "_id": "592531e77868c5a68589a763",
+                "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
+                "company": {
+                  "name": "Capgemini",
+                  "address": "Philippines",
+                  "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+                  "phone_numbers": [
+                    4444444444,
+                    5555555555
+                  ],
+                  "email": "rishabh.dixit123@gmail.com",
+                  "twitter_profile": "https://www.twitter.com/microsoft",
+                  "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
+                },
+                "location": "Cebu",
+                "title": "Java Developer",
+                "application_slots": 10,
+                "remaining_slots": 5
+              },
+              "user": {
+                "emailAddress": "rishabh.dixit123@gmail.com",
+                "firstName": "Rishabh",
+                "lastName": "Dixit",
+                "_id": "5948a1b8b2f3cc3c9572bc53"
+              }
             }
           ]
         },
@@ -2241,58 +2265,80 @@
           "required": true,
           "example": [
             {
+              "_id": "593652cd8acaf3d812070550",
+              "resume_url": "/Users/rishabhdixit/WebstormProjects/welinktalent-server/dist/api/uploads/1496732365841.pdf",
               "user_id": "5948a1b8b2f3cc3c9572bc53",
-              "job_id": "592531f57868c5a68589a765",
-              "form_status": "incomplete",
-              "validation_status": "incomplete",
-              "submission_status": "incomplete",
-              "acceptance_status": "pending",
-              "feedback_requested": false,
-              "id": "5947900669e8820491910f92",
-              "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
-              "company": {
-                "name": "Airtel",
-                "address": "Philippines",
-                "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-                "phone_numbers": [
-                  4444444444,
-                  5555555555
-                ],
-                "email": "rishabh.dixit123@gmail.com",
-                "twitter_profile": "https://www.twitter.com/microsoft",
-                "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
-              },
-              "location": "Cebu",
-              "title": "Database Administrator",
-              "application_slots": 10,
-              "remaining_slots": 9
-            },
-            {
-              "user_id": "5948a1b8b2f3cc3c9572bc53",
-              "job_id": "592531ed7868c5a68589a764",
+              "job_id": "592531db7868c5a68589a762",
               "form_status": "complete",
               "validation_status": "incomplete",
               "submission_status": "incomplete",
               "acceptance_status": "pending",
               "feedback_requested": false,
-              "id": "5947904c69e8820491910f93",
-              "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
-              "company": {
-                "name": "Viseo",
-                "address": "Philippines",
-                "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-                "phone_numbers": [
-                  4444444444,
-                  5555555555
-                ],
-                "email": "rishabh.dixit123@gmail.com",
-                "twitter_profile": "https://www.twitter.com/microsoft",
-                "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
-              },
-              "location": "Cebu",
-              "title": "Javascript Developer",
-              "application_slots": 10,
-              "remaining_slots": 0
+              "createdAt": "2017-06-06T06:59:25.858Z",
+              "updatedAt": "2017-06-30T05:27:51.021Z",
+              "reference_status": "replied",
+              "application_status": "completed",
+              "recruiter_feedback_requested": false,
+              "referee_feedback_requested": false,
+              "id": "593652cd8acaf3d812070550",
+              "job": {
+                "_id": "592531db7868c5a68589a762",
+                "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
+                "company": {
+                  "name": "Cognizant",
+                  "address": "Philippines",
+                  "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+                  "phone_numbers": [
+                    4444444444,
+                    5555555555
+                  ],
+                  "email": "rishabh.dixit123@gmail.com",
+                  "twitter_profile": "https://www.twitter.com/microsoft",
+                  "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
+                },
+                "location": "Cebu",
+                "title": "Full Stack Developer",
+                "application_slots": 10,
+                "remaining_slots": 8
+              }
+            },
+            {
+              "_id": "593657cb8acaf3d812070551",
+              "resume_url": "/Users/rishabhdixit/WebstormProjects/welinktalent-server/dist/api/uploads/1496733643074.pdf",
+              "user_id": "5948a1b8b2f3cc3c9572bc53",
+              "job_id": "592531e77868c5a68589a763",
+              "form_status": "complete",
+              "validation_status": "incomplete",
+              "submission_status": "incomplete",
+              "acceptance_status": "pending",
+              "feedback_requested": false,
+              "createdAt": "2017-06-06T07:20:43.089Z",
+              "updatedAt": "2017-06-06T07:23:05.811Z",
+              "reference_status": "replied",
+              "application_status": "completed",
+              "recruiter_feedback_requested": false,
+              "referee_feedback_requested": false,
+              "id": "593657cb8acaf3d812070551",
+              "job": {
+                "_id": "592531e77868c5a68589a763",
+                "description": "Nice company, Nice Infrastrure, Good culture, Work from home available",
+                "company": {
+                  "name": "Capgemini",
+                  "address": "Philippines",
+                  "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+                  "phone_numbers": [
+                    4444444444,
+                    5555555555
+                  ],
+                  "email": "rishabh.dixit123@gmail.com",
+                  "twitter_profile": "https://www.twitter.com/microsoft",
+                  "linkedin_profile": "https://www.linkedin.com/company-beta/1035/"
+                },
+                "location": "Cebu",
+                "title": "Java Developer",
+                "application_slots": 10,
+                "remaining_slots": 5
+              }
             }
           ]
         },
