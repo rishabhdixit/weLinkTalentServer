@@ -121,6 +121,11 @@ const Job = Waterline.Collection.extend({
 			type: 'array',
 			defaultsTo: [],
 		},
+
+		archived: {
+			type: 'boolean',
+			defaultsTo: false,
+		},
 	},
 });
 
