@@ -611,7 +611,7 @@
           {
             "name": "jobId",
             "in": "path",
-            "description": "job id to delete bookmark",
+            "description": "job id to be deleted bookmark",
             "required": true,
             "type": "string",
             "example": "592531e77868c5a68589a763"
@@ -666,19 +666,20 @@
             "required": true,
             "type": "string",
             "example": "Viseo"
-          },{
+          },
+          {
             "name": "company",
             "in": "formData",
             "required": true,
             "type": "json",
             "example": {
-              "name" : "Viseo",
-              "address" : "Singapore",
-              "about" : "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-              "email" : "support@viseo.com",
-              "twitter_profile" : "https://www.twitter.com/microsoft",
-              "linkedin_profile" : "https://www.linkedin.com/company-beta/1035/",
-              "phone_numbers" : [
+              "name": "Viseo",
+              "address": "Singapore",
+              "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+              "email": "support@viseo.com",
+              "twitter_profile": "https://www.twitter.com/microsoft",
+              "linkedin_profile": "https://www.linkedin.com/company-beta/1035/",
+              "phone_numbers": [
                 "3333333333"
               ]
             }
@@ -904,6 +905,81 @@
         "responses": {
           "200": {
             "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getJobByID"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Jobs"
+        ],
+        "description": "For deleting a job",
+        "operationId": "for the URL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "job id to be deleted",
+            "required": true,
+            "type": "string",
+            "example": "592531e77868c5a68589a763"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getJobByID"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Jobs"
+        ],
+        "description": "Update/Edit a job",
+        "operationId": "for the URL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id to update",
+            "required": true,
+            "type": "string",
+            "example": "592531e77868c5a68589a763"
+          },
+          {
+            "name": "Update job parameters",
+            "in": "body",
+            "description": "Job Parameters to be updated",
+            "schema": {
+              "properties": {
+                "application_slots": {
+                  "type": "number",
+                  "required": false,
+                  "example": 10
+                },
+                "title": {
+                  "type": "string",
+                  "required": false,
+                  "example": "Database Administrator"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Returns job data corresponding to this application",
             "schema": {
               "$ref": "#/definitions/getJobByID"
             }
@@ -1286,13 +1362,13 @@
         "company": {
           "type": "json",
           "example": {
-            "name" : "Viseo",
-            "address" : "Singapore",
-            "about" : "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
-            "email" : "support@viseo.com",
-            "twitter_profile" : "https://www.twitter.com/microsoft",
-            "linkedin_profile" : "https://www.linkedin.com/company-beta/1035/",
-            "phone_numbers" : [
+            "name": "Viseo",
+            "address": "Singapore",
+            "about": "This is a great company. We believe in what people make possible. Our mission is to empower every person and every organization on the planet to achieve more.",
+            "email": "support@viseo.com",
+            "twitter_profile": "https://www.twitter.com/microsoft",
+            "linkedin_profile": "https://www.linkedin.com/company-beta/1035/",
+            "phone_numbers": [
               "3333333333"
             ]
           }
@@ -1788,6 +1864,10 @@
         "applications_waiting": {
           "type": "array",
           "example": []
+        },
+        "archived": {
+          "type": "boolean",
+          "example": true
         }
       }
     },

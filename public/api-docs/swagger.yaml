@@ -423,7 +423,7 @@ paths:
         example: 5948a1b8b2f3cc3c9572bc53
       - name: jobId
         in: path
-        description: job id to delete bookmark
+        description: job id to be deleted bookmark
         required: true
         type: string
         example: 592531e77868c5a68589a763
@@ -643,6 +643,57 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            "$ref": "#/definitions/getJobByID"
+    delete:
+      tags:
+      - Jobs
+      description: For deleting a job
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: job id to be deleted
+        required: true
+        type: string
+        example: 592531e77868c5a68589a763
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/getJobByID"
+    put:
+      tags:
+      - Jobs
+      description: Update/Edit a job
+      operationId: for the URL
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: id to update
+        required: true
+        type: string
+        example: 592531e77868c5a68589a763
+      - name: Update job parameters
+        in: body
+        description: Job Parameters to be updated
+        schema:
+          properties:
+            application_slots:
+              type: number
+              required: false
+              example: 10
+            title:
+              type: string
+              required: false
+              example: Database Administrator
+      responses:
+        '200':
+          description: OK - Returns job data corresponding to this application
           schema:
             "$ref": "#/definitions/getJobByID"
   "/api/applications":
@@ -1340,6 +1391,9 @@ definitions:
       applications_waiting:
         type: array
         example: []
+      archived:
+        type: boolean
+        example: true
   getUserByID:
     properties:
       id:
