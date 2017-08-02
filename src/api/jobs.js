@@ -93,7 +93,14 @@ export default ({ app }) => resource({
 				jobObj[key] = value;
 			}
 		});
-		jobObj.remaining_slots = jobObj.application_slots;
+		const job = await app.models.job.findOne({ id: req.params.job });
+		const slotsIncreased = (job.application_slots <= jobObj.application_slots);
+		const slotsMoreThanRemaining = (job.remaining_slots <= jobObj.application_slots);
+		if (slotsIncreased || slotsMoreThanRemaining) {
+			jobObj.remaining_slots += (jobObj.application_slots - job.application_slots);
+		} else {
+			jobObj.remaining_slots = 0;
+		}
 		const updatedJob = await app.models.job.update({ id: req.params.job }, jobObj);
 		res.json(updatedJob);
 	},
