@@ -33,7 +33,6 @@ const Job = Waterline.Collection.extend({
 
 		company_logo: {
 			type: 'string',
-			required: true,
 		},
 
 		company: {
