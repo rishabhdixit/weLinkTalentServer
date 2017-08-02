@@ -17,7 +17,7 @@ export default ({ app }) => resource({
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
 		const sort = { updatedAt: -1 };
-		const searchCriteria = {};
+		const searchCriteria = { archived: { $ne: true } };
 		const projectionObj = {};
 		if (query && query.location)			{ searchCriteria.location = query.location; }
 		if (query && query.title)			{ searchCriteria.$text = { $search: `"${query.title}"` }; }
@@ -43,7 +43,7 @@ export default ({ app }) => resource({
 	 GET /api/jobs/id - Fetching single job
 	 */
 	async read({ params }, res) {
-		const job = await app.models.job.findOne({ id: params.job });
+		const job = await app.models.job.findOne({ id: params.job, archived: { $ne: true } });
 		res.json(job);
 	},
 
@@ -68,7 +68,7 @@ export default ({ app }) => resource({
 				jobObj[key] = value;
 			}
 		});
-		jobObj.application_slots = jobObj.remaining_slots;
+		jobObj.remaining_slots = jobObj.application_slots;
 		const job = await app.models.job.create(jobObj);
 		res.json(job);
 	},
@@ -76,9 +76,39 @@ export default ({ app }) => resource({
 	/*
 	 PUT /api/jobs/{id} - Update a job in db
 	 */
-	async update({ params, body }, res) {
-		const updatedJob = await app.models.job.update({ id: params.job }, body);
+	async update(req, res) {
+		const jobObj = _.cloneDeep(req.body);
+		if (_.get(req, 'file.path')) {
+			if (process.env.HOST) {
+				jobObj.company_logo = path.join(config.host, req.file.filename);
+			} else {
+				const domain = `${config.host}:${config.port}`;
+				jobObj.company_logo = path.join(domain, req.file.filename);
+			}
+		}
+		_.forOwn(jobObj, (value, key) => {
+			try {
+				jobObj[key] = JSON.parse(value);
+			} catch (e) {
+				jobObj[key] = value;
+			}
+		});
+		const job = await app.models.job.findOne({ id: req.params.job });
+		jobObj.remaining_slots = job.remaining_slots +
+			(jobObj.application_slots - job.application_slots);
+		if (jobObj.remaining_slots < 0) {
+			jobObj.remaining_slots = 0;
+		}
+		const updatedJob = await app.models.job.update({ id: req.params.job }, jobObj);
 		res.json(updatedJob);
+	},
+
+	/*
+	 DELETE /api/jobs/{id} - Delete a job
+	 */
+	async delete({ params, body }, res) {
+		const deletedJob = await app.models.job.update({ id: params.job }, { archived: true });
+		res.json(deletedJob);
 	},
 
 });

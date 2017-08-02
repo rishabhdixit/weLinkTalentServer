@@ -27,7 +27,7 @@ export default ({ app }) => resource({
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
 		const sort = 'updatedAt DESC';
-		// GET /api/users/{user}/applications, and GET /api/users/{user}/applications
+		// GET /api/applications, and GET /api/users/{user}/applications
 		if (_.isUndefined(params.user) || _.isUndefined(query.jobId)) {
 			const queryObj = {};
 			if (params.user) {
@@ -65,8 +65,10 @@ export default ({ app }) => resource({
 					remaining_slots: 1,
 				};
 				const jobs = await jobsService.getJobs(app, searchCriteria, jobProjectionObj);
-				// add job projectionObj fields to application object and removing _id of job
-				applications = _.map(applications, application => _.extend(application, _.omit(_.find(jobs, { _id: new ObjectID(application.job_id.toString()) }), ['_id'])));
+				// add job projectionObj fields to application object inside nested job object
+				applications = _.map(applications, application => _.extend(application, {
+					job: _.find(jobs, { _id: new ObjectID(application.job_id.toString()) }),
+				}));
 				if (_.isUndefined(params.user)) {
 					const userProjectionObj = {
 						firstName: 1,
@@ -79,9 +81,13 @@ export default ({ app }) => resource({
 						user: { $in: userIds },
 					};
 					const users = await usersService.getProfiles(app, searchCriteria, userProjectionObj);
-					applications = _.map(applications, application => _.extend(application, _.find(users, {
-						user: new ObjectID(application.user_id.toString()),
-					})));
+					// add user data inside each applications object
+					applications = _.map(applications, application => _.extend(application, {
+						user: _.omit(_.extend(_.find(users, {
+							user: new ObjectID(application.user_id.toString()),
+						}),
+								{ _id: application.user_id }), ['user']),
+					}));
 				}
 			}
 			const pageMetaData = {
