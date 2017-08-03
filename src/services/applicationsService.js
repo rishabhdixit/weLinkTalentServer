@@ -13,6 +13,7 @@ module.exports = {
 			} else {
 				const refereeId = _.get(feedbackRecord, 'referee_id');
 				const feedbackObj = _.clone(feedbackRecord.feedback);
+				feedbackObj.userId = refereeId;
 				feedbackObj[Constants.STATUS.APPROVED_BY_CANDIDATE] = false;
 				const updateObj = {
 					[`feedback.${refereeId}`]: feedbackObj,
