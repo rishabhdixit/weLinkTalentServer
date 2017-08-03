@@ -12,10 +12,7 @@ module.exports = {
 				reject(err);
 			} else {
 				const refereeId = _.get(feedbackRecord, 'referee_id');
-				const feedbackObj = _.omit(feedbackRecord, ['referee_id']);
-				if (_.get(feedbackObj, 'skills')) {
-					feedbackObj.skills = JSON.parse(feedbackObj.skills);
-				}
+				const feedbackObj = _.clone(feedbackRecord.feedback);
 				feedbackObj[Constants.STATUS.APPROVED_BY_CANDIDATE] = false;
 				const updateObj = {
 					[`feedback.${refereeId}`]: feedbackObj,
