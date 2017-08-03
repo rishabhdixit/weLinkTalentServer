@@ -14,5 +14,6 @@ module.exports = {
 		SENT: 'sent',
 		REPLIED: 'replied',
 		APPROVED: 'approved',
+		APPROVED_BY_CANDIDATE: 'approved_by_candidate',
 	},
 };

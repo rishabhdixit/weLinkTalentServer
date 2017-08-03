@@ -1274,6 +1274,72 @@
         }
       }
     },
+    "/api/applications/{id}/feedback/{feedbackId}": {
+      "put": {
+        "tags": [
+          "Applications"
+        ],
+        "description": "Update an application - Candidate approves feedback",
+        "operationId": "for the URL",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "application id",
+            "required": true,
+            "type": "string",
+            "example": "593652cd8acaf3d812070550"
+          },
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "description": "feedback id",
+            "required": true,
+            "type": "string",
+            "example": "593652cd8acaf3d812070550"
+          },
+          {
+            "name": "Update application parameters",
+            "in": "body",
+            "description": "references info to be added",
+            "schema": {
+              "properties": {
+                "approved_by_candidate": {
+                  "type": "boolean",
+                  "required": true,
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Returns job data corresponding to this application",
+            "schema": {
+              "properties": {
+                "candidate": {
+                  "type": "json",
+                  "required": true,
+                  "example": {
+                    "emailAddress": "rishabh.dixit123@gmail.com",
+                    "firstName": "Rishabh",
+                    "lastName": "Dixit",
+                    "id": "5948a1b8b2f3cc3c9572bc53"
+                  }
+                },
+                "job": {
+                  "$ref": "#/definitions/getApplicationByID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/referee-feedback": {
       "post": {
         "tags": [
@@ -1557,11 +1623,6 @@
           "required": true,
           "example": "pending"
         },
-        "feedback_requested": {
-          "type": "boolean",
-          "required": true,
-          "example": false
-        },
         "createdAt": {
           "type": "string",
           "required": true,
@@ -1571,6 +1632,36 @@
           "type": "string",
           "required": true,
           "example": "2017-06-21T04:56:21.098Z"
+        },
+        "recruiter_feedback_requested": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "referee_feedback_requested": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "applied_by_candidate": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "approved_by_candidate": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "contacted": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "recruiter_reviewed": {
+          "type": "boolean",
+          "required": false,
+          "example": false
         }
       }
     },
@@ -1997,11 +2088,6 @@
           "required": true,
           "example": "pending"
         },
-        "feedback_requested": {
-          "type": "boolean",
-          "required": true,
-          "example": false
-        },
         "references_info": {
           "type": "array",
           "required": false,
@@ -2064,7 +2150,8 @@
                 "firstName": "Rishabh",
                 "lastName": "Dixit",
                 "id": "59589e510bb42441e7391c1b"
-              }
+              },
+              "approved_by_candidate": true
             }
           }
         },
@@ -2077,6 +2164,46 @@
           "type": "string",
           "required": true,
           "example": "2017-06-21T04:56:21.098Z"
+        },
+        "reference_status": {
+          "type": "string",
+          "required": false,
+          "example": "replied"
+        },
+        "application_status": {
+          "type": "string",
+          "required": false,
+          "example": "completed"
+        },
+        "recruiter_feedback_requested": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "referee_feedback_requested": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "applied_by_candidate": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "approved_by_candidate": {
+          "type": "boolean",
+          "required": false,
+          "example": true
+        },
+        "contacted": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "recruiter_reviewed": {
+          "type": "boolean",
+          "required": false,
+          "example": false
         }
       }
     },
@@ -2245,13 +2372,16 @@
               "validation_status": "incomplete",
               "submission_status": "incomplete",
               "acceptance_status": "pending",
-              "feedback_requested": false,
               "createdAt": "2017-06-06T06:59:25.858Z",
               "updatedAt": "2017-06-30T05:27:51.021Z",
               "reference_status": "replied",
               "application_status": "completed",
               "recruiter_feedback_requested": false,
               "referee_feedback_requested": false,
+              "applied_by_candidate": false,
+              "approved_by_candidate": false,
+              "contacted": false,
+              "recruiter_reviewed": false,
               "id": "593652cd8acaf3d812070550",
               "job": {
                 "_id": "592531db7868c5a68589a762",
@@ -2289,7 +2419,6 @@
               "validation_status": "incomplete",
               "submission_status": "incomplete",
               "acceptance_status": "pending",
-              "feedback_requested": false,
               "createdAt": "2017-06-06T07:20:43.089Z",
               "updatedAt": "2017-06-06T07:23:05.811Z",
               "reference_status": "replied",
@@ -2353,13 +2482,16 @@
               "validation_status": "incomplete",
               "submission_status": "incomplete",
               "acceptance_status": "pending",
-              "feedback_requested": false,
               "createdAt": "2017-06-06T06:59:25.858Z",
               "updatedAt": "2017-06-30T05:27:51.021Z",
               "reference_status": "replied",
               "application_status": "completed",
               "recruiter_feedback_requested": false,
               "referee_feedback_requested": false,
+              "applied_by_candidate": false,
+              "approved_by_candidate": false,
+              "contacted": false,
+              "recruiter_reviewed": false,
               "id": "593652cd8acaf3d812070550",
               "job": {
                 "_id": "592531db7868c5a68589a762",
@@ -2391,13 +2523,16 @@
               "validation_status": "incomplete",
               "submission_status": "incomplete",
               "acceptance_status": "pending",
-              "feedback_requested": false,
               "createdAt": "2017-06-06T07:20:43.089Z",
               "updatedAt": "2017-06-06T07:23:05.811Z",
               "reference_status": "replied",
               "application_status": "completed",
               "recruiter_feedback_requested": false,
               "referee_feedback_requested": false,
+              "applied_by_candidate": false,
+              "approved_by_candidate": false,
+              "contacted": false,
+              "recruiter_reviewed": false,
               "id": "593657cb8acaf3d812070551",
               "job": {
                 "_id": "592531e77868c5a68589a763",
@@ -2585,6 +2720,46 @@
         "applications_waiting": {
           "type": "array",
           "example": []
+        },
+        "reference_status": {
+          "type": "string",
+          "required": false,
+          "example": "replied"
+        },
+        "application_status": {
+          "type": "string",
+          "required": false,
+          "example": "completed"
+        },
+        "recruiter_feedback_requested": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "referee_feedback_requested": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "applied_by_candidate": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "approved_by_candidate": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "contacted": {
+          "type": "boolean",
+          "required": false,
+          "example": false
+        },
+        "recruiter_reviewed": {
+          "type": "boolean",
+          "required": false,
+          "example": false
         }
       }
     },
