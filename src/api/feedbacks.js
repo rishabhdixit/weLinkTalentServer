@@ -74,11 +74,13 @@ export default ({ app }) => resource({
 	 PUT /api/applications/{application}/feedback/{id} - Update/Approve feedback
 	 */
 	async update({ params, body }, res) {
-		let updateObj = _.clone(body);
-		if (params.feedback) {
-			const key = `feedback.${params.feedback}.${Constants.STATUS.APPROVED_BY_CANDIDATE}`;
-			updateObj[key] = true;
+		let updateObj = {};
+		if (body[Constants.STATUS.APPROVED_BY_CANDIDATE]) {
+			updateObj[Constants.STATUS.APPROVED_BY_CANDIDATE] = true;
 		}
+		_.forOwn(body, (value, key) => {
+			updateObj[`feedback.${params.feedback}.${key}`] = value;
+		});
 		updateObj = JSON.parse(JSON.stringify(updateObj));
 		res.json(await applicationsService.updateApplication(app, params.application, updateObj));
 	},

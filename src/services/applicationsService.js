@@ -55,7 +55,7 @@ module.exports = {
 				if (err) {
 					reject(err);
 				} else {
-					const options = { returnNewDocument: true };
+					const options = { returnOriginal: false };
 					collection.findOneAndUpdate({ _id: new ObjectID(applicationId.toString()) },
 						{ $set: updateObj },
 						options, (error, result) => {
