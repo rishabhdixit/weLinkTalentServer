@@ -29,7 +29,6 @@ export default ({ app }) => resource({
 		if (_.get(application, 'value') && _.get(application, 'value.references_info')) {
 			let formStatus;
 			let referenceStatus;
-			let applicationStatus;
 			const feedbacks = (_.get(application, 'value.feedback') && (_.size(application.value.feedback) + 1)) || 1;
 			application.value.references_info.forEach((reference) => {
 				if (reference.canContact === 'Yes') {
@@ -39,18 +38,15 @@ export default ({ app }) => resource({
 			if (feedbacks < canContactReferences) {
 				formStatus = Constants.STATUS.COMPLETE;
 				referenceStatus = Constants.STATUS.REPLIED;
-				applicationStatus = Constants.STATUS.COMPLETED;
 			} else {
 				formStatus = Constants.STATUS.SUBMITTED;
 				referenceStatus = Constants.STATUS.REPLIED;
-				applicationStatus = Constants.STATUS.COMPLETED;
 			}
 			promiseArray.push(app.models.application.update({
 				id: params.application,
 			}, {
 				form_status: formStatus,
 				reference_status: referenceStatus,
-				application_status: applicationStatus,
 			}));
 		}
 
@@ -77,6 +73,8 @@ export default ({ app }) => resource({
 		let updateObj = {};
 		if (body[Constants.STATUS.APPROVED_BY_CANDIDATE]) {
 			updateObj[Constants.STATUS.APPROVED_BY_CANDIDATE] = true;
+			updateObj.reference_status = Constants.STATUS.APPROVED;
+			updateObj.application_status = Constants.STATUS.COMPLETED;
 		}
 		_.forOwn(body, (value, key) => {
 			updateObj[`feedback.${params.feedback}.${key}`] = value;

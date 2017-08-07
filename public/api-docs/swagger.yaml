@@ -1615,6 +1615,7 @@ definitions:
               lastName: Dixit
               id: 59589e510bb42441e7391c1b
             approved_by_candidate: true
+            userId: 5948a1b8b2f3cc3c9572bc53
       createdAt:
         type: string
         required: true
@@ -1626,7 +1627,7 @@ definitions:
       reference_status:
         type: string
         required: false
-        example: replied
+        example: approved
       application_status:
         type: string
         required: false
