@@ -1340,7 +1340,7 @@
         }
       }
     },
-    "/api/referee-feedback": {
+    "/referee-feedback": {
       "post": {
         "tags": [
           "Applications"
