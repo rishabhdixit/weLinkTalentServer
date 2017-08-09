@@ -8,6 +8,9 @@ module.exports = {
 	TOKEN_NOT_VALID: 'Token not valid',
 	TOKEN_EXPIRED: 'Token expired',
 	TOKEN_NOT_PROVIDED: 'Token not provided',
+	REFEREE: 'referee',
+	RECRUITER: 'recruiter',
+	INVALID_QUERY_PARAMS: 'Invalid query params',
 	STATUS: {
 		INCOMPLETE: 'incomplete',
 		COMPLETE: 'complete',
