@@ -32,6 +32,8 @@ export default ({ app }) => resource({
 			const queryObj = {};
 			if (params.user) {
 				queryObj.user_id = params.user;
+			} else {
+				queryObj.applied_by_candidate = true;
 			}
 			const applicationProjectionObj = {
 				form_data: 0,
