@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import Promise from 'bluebird';
 import resource from '../lib/resource-router';
 import applicationsService from '../services/applicationsService';
+import encryptDecryptService from '../services/encryptDecryptService';
 import jobsService from '../services/jobsService';
 import Constants from '../constants';
 
@@ -17,11 +18,23 @@ export default ({ app }) => resource({
 	 POST /api/applications/{application}/feedback - Save referee feedback
 	 */
 	async create({ params, body }, res) {
+		const decryptedToken = encryptDecryptService.decrypt(body.token);
+		if (decryptedToken === Constants.APPLICATION_NOT_FOUND) {
+			return res.status(401).json({
+				error: Constants.TOKEN_NOT_VALID,
+			});
+		}
 		const application = await applicationsService.addFeedback(app, params.application, body);
 		const candidateId = application.value && application.value.user_id;
 		const jobId = application.value && application.value.job_id;
 		let canContactReferences = 0;
 		const promiseArray = [];
+		promiseArray.push(app.models.token.update({
+			emailAddress: decryptedToken.emailAddress,
+			applicationId: decryptedToken.applicationId,
+		}, {
+			expired: true,
+		}));
 		promiseArray.push(app.models.profile.findOne({
 			where: { user: candidateId },
 			select: ['firstName', 'lastName', 'emailAddress'],
@@ -57,10 +70,10 @@ export default ({ app }) => resource({
 		}
 
 		await Promise.all(promiseArray)
-			.spread((candidate, updatedApplication, job) => res.json({ candidate, job }))
+			.spread((expiredToken, candidate, updatedApplication, job) => res.json({ candidate, job }))
 			.catch((err) => {
 				console.log('Error is ', err);
-				res.status(500).json({
+				return res.status(500).json({
 					error: err,
 				});
 			});

@@ -3,22 +3,28 @@
  */
 import { ObjectID } from 'mongodb';
 import * as _ from 'lodash';
+import encryptDecryptService from '../services/encryptDecryptService';
 import Constants from '../constants';
 
 module.exports = {
 	addFeedback: async (app, applicationId, feedbackRecord) => new Promise((resolve, reject) => {
 		app.models.application.native((err, collection) => {
 			if (err) {
-				reject(err);
-			} else {
-				const refereeId = _.get(feedbackRecord, 'referee_id');
-				const feedbackObj = _.clone(feedbackRecord.feedback);
-				feedbackObj.userId = refereeId;
-				feedbackObj[Constants.STATUS.APPROVED_BY_CANDIDATE] = false;
-				const updateObj = {
-					[`feedback.${refereeId}`]: feedbackObj,
-				};
-				collection.findOneAndUpdate({ _id: new ObjectID(applicationId.toString()) },
+				return reject(err);
+			}
+			const decryptedToken = encryptDecryptService.decrypt(feedbackRecord.token);
+			if (decryptedToken === Constants.APPLICATION_NOT_FOUND) {
+				return reject({ error: Constants.TOKEN_NOT_VALID });
+			}
+			const refereeId = _.get(feedbackRecord, 'referee_id');
+			const feedbackObj = _.clone(feedbackRecord.feedback);
+			feedbackObj.userId = refereeId;
+			feedbackObj.userEmail = decryptedToken.emailAddress;
+			feedbackObj[Constants.STATUS.APPROVED_BY_CANDIDATE] = false;
+			const updateObj = {
+				[`feedback.${refereeId}`]: feedbackObj,
+			};
+			collection.findOneAndUpdate({ _id: new ObjectID(applicationId.toString()) },
 					{ $set: updateObj }, (error, result) => {
 						if (error) {
 							reject(error);
@@ -26,7 +32,6 @@ module.exports = {
 							resolve(result);
 						}
 					});
-			}
 		});
 	}),
 	getApplications: async (app, searchCriteria, projectionObj, limit, skip, sort) =>

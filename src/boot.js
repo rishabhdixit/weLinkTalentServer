@@ -7,6 +7,7 @@ import path from 'path';
 import expressWinston from 'express-winston';
 import initializeDb from './db';
 import auth from './middleware/auth';
+import validateToken from './middleware/validateToken';
 import api from './api';
 import config from '../config';
 
@@ -49,6 +50,9 @@ export default function bootServer(callback) {
 
 		// auth middleware
 		app.use(auth({ config, app }));
+
+		// validate token middleware
+		app.use(validateToken({ app }));
 
 		// api router
 		app.use('/api', api({ config, app }));

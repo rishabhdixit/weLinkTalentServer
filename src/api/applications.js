@@ -184,19 +184,33 @@ export default ({ app }) => resource({
 						const profileData = await app.models.profile.findOne({ user: application[0].user_id });
 						const referencesInfo = application[0].references_info;
 						const promiseArray = [];
+						const tokensArray = [];
 						// logic for sending emails to referees
 						for (let i = 0; i < referencesInfo.length; i += 1) {
 							if (referencesInfo[i].canContact === 'Yes') {
+								const tokenObj = {
+									applicationId: application[0].id,
+									emailAddress: referencesInfo[i].emailAddress,
+								};
+								const buff = Buffer.from(JSON.stringify(tokenObj));
+								const token = encryptDecryptService.encrypt(buff);
 								const requestBody = {
 									appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
 									refereeEmail: referencesInfo[i].emailAddress,
 									refereeName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
 									candidateName: `${profileData.firstName} ${profileData.lastName}`,
-									token: encryptDecryptService.encrypt(application[0].id),
+									token,
 								};
+								tokensArray.push({
+									applicationId: application[0].id,
+									emailAddress: referencesInfo[i].emailAddress,
+									token,
+									expired: false,
+								});
 								promiseArray.push(emailService.sendRefereeEmail(requestBody));
 							}
 						}
+						promiseArray.push(app.models.token.create(tokensArray));
 						Promise.all(promiseArray)
 							.then((emails) => {
 								console.log('emails sent to referees ', emails);

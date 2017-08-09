@@ -58,7 +58,7 @@ module.exports = {
 		'/authenticate/linkedin',
 		'/oauth/linkedin',
 		'/oauth/linkedin/callback',
-		'/api/referee-feedback',
+		'/referee-feedback',
 		'/api/jobs',
 		/^\/api\/users\/.*\/bookmarks/,
 		/^\/api\/users\/.*\/applications/,
