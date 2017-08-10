@@ -21,6 +21,11 @@ const Application = Waterline.Collection.extend({
 			required: true,
 		},
 
+		recruiter_id: {
+			type: 'string',
+			required: true,
+		},
+
 		form_status: {
 			type: 'string',
 			defaultsTo: 'incomplete',

@@ -17,8 +17,8 @@ export default ({ app }) => resource({
 
 	/*
 	 POST /api/applications/{application}/feedback - Save referee feedback, and
-	  /api/applications/{application}/feedback?requested_for=referee
-	  /api/applications/{application}/feedback?requested_for=recruiter
+	 /api/applications/{application}/feedback?requested_for=referee
+	 /api/applications/{application}/feedback?requested_for=recruiter
 	 */
 	async create({ params, query, body }, res) {
 		if (query && query.requested_for) {
@@ -27,7 +27,9 @@ export default ({ app }) => resource({
 					const application = await app.models.application.update({
 						id: params.application,
 					}, { referee_feedback_requested: true });
-					const profileData = await app.models.profile.findOne({ user: application[0].user_id });
+					const candidateProfileData = await app.models.profile.findOne({
+						user: application[0].user_id,
+					});
 					let refereesData = [];
 					application[0].references_info.forEach((reference) => {
 						if (reference && reference.canContact === 'Yes') {
@@ -36,12 +38,12 @@ export default ({ app }) => resource({
 					});
 					_.forOwn(application[0].feedback, (value) => {
 						refereesData = _.filter(refereesData, referee =>
-						referee.emailAddress !== value.userEmail,
+							referee.emailAddress !== value.userEmail,
 						);
 					});
 					const promiseArray = [];
 					const tokensArray = [];
-				// logic for sending emails to referees
+					// logic for sending emails to referees
 					for (let i = 0; i < refereesData.length; i += 1) {
 						const tokenObj = {
 							applicationId: params.application,
@@ -50,10 +52,11 @@ export default ({ app }) => resource({
 						const buff = Buffer.from(JSON.stringify(tokenObj));
 						const token = encryptDecryptService.encrypt(buff);
 						const requestBody = {
+							userType: Constants.REFEREE,
 							appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-							refereeEmail: refereesData[i].emailAddress,
-							refereeName: `${refereesData[i].firstName} ${refereesData[i].lastName}`,
-							candidateName: `${profileData.firstName} ${profileData.lastName}`,
+							userEmail: refereesData[i].emailAddress,
+							userName: `${refereesData[i].firstName} ${refereesData[i].lastName}`,
+							candidateName: `${candidateProfileData.firstName} ${candidateProfileData.lastName}`,
 							token,
 						};
 						tokensArray.push({
@@ -62,20 +65,61 @@ export default ({ app }) => resource({
 							token,
 							expired: false,
 						});
-						promiseArray.push(emailService.sendRefereeEmail(requestBody));
+						promiseArray.push(emailService.sendRefereeRequestFeedbackEmail(requestBody));
 					}
 					promiseArray.push(app.models.token.create(tokensArray));
 					Promise.all(promiseArray)
-					.then((emails) => {
-						console.log('emails sent to referees ', emails);
-					});
-				// end of logic for email
+						.then((emails) => {
+							console.log('emails sent to referees ', emails);
+						});
+					// end of logic for email
 					return res.json(application[0]);
 				} catch (e) {
-					res.json({ Error: e });
+					res.status(500).json({ error: e });
 				}
 			} else if (query.requested_for === Constants.RECRUITER) {
-				// TODO - functionality for sending email to recruiter in case of requested feedback
+				try {
+					const promiseArray = [];
+					const application = await app.models.application.update({
+						id: params.application,
+					}, { recruiter_feedback_requested: true });
+					const candidateDetails = await app.models.profile.findOne({
+						where: { user: application[0].user_id },
+						select: ['firstName', 'lastName', 'emailAddress'],
+					});
+					const recruiterDetails = await app.models.profile.findOne({
+						where: { user: application[0].recruiter_id },
+						select: ['firstName', 'lastName', 'emailAddress'],
+					});
+					/* const tokenObj = {
+						applicationId: params.application,
+						emailAddress: recruiterDetails.emailAddress,
+					};
+					const buff = Buffer.from(JSON.stringify(tokenObj));
+					const token = encryptDecryptService.encrypt(buff);
+					promiseArray.push(app.models.token.create({
+						applicationId: params.application,
+						emailAddress: recruiterDetails.emailAddress,
+						token,
+						expired: false,
+					}));*/
+					const requestBody = {
+						userType: Constants.RECRUITER,
+						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
+						userEmail: recruiterDetails.emailAddress,
+						userName: `${recruiterDetails.firstName} ${recruiterDetails.lastName}`,
+						candidateName: `${candidateDetails.firstName} ${candidateDetails.lastName}`,
+					};
+					promiseArray.push(emailService.sendRecruiterRequestFeedbackEmail(requestBody));
+					Promise.all(promiseArray)
+						.then((emails) => {
+							console.log('emails sent to referees ', emails);
+						});
+					// end of logic for email
+					return res.json(application[0]);
+				} catch (e) {
+					res.status(500).json({ error: e });
+				}
 			} else {
 				return res.status(400).json({
 					error: Constants.INVALID_QUERY_PARAMS,

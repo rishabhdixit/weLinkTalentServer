@@ -161,8 +161,10 @@ export default ({ app }) => resource({
 		}
 		applicationObj.user_id = applicationObj.form_data.user_id;
 		applicationObj.job_id = applicationObj.form_data.job_id;
+		applicationObj.recruiter_id = applicationObj.form_data.recruiter_id;
 		delete applicationObj.form_data.user_id;
 		delete applicationObj.form_data.job_id;
+		delete applicationObj.form_data.recruiter_id;
 		delete applicationObj.form_data.files;
 		const application = await app.models.application.create(applicationObj);
 		res.json(application);
@@ -197,9 +199,10 @@ export default ({ app }) => resource({
 								const buff = Buffer.from(JSON.stringify(tokenObj));
 								const token = encryptDecryptService.encrypt(buff);
 								const requestBody = {
+									userType: Constants.REFEREE,
 									appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-									refereeEmail: referencesInfo[i].emailAddress,
-									refereeName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
+									userEmail: referencesInfo[i].emailAddress,
+									userName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
 									candidateName: `${profileData.firstName} ${profileData.lastName}`,
 									token,
 								};
@@ -209,7 +212,7 @@ export default ({ app }) => resource({
 									token,
 									expired: false,
 								});
-								promiseArray.push(emailService.sendRefereeEmail(requestBody));
+								promiseArray.push(emailService.sendRefereeAdditionEmail(requestBody));
 							}
 						}
 						promiseArray.push(app.models.token.create(tokensArray));
@@ -225,7 +228,14 @@ export default ({ app }) => resource({
 				}
 			});
 		} else {
-			res.json(await app.models.application.update({ id: params.application }, updateObj));
+			try {
+				const application = await app.models.application.update({
+					id: params.application,
+				}, updateObj);
+				res.json(application[0]);
+			} catch (e) {
+				res.status(500).json({ error: e });
+			}
 		}
 	},
 
