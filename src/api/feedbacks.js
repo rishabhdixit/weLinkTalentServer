@@ -102,7 +102,7 @@ export default ({ app }) => resource({
 						emailAddress: recruiterDetails.emailAddress,
 						token,
 						expired: false,
-					}));*/
+					})); */
 					const requestBody = {
 						userType: Constants.RECRUITER,
 						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
