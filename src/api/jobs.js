@@ -93,22 +93,32 @@ export default ({ app }) => resource({
 				jobObj[key] = value;
 			}
 		});
-		const job = await app.models.job.findOne({ id: req.params.job });
-		jobObj.remaining_slots = job.remaining_slots +
-			(jobObj.application_slots - job.application_slots);
-		if (jobObj.remaining_slots < 0) {
-			jobObj.remaining_slots = 0;
+		try {
+			const job = await app.models.job.findOne({ id: req.params.job });
+			jobObj.remaining_slots = job.remaining_slots +
+				(jobObj.application_slots - job.application_slots);
+			if (jobObj.remaining_slots < 0) {
+				jobObj.remaining_slots = 0;
+			}
+			const updatedJob = await app.models.job.update({ id: req.params.job }, jobObj);
+			res.json(updatedJob[0]);
+		} catch (e) {
+			res.status(500).json({ error: e });
 		}
-		const updatedJob = await app.models.job.update({ id: req.params.job }, jobObj);
-		res.json(updatedJob);
 	},
 
 	/*
 	 DELETE /api/jobs/{id} - Delete a job
 	 */
 	async delete({ params, body }, res) {
-		const deletedJob = await app.models.job.update({ id: params.job }, { archived: true });
-		res.json(deletedJob);
+		try {
+			const deletedJob = await app.models.job.update({ id: params.job }, { archived: true });
+			res.json(deletedJob[0]);
+		} catch (e) {
+			res.status(500).json({
+				error: e,
+			});
+		}
 	},
 
 });
