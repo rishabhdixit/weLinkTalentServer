@@ -69,16 +69,16 @@ module.exports = {
 		return sendEmail(mailOptions, transporter);
 	},
 	sendCandidateRecruiterFeedbackEmail(requestBody) {
-		const emailMessageBody = `Dear ${requestBody.userName},<br><br>` +
-			`This email has been sent to you because ${requestBody.candidateName} has added you as a referee in our application WeLinkTalent.com<br><br>` +
-			`So we request you to kindly take out some time and provide your feedback on our application. Here is the link - <a href="${requestBody.appUrl}/referee-feedback?token=${requestBody.token}">Click Here</a>`;
+		const emailMessageBody = 'Dear Applicant,<br><br>' +
+			'Recruiter has responded to your request for feedback:<br><br>' +
+			`"${requestBody.recruiterFeedback}"`;
 
 		console.log('Sending new verify email to referee...');
 
 		const mailOptions = {
 			from: 'WeLinkTalent <welinktalent@gmail.com>',
 			to: requestBody.userEmail,
-			subject: `Verify ${requestBody.candidateName}'s details`,
+			subject: 'Feedback from recruiter',
 			html: emailMessageBody,
 		};
 

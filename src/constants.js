@@ -10,6 +10,7 @@ module.exports = {
 	TOKEN_NOT_PROVIDED: 'Token not provided',
 	REFEREE: 'referee',
 	RECRUITER: 'recruiter',
+	CANDIDATE: 'candidate',
 	INVALID_QUERY_PARAMS: 'Invalid query params',
 	STATUS: {
 		INCOMPLETE: 'incomplete',

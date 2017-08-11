@@ -232,6 +232,30 @@ export default ({ app }) => resource({
 				const application = await app.models.application.update({
 					id: params.application,
 				}, updateObj);
+				if (updateObj && updateObj.recruiter_comment) {
+					const promiseArray = [];
+					const candidateDetails = await app.models.profile.findOne({
+						where: { user: application[0].user_id },
+						select: ['firstName', 'lastName', 'emailAddress'],
+					});
+					/* const recruiterDetails = await app.models.profile.findOne({
+						where: { user: application[0].recruiter_id },
+						select: ['firstName', 'lastName', 'emailAddress'],
+					});*/
+					const requestBody = {
+						userType: Constants.CANDIDATE,
+						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
+						userEmail: candidateDetails.emailAddress,
+						userName: `${candidateDetails.firstName} ${candidateDetails.lastName}`,
+						// recruiterName: `${recruiterDetails.firstName} ${recruiterDetails.lastName}`,
+						recruiterFeedback: application[0].recruiter_comment,
+					};
+					promiseArray.push(emailService.sendCandidateRecruiterFeedbackEmail(requestBody));
+					Promise.all(promiseArray)
+						.then((emails) => {
+							console.log('emails sent to referees ', emails);
+						});
+				}
 				res.json(application[0]);
 			} catch (e) {
 				res.status(500).json({ error: e });
