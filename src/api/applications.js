@@ -241,7 +241,7 @@ export default ({ app }) => resource({
 					/* const recruiterDetails = await app.models.profile.findOne({
 						where: { user: application[0].recruiter_id },
 						select: ['firstName', 'lastName', 'emailAddress'],
-					});*/
+					}); */
 					const requestBody = {
 						userType: Constants.CANDIDATE,
 						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
