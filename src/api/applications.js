@@ -232,8 +232,12 @@ export default ({ app }) => resource({
 				const application = await app.models.application.update({
 					id: params.application,
 				}, updateObj);
+				const promiseArray = [];
+				if (updateObj && updateObj.applied_by_candidate) {
+					const jobId = application && application[0] && application[0].job_id;
+					promiseArray.push(jobsService.updateJobSlots(app, jobId, params.application));
+				}
 				if (updateObj && updateObj.recruiter_comment) {
-					const promiseArray = [];
 					const candidateDetails = await app.models.profile.findOne({
 						where: { user: application[0].user_id },
 						select: ['firstName', 'lastName', 'emailAddress'],

@@ -6,7 +6,6 @@ import Promise from 'bluebird';
 import resource from '../lib/resource-router';
 import applicationsService from '../services/applicationsService';
 import encryptDecryptService from '../services/encryptDecryptService';
-import jobsService from '../services/jobsService';
 import emailService from '../services/emailService';
 import Constants from '../constants';
 
@@ -171,11 +170,7 @@ export default ({ app }) => resource({
 				}));
 			}
 
-			if (_.get(application, 'value') && _.isEmpty(application.value.feedback)) {
-				promiseArray.push(jobsService.updateJobSlots(app, jobId, params.application));
-			} else {
-				promiseArray.push(app.models.job.findOne(jobId));
-			}
+			promiseArray.push(app.models.job.findOne(jobId));
 
 			await Promise.all(promiseArray)
 				.spread((expiredToken, candidate, updatedApplication, job) => res.json({ candidate, job }))
