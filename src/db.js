@@ -8,6 +8,7 @@ import Skill from './models/skill';
 import Position from './models/position';
 import Job from './models/job';
 import Application from './models/application';
+import Token from './models/token';
 
 export default (callback) => {
 	const orm = new Waterline();
@@ -18,6 +19,7 @@ export default (callback) => {
 	orm.loadCollection(Position);
 	orm.loadCollection(Job);
 	orm.loadCollection(Application);
+	orm.loadCollection(Token);
 	orm.initialize(config.db, (err, db) => {
 		if (err) {
 			console.log('Error while connecting to the db: ', err);

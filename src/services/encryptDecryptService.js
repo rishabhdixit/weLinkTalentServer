@@ -28,7 +28,7 @@ function decrypt(text) {
 
 		decrypted = Buffer.concat([decrypted, decipher.final()]);
 
-		return decrypted.toString();
+		return JSON.parse(decrypted.toString());
 	} catch (e) {
 		return Constants.APPLICATION_NOT_FOUND;
 	}

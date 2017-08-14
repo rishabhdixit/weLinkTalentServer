@@ -32,6 +32,8 @@ export default ({ app }) => resource({
 			const queryObj = {};
 			if (params.user) {
 				queryObj.user_id = params.user;
+			} else {
+				queryObj.applied_by_candidate = true;
 			}
 			const applicationProjectionObj = {
 				form_data: 0,
@@ -159,8 +161,10 @@ export default ({ app }) => resource({
 		}
 		applicationObj.user_id = applicationObj.form_data.user_id;
 		applicationObj.job_id = applicationObj.form_data.job_id;
+		applicationObj.recruiter_id = applicationObj.form_data.recruiter_id;
 		delete applicationObj.form_data.user_id;
 		delete applicationObj.form_data.job_id;
+		delete applicationObj.form_data.recruiter_id;
 		delete applicationObj.form_data.files;
 		const application = await app.models.application.create(applicationObj);
 		res.json(application);
@@ -184,19 +188,34 @@ export default ({ app }) => resource({
 						const profileData = await app.models.profile.findOne({ user: application[0].user_id });
 						const referencesInfo = application[0].references_info;
 						const promiseArray = [];
+						const tokensArray = [];
 						// logic for sending emails to referees
 						for (let i = 0; i < referencesInfo.length; i += 1) {
 							if (referencesInfo[i].canContact === 'Yes') {
-								const requestBody = {
-									appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-									refereeEmail: referencesInfo[i].emailAddress,
-									refereeName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
-									candidateName: `${profileData.firstName} ${profileData.lastName}`,
-									token: encryptDecryptService.encrypt(application[0].id),
+								const tokenObj = {
+									applicationId: application[0].id,
+									emailAddress: referencesInfo[i].emailAddress,
 								};
-								promiseArray.push(emailService.sendRefereeEmail(requestBody));
+								const buff = Buffer.from(JSON.stringify(tokenObj));
+								const token = encryptDecryptService.encrypt(buff);
+								const requestBody = {
+									userType: Constants.REFEREE,
+									appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
+									userEmail: referencesInfo[i].emailAddress,
+									userName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
+									candidateName: `${profileData.firstName} ${profileData.lastName}`,
+									token,
+								};
+								tokensArray.push({
+									applicationId: application[0].id,
+									emailAddress: referencesInfo[i].emailAddress,
+									token,
+									expired: false,
+								});
+								promiseArray.push(emailService.sendRefereeAdditionEmail(requestBody));
 							}
 						}
+						promiseArray.push(app.models.token.create(tokensArray));
 						Promise.all(promiseArray)
 							.then((emails) => {
 								console.log('emails sent to referees ', emails);
@@ -209,7 +228,42 @@ export default ({ app }) => resource({
 				}
 			});
 		} else {
-			res.json(await app.models.application.update({ id: params.application }, updateObj));
+			try {
+				const application = await app.models.application.update({
+					id: params.application,
+				}, updateObj);
+				const promiseArray = [];
+				if (updateObj && updateObj.applied_by_candidate) {
+					const jobId = application && application[0] && application[0].job_id;
+					promiseArray.push(jobsService.updateJobSlots(app, jobId, params.application));
+				}
+				if (updateObj && updateObj.recruiter_comment) {
+					const candidateDetails = await app.models.profile.findOne({
+						where: { user: application[0].user_id },
+						select: ['firstName', 'lastName', 'emailAddress'],
+					});
+					/* const recruiterDetails = await app.models.profile.findOne({
+						where: { user: application[0].recruiter_id },
+						select: ['firstName', 'lastName', 'emailAddress'],
+					}); */
+					const requestBody = {
+						userType: Constants.CANDIDATE,
+						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
+						userEmail: candidateDetails.emailAddress,
+						userName: `${candidateDetails.firstName} ${candidateDetails.lastName}`,
+						// recruiterName: `${recruiterDetails.firstName} ${recruiterDetails.lastName}`,
+						recruiterFeedback: application[0].recruiter_comment,
+					};
+					promiseArray.push(emailService.sendCandidateRecruiterFeedbackEmail(requestBody));
+					Promise.all(promiseArray)
+						.then((emails) => {
+							console.log('emails sent to referees ', emails);
+						});
+				}
+				res.json(application[0]);
+			} catch (e) {
+				res.status(500).json({ error: e });
+			}
 		}
 	},
 
