@@ -1608,21 +1608,6 @@
           "required": true,
           "example": "complete"
         },
-        "validation_status": {
-          "type": "string",
-          "required": true,
-          "example": "incomplete"
-        },
-        "submission_status": {
-          "type": "string",
-          "required": true,
-          "example": "incomplete"
-        },
-        "acceptance_status": {
-          "type": "string",
-          "required": true,
-          "example": "pending"
-        },
         "createdAt": {
           "type": "string",
           "required": true,
@@ -2055,21 +2040,6 @@
           "required": true,
           "example": "complete"
         },
-        "validation_status": {
-          "type": "string",
-          "required": true,
-          "example": "incomplete"
-        },
-        "submission_status": {
-          "type": "string",
-          "required": true,
-          "example": "incomplete"
-        },
-        "acceptance_status": {
-          "type": "string",
-          "required": true,
-          "example": "pending"
-        },
         "references_info": {
           "type": "array",
           "required": false,
@@ -2352,9 +2322,6 @@
               "user_id": "5948a1b8b2f3cc3c9572bc53",
               "job_id": "592531db7868c5a68589a762",
               "form_status": "complete",
-              "validation_status": "incomplete",
-              "submission_status": "incomplete",
-              "acceptance_status": "pending",
               "createdAt": "2017-06-06T06:59:25.858Z",
               "updatedAt": "2017-06-30T05:27:51.021Z",
               "reference_status": "replied",
@@ -2399,9 +2366,6 @@
               "user_id": "5948a1b8b2f3cc3c9572bc53",
               "job_id": "592531e77868c5a68589a763",
               "form_status": "complete",
-              "validation_status": "incomplete",
-              "submission_status": "incomplete",
-              "acceptance_status": "pending",
               "createdAt": "2017-06-06T07:20:43.089Z",
               "updatedAt": "2017-06-06T07:23:05.811Z",
               "reference_status": "replied",
@@ -2462,9 +2426,6 @@
               "user_id": "5948a1b8b2f3cc3c9572bc53",
               "job_id": "592531db7868c5a68589a762",
               "form_status": "complete",
-              "validation_status": "incomplete",
-              "submission_status": "incomplete",
-              "acceptance_status": "pending",
               "createdAt": "2017-06-06T06:59:25.858Z",
               "updatedAt": "2017-06-30T05:27:51.021Z",
               "reference_status": "replied",
@@ -2503,9 +2464,6 @@
               "user_id": "5948a1b8b2f3cc3c9572bc53",
               "job_id": "592531e77868c5a68589a763",
               "form_status": "complete",
-              "validation_status": "incomplete",
-              "submission_status": "incomplete",
-              "acceptance_status": "pending",
               "createdAt": "2017-06-06T07:20:43.089Z",
               "updatedAt": "2017-06-06T07:23:05.811Z",
               "reference_status": "replied",

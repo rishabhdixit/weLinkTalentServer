@@ -74,7 +74,7 @@ export default ({ app }) => resource({
 					// end of logic for email
 					return res.json(application[0]);
 				} catch (e) {
-					res.status(500).json({ error: e });
+					res.status(500).json(e);
 				}
 			} else if (query.requested_for === Constants.RECRUITER) {
 				try {
@@ -117,7 +117,7 @@ export default ({ app }) => resource({
 					// end of logic for email
 					return res.json(application[0]);
 				} catch (e) {
-					res.status(500).json({ error: e });
+					res.status(500).json(e);
 				}
 			} else {
 				return res.status(400).json({
