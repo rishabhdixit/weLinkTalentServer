@@ -103,21 +103,19 @@ export default ({ app }) => resource({
 			const updatedJob = await app.models.job.update({ id: req.params.job }, jobObj);
 			res.json(updatedJob[0]);
 		} catch (e) {
-			res.status(500).json({ error: e });
+			res.status(500).json(e);
 		}
 	},
 
 	/*
 	 DELETE /api/jobs/{id} - Delete a job
 	 */
-	async delete({ params, body }, res) {
+	async del({ params, body }, res) {
 		try {
 			const deletedJob = await app.models.job.update({ id: params.job }, { archived: true });
 			res.json(deletedJob[0]);
 		} catch (e) {
-			res.status(500).json({
-				error: e,
-			});
+			res.status(500).json(e);
 		}
 	},
 
