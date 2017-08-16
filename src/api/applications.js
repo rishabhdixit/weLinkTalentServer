@@ -224,63 +224,6 @@ export default ({ app }) => resource({
 			} catch (err) {
 				res.status(500).json(err);
 			}
-			/* app.models.application.update({
-				id: params.application,
-			}, updateObj, async (err, application) => {
-				if (err) {
-					return res.status(500).json({
-						error: err
-					});
-				} else if (application && application.length) {
-					try {
-						const jobId = application[0].job_id;
-						const jobData = await app.models.job.findOne(jobId);
-						const profileData = await app.models.profile.findOne({ user: application[0].user_id });
-						const referencesInfo = application[0].references_info;
-						const promiseArray = [];
-						const tokensArray = [];
-						// logic for sending emails to referees
-						for (let i = 0; i < referencesInfo.length; i += 1) {
-							if (referencesInfo[i].canContact === 'Yes') {
-								const tokenObj = {
-									applicationId: application[0].id,
-									emailAddress: referencesInfo[i].emailAddress,
-								};
-								const buff = Buffer.from(JSON.stringify(tokenObj));
-								const token = encryptDecryptService.encrypt(buff);
-								const requestBody = {
-									userType: Constants.REFEREE,
-									appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-									userEmail: referencesInfo[i].emailAddress,
-									userName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
-									candidateName: `${profileData.firstName} ${profileData.lastName}`,
-									token,
-								};
-								tokensArray.push({
-									applicationId: application[0].id,
-									emailAddress: referencesInfo[i].emailAddress,
-									token,
-									expired: false,
-								});
-								promiseArray.push(emailService.sendRefereeAdditionEmail(requestBody));
-							}
-						}
-						promiseArray.push(app.models.token.create(tokensArray));
-						Promise.all(promiseArray)
-							.then((emails) => {
-								console.log('emails sent to referees ', emails);
-							});
-						// end of logic for email
-						res.json(jobData);
-					} catch (e) {
-						res.json({ Error: e });
-					}
-				} else {
-					res.status(500).json({
-						error: Constants.APPLICATION_NOT_FOUND
-					})
-				}
-			}); */
 		} else {
 			try {
 				const application = await app.models.application.update({
