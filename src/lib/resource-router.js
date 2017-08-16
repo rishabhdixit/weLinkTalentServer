@@ -10,7 +10,7 @@ import { Router } from 'express';
  *
  */
 const keyed = ['get', 'read', 'put', 'patch', 'update', 'del', 'delete'];
-const map = { index: 'get', list: 'get', read: 'get', create: 'post', update: 'put', modify: 'patch', load: 'get', delete: 'delete' };
+const map = { index: 'get', list: 'get', read: 'get', create: 'post', update: 'put', modify: 'patch', load: 'get' };
 
 export default function ResourceRouter(route) {
 	const mergeParams = route.mergeParams;
