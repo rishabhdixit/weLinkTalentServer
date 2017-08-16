@@ -280,7 +280,7 @@ export default ({ app }) => resource({
 						error: Constants.APPLICATION_NOT_FOUND
 					})
 				}
-			});*/
+			}); */
 		} else {
 			try {
 				const application = await app.models.application.update({
