@@ -52,7 +52,8 @@ export default ({ app }) => resource({
 	/*
 	 DELETE /api/users/{user}/bookmarks/{post} - Remove bookmark
 	 */
-	async delete({ params }, res) {
+	async del({ params }, res) {
+		console.log('ddddd');
 		res.json(await usersService.removeBookmark(app, params.user, params.bookmark));
 	},
 

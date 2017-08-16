@@ -110,7 +110,7 @@ export default ({ app }) => resource({
 	/*
 	 DELETE /api/jobs/{id} - Delete a job
 	 */
-	async delete({ params, body }, res) {
+	async del({ params, body }, res) {
 		try {
 			const deletedJob = await app.models.job.update({ id: params.job }, { archived: true });
 			res.json(deletedJob[0]);

@@ -36,7 +36,7 @@ export default ({ app }) => resource({
 	},
 
 	/** DELETE /api/users/{user}/profiles/{profile} - Delete a profile entity by profile id */
-	async delete({ params }, res) {
+	async del({ params }, res) {
 		const [user, profile] = await Promise.all([
 			app.models.user.update(params.user, { profile: null }),
 			app.models.profile.destroy({ id: params.profile, user: params.user }),
