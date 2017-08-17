@@ -95,39 +95,39 @@ const Application = Waterline.Collection.extend({
 	},
 	beforeValidate(values, cb) {
 		if (values.form_data) {
-			if (!values.form_data.reasonForLeaving) {
+			const form = values.form_data;
+			if (!form.reasonForLeaving) {
 				return cb('No value for reason for leaving provided');
 			}
-			if (!values.form_data.basePerMonth) {
+			if (!form.basePerMonth) {
 				return cb('No value for base per month provided');
-			} else if (!parseInt(values.form_data.basePerMonth, 10)
-				|| parseInt(values.form_data.basePerMonth, 10) < 0) {
+			} else if (!Number(form.basePerMonth) || Number(form.basePerMonth) < 0) {
 				return cb('Please provide valid number for base per month');
 			}
-			if (!values.form_data.bonus) {
+			if (!form.bonus) {
 				return cb('No value for bonus provided');
-			} else if (!parseInt(values.form_data.bonus, 10)
-				|| parseInt(values.form_data.bonus, 10) < 0) {
+			} else if (!Number(form.bonus) || Number(form.bonus) < 0) {
 				return cb('Please provide valid number for bonus');
 			}
-			if (!values.form_data.skills || !values.form_data.skills.length) {
+			if (!form.skills || !form.skills.length) {
 				return cb('No skills provided');
 			}
-			if (!values.form_data.strength) {
+			if (!form.strength) {
 				return cb('No value for strength provided');
 			}
-			if (!values.form_data.improvements) {
+			if (!form.improvements) {
 				return cb('No value for improvements provided');
 			}
-			if (!values.form_data.achievements) {
+			if (!form.achievements) {
 				return cb('No value for management provided');
 			}
-			if (!values.form_data.management) {
+			if (!form.management) {
 				return cb('No value for management provided');
 			}
 		}
 		if (values.references_info && values.references_info.length) {
 			let errorMsg;
+			const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			values.references_info.some((reference) => {
 				if (!reference.firstName) {
 					errorMsg = 'First name for reference not provided';
@@ -152,6 +152,9 @@ const Application = Waterline.Collection.extend({
 				if (!reference.emailAddress) {
 					errorMsg = 'Email address of reference not provided';
 					return true;
+				}
+				if (!regex.test(reference.emailAddress)) {
+					return cb('Email address of reference is not valid');
 				}
 				if (!reference.relationship) {
 					errorMsg = 'Relationship with reference not provided';
