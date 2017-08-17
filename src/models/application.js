@@ -3,6 +3,7 @@
  */
 
 import Waterline from 'waterline';
+import moment from 'moment';
 
 const Application = Waterline.Collection.extend({
 	identity: 'application',
@@ -30,24 +31,6 @@ const Application = Waterline.Collection.extend({
 			type: 'string',
 			defaultsTo: 'incomplete',
 			enum: ['incomplete', 'complete', 'submitted'],
-		},
-
-		validation_status: {
-			type: 'string',
-			defaultsTo: 'incomplete',
-			enum: ['incomplete', 'complete', 'submitted'],
-		},
-
-		submission_status: {
-			type: 'string',
-			defaultsTo: 'incomplete',
-			enum: ['incomplete', 'complete', 'submitted'],
-		},
-
-		acceptance_status: {
-			type: 'string',
-			defaultsTo: 'pending',
-			enum: ['pending', 'rejected', 'accepted'],
 		},
 
 		referee_feedback_requested: {
@@ -109,6 +92,104 @@ const Application = Waterline.Collection.extend({
 			type: 'boolean',
 			defaultsTo: false,
 		},
+	},
+	beforeValidate(values, cb) {
+		if (values.form_data) {
+			const form = values.form_data;
+			if (!form.reasonForLeaving) {
+				return cb('No value for reason for leaving provided');
+			}
+			if (!form.basePerMonth) {
+				return cb('No value for base per month provided');
+			} else if (!Number(form.basePerMonth) || Number(form.basePerMonth) < 0) {
+				return cb('Please provide valid number for base per month');
+			}
+			if (!form.bonus) {
+				return cb('No value for bonus provided');
+			} else if (!Number(form.bonus) || Number(form.bonus) < 0) {
+				return cb('Please provide valid number for bonus');
+			}
+			if (!form.skills || !form.skills.length) {
+				return cb('No skills provided');
+			}
+			if (!form.strength) {
+				return cb('No value for strength provided');
+			}
+			if (!form.improvements) {
+				return cb('No value for improvements provided');
+			}
+			if (!form.achievements) {
+				return cb('No value for management provided');
+			}
+			if (!form.management) {
+				return cb('No value for management provided');
+			}
+		}
+		if (values.references_info && values.references_info.length) {
+			let errorMsg;
+			const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			values.references_info.some((reference) => {
+				if (!reference.firstName) {
+					errorMsg = 'First name for reference not provided';
+					return true;
+				}
+				if (!reference.lastName) {
+					errorMsg = 'Last name for reference not provided';
+					return true;
+				}
+				if (!reference.company) {
+					errorMsg = 'Company name of reference not provided';
+					return true;
+				}
+				if (!reference.title) {
+					errorMsg = 'Job title of reference not provided';
+					return true;
+				}
+				if (!reference.phone) {
+					errorMsg = 'Phone number of reference not provided';
+					return true;
+				}
+				if (!reference.emailAddress) {
+					errorMsg = 'Email address of reference not provided';
+					return true;
+				}
+				if (!regex.test(reference.emailAddress)) {
+					return cb('Email address of reference is not valid');
+				}
+				if (!reference.relationship) {
+					errorMsg = 'Relationship with reference not provided';
+					return true;
+				}
+				if (!reference.companyTogether) {
+					errorMsg = 'Company name where worked together not provided';
+					return true;
+				}
+				if (!reference.startYearOfWorking) {
+					errorMsg = 'Start year of working with reference not provided';
+					return true;
+				} else if (!moment(reference.startYearOfWorking).isValid()) {
+					errorMsg = 'Start year of working with reference not valid';
+					return true;
+				}
+				if (!reference.endYearOfWorking) {
+					errorMsg = 'End year of working with reference not provided';
+					return true;
+				} else if (!moment(reference.endYearOfWorking).isValid()) {
+					errorMsg = 'End year of working with reference not valid';
+					return true;
+				}
+				if (!reference.canContact) {
+					errorMsg = 'Can contact reference not provided';
+					return true;
+				}
+				return false;
+			});
+			if (errorMsg) {
+				return cb(errorMsg);
+			}
+			return cb();
+		}
+		cb();
 	},
 });
 
