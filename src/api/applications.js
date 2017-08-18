@@ -226,7 +226,7 @@ export default ({ app }) => resource({
 			}
 		} else {
 			try {
-				if (updateObj && _.isUndefined(updateObj.recruiter_reviewed)) {
+				if (updateObj && !_.isUndefined(updateObj.recruiter_reviewed)) {
 					updateObj.application_status = updateObj.recruiter_reviewed ?
 						Constants.STATUS.REVIEWED : Constants.STATUS.SUBMITTED;
 				}
