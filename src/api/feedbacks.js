@@ -133,6 +133,7 @@ export default ({ app }) => resource({
 			}
 			const application = await applicationsService.addFeedback(app, params.application, body);
 			const candidateId = application.value && application.value.user_id;
+			const refereeId = body.referee_id;
 			const jobId = application.value && application.value.job_id;
 			let canContactReferences = 0;
 			const promiseArray = [];
@@ -144,6 +145,10 @@ export default ({ app }) => resource({
 			}));
 			promiseArray.push(app.models.profile.findOne({
 				where: { user: candidateId },
+				select: ['firstName', 'lastName', 'emailAddress'],
+			}));
+			promiseArray.push(app.models.profile.findOne({
+				where: { user: refereeId },
 				select: ['firstName', 'lastName', 'emailAddress'],
 			}));
 			if (_.get(application, 'value') && _.get(application, 'value.references_info')) {
@@ -173,7 +178,29 @@ export default ({ app }) => resource({
 			promiseArray.push(app.models.job.findOne(jobId));
 
 			await Promise.all(promiseArray)
-				.spread((expiredToken, candidate, updatedApplication, job) => res.json({ candidate, job }))
+				.spread((expiredToken, candidate, referee, updatedApplication, job) => {
+					const requestBody = {
+						userType: Constants.CANDIDATE,
+						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
+						userEmail: candidate.emailAddress,
+						userName: `${candidate.firstName} ${candidate.lastName}`,
+						userFirstName: candidate.firstName,
+						userLastName: candidate.lastName,
+						refereeName: `${referee.firstName} ${referee.lastName}`,
+						refereeFirstName: referee.firstName,
+						refereeLastName: referee.lastName,
+						applicationId: updatedApplication[0].id,
+						refereeId,
+						jobTitle: job.title,
+					};
+					emailService.sendCandidateRefereeFeedbackEmail(requestBody)
+						.then(() => {
+							console.log('Email sent to the candidate'); // Success!
+						}, (reason) => {
+							console.log(reason); // Error!
+						});
+					res.json({ candidate, job });
+				})
 				.catch((err) => {
 					console.log('Error is ', err);
 					return res.status(500).json({
