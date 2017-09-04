@@ -53,9 +53,11 @@ export default ({ app }) => resource({
 						const requestBody = {
 							userType: Constants.REFEREE,
 							appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-							userEmail: refereesData[i].emailAddress,
-							userName: `${refereesData[i].firstName} ${refereesData[i].lastName}`,
-							candidateName: `${candidateProfileData.firstName} ${candidateProfileData.lastName}`,
+							refereeEmail: refereesData[i].emailAddress,
+							refereeFirstName: refereesData[i].firstName,
+							refereeLastName: refereesData[i].lastName,
+							candidateFirstName: candidateProfileData.firstName,
+							candidateLastName: candidateProfileData.lastName,
 							token,
 						};
 						tokensArray.push({
@@ -105,9 +107,11 @@ export default ({ app }) => resource({
 					const requestBody = {
 						userType: Constants.RECRUITER,
 						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-						userEmail: recruiterDetails.emailAddress,
-						userName: `${recruiterDetails.firstName} ${recruiterDetails.lastName}`,
-						candidateName: `${candidateDetails.firstName} ${candidateDetails.lastName}`,
+						recruiterEmail: recruiterDetails.emailAddress,
+						recruiterFirstName: recruiterDetails.firstName,
+						recruiterLastName: recruiterDetails.lastName,
+						candidateFirstName: candidateDetails.firstName,
+						candidateLastName: candidateDetails.lastName,
 					};
 					promiseArray.push(emailService.sendRecruiterRequestFeedbackEmail(requestBody));
 					Promise.all(promiseArray)
@@ -182,11 +186,9 @@ export default ({ app }) => resource({
 					const requestBody = {
 						userType: Constants.CANDIDATE,
 						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-						userEmail: candidate.emailAddress,
-						userName: `${candidate.firstName} ${candidate.lastName}`,
-						userFirstName: candidate.firstName,
-						userLastName: candidate.lastName,
-						refereeName: `${referee.firstName} ${referee.lastName}`,
+						candidateEmail: candidate.emailAddress,
+						candidateFirstName: candidate.firstName,
+						candidateLastName: candidate.lastName,
 						refereeFirstName: referee.firstName,
 						refereeLastName: referee.lastName,
 						applicationId: updatedApplication[0].id,

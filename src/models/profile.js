@@ -46,6 +46,10 @@ const Profile = Waterline.Collection.extend({
 			type: 'array',
 		},
 
+		workExperiences: {
+			type: 'array',
+		},
+
 		skills: {
 			type: 'array',
 		},
@@ -82,44 +86,16 @@ const Profile = Waterline.Collection.extend({
 			type: 'string',
 		},
 
-		noOfChildren: {
-			type: 'integer',
-			min: 0,
+		currentSalary: {
+			type: 'json',
 		},
 
-		salaryPerMonth: {
-			type: 'float',
-			min: 0,
+		expectedSalary: {
+			type: 'json',
 		},
 
-		salaryBasis: {
-			type: 'string',
-		},
-
-		bonusAmount: {
-			type: 'float',
-			min: 0,
-		},
-
-		bonusCalc: {
-			type: 'string',
-		},
-
-		allowance: {
-			type: 'float',
-			min: 0,
-		},
-
-		allowanceDesc: {
-			type: 'string',
-		},
-
-		incentives: {
-			type: 'string',
-		},
-
-		vestingPeriod: {
-			type: 'string',
+		miscellaneous: {
+			type: 'json',
 		},
 
 		toJSON() {
@@ -145,9 +121,6 @@ const Profile = Waterline.Collection.extend({
 		}
 		if (values.mobileNumber && !Number(values.mobileNumber)) {
 			return cb('Mobile number is not valid');
-		}
-		if (values.vestingPeriod && !moment(values.vestingPeriod).isValid()) {
-			return cb('Visa validitity is not a proper date');
 		}
 		cb();
 	},

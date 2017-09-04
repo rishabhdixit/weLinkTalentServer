@@ -15,7 +15,7 @@ module.exports = {
 		connections: {
 			default: {
 				adapter: 'sails-mongo',
-				url: process.env.MONGODB_URI || 'mongodb://rishabh:rishabh@ds053188.mlab.com:53188/welinktalent'
+				url: process.env.MONGODB_URI || 'mongodb://localhost:27017/welinktalent',
 			},
 		},
 		defaults: {
