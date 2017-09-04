@@ -26,15 +26,92 @@ export default ({ app }) => resource({
 		const limit = config.pageLimit;
 		const page = parseInt(query.page || 1, 10);
 		const skip = limit * (page - 1);
-		const sort = 'updatedAt DESC';
-		// GET /api/applications, and GET /api/users/{user}/applications
-		if (_.isUndefined(params.user) || _.isUndefined(query.jobId)) {
-			const queryObj = {};
-			if (params.user) {
-				queryObj.user_id = params.user;
-			} else {
-				queryObj.applied_by_candidate = true;
+		const sort = { updatedAt: -1 };
+		if (_.isUndefined(query.jobId) && _.isUndefined(params.user)) {
+			// GET /api/applications
+			const jobProjectionObj = {
+				company: 1,
+				description: 1,
+				location: 1,
+				title: 1,
+				application_slots: 1,
+				remaining_slots: 1,
+			};
+			const applicationProjectionObj = {
+				form_data: 0,
+				feedback: 0,
+				references_info: 0,
+			};
+			const jobIds = [];
+			const userIds = [];
+			const searchCriteria = { archived: { $ne: true } };
+			if (query.search) {
+				searchCriteria.$text = { $search: `"${query.search}"` };
 			}
+			const jobs = await jobsService.getJobs(app, searchCriteria, jobProjectionObj, 0, 0, { 'company.name': 1, title: 1 });
+			jobs.forEach((job) => {
+				jobIds.push(job._id.toString());
+			});
+			const applicationSearchCriteria = {
+				job_id: { $in: jobIds },
+				// applied_by_candidate: true
+			};
+			const applicationsCount = await applicationsService.getApplicationsCount(
+				app,
+				applicationSearchCriteria,
+			);
+			let applications = await applicationsService.getApplications(
+					app,
+					applicationSearchCriteria,
+					applicationProjectionObj,
+					limit,
+					skip,
+					sort,
+				);
+			if (applications && applications.length) {
+				applications.forEach((application, index) => {
+					applications[index].id = application._id;
+					userIds.push(new ObjectID(application.user_id.toString()));
+				});
+			}
+			// add job projectionObj fields to application object inside nested job object
+			applications = _.map(applications, application => _.extend(application, {
+				job: _.find(jobs, { _id: new ObjectID(application.job_id.toString()) }),
+			}));
+			const userProjectionObj = {
+				firstName: 1,
+				lastName: 1,
+				emailAddress: 1,
+				user: 1,
+				_id: 0,
+			};
+			const userSearchCriteria = {
+				user: { $in: userIds },
+			};
+			const users = await usersService.getProfiles(app, userSearchCriteria, userProjectionObj);
+			// add user data inside each applications object
+			applications = _.map(applications, application => _.extend(application, {
+				user: _.omit(_.extend(_.find(users, {
+					user: new ObjectID(application.user_id.toString()),
+				}),
+					{ _id: application.user_id }), ['user']),
+			}));
+			applications = _.orderBy(applications, [application => application.job.company.name.toLowerCase(), application => application.job.title.toLowerCase()], ['asc', 'asc']);
+			const pageMetaData = {
+				size: (applications && applications.length) || 0,
+				pageNumber: page,
+				totalPages: Math.ceil(applicationsCount / limit),
+				totalSize: applicationsCount,
+			};
+			const finalResponse = {
+				applicationsList: applications,
+				pageMetaData,
+			};
+			res.json(finalResponse);
+		} else if (_.isUndefined(query.jobId) && !_.isUndefined(params.user)) {
+			// GET /api/users/{user}/applications
+			const queryObj = {};
+			queryObj.user_id = params.user;
 			const applicationProjectionObj = {
 				form_data: 0,
 				feedback: 0,
@@ -47,15 +124,11 @@ export default ({ app }) => resource({
 				limit, skip, sort);
 			if (applications && applications.length) {
 				const jobIds = [];
-				const userIds = [];
 				applications.forEach((application, index) => {
 					applications[index].id = application._id;
 					jobIds.push(new ObjectID(application.job_id.toString()));
-					if (_.isUndefined(params.user)) {
-						userIds.push(new ObjectID(application.user_id.toString()));
-					}
 				});
-				let searchCriteria = {
+				const searchCriteria = {
 					_id: { $in: jobIds },
 				};
 				const jobProjectionObj = {
@@ -71,38 +144,18 @@ export default ({ app }) => resource({
 				applications = _.map(applications, application => _.extend(application, {
 					job: _.find(jobs, { _id: new ObjectID(application.job_id.toString()) }),
 				}));
-				if (_.isUndefined(params.user)) {
-					const userProjectionObj = {
-						firstName: 1,
-						lastName: 1,
-						emailAddress: 1,
-						user: 1,
-						_id: 0,
-					};
-					searchCriteria = {
-						user: { $in: userIds },
-					};
-					const users = await usersService.getProfiles(app, searchCriteria, userProjectionObj);
-					// add user data inside each applications object
-					applications = _.map(applications, application => _.extend(application, {
-						user: _.omit(_.extend(_.find(users, {
-							user: new ObjectID(application.user_id.toString()),
-						}),
-								{ _id: application.user_id }), ['user']),
-					}));
-				}
+				const pageMetaData = {
+					size: (applications && applications.length) || 0,
+					pageNumber: page,
+					totalPages: Math.ceil(applicationsCount / limit),
+					totalSize: applicationsCount,
+				};
+				const finalResponse = {
+					applicationsList: applications,
+					pageMetaData,
+				};
+				res.json(finalResponse);
 			}
-			const pageMetaData = {
-				size: (applications && applications.length) || 0,
-				pageNumber: page,
-				totalPages: Math.ceil(applicationsCount / limit),
-				totalSize: applicationsCount,
-			};
-			const finalResponse = {
-				applicationsList: applications,
-				pageMetaData,
-			};
-			res.json(finalResponse);
 		} else {			// GET /api/users/{user}/applications?jobId={id}
 			const searhQuery = {
 				user_id: params.user,
@@ -244,9 +297,9 @@ export default ({ app }) => resource({
 						select: ['firstName', 'lastName', 'emailAddress'],
 					});
 					/* const recruiterDetails = await app.models.profile.findOne({
-						where: { user: application[0].recruiter_id },
-						select: ['firstName', 'lastName', 'emailAddress'],
-					}); */
+					 where: { user: application[0].recruiter_id },
+					 select: ['firstName', 'lastName', 'emailAddress'],
+					 }); */
 					const requestBody = {
 						userType: Constants.CANDIDATE,
 						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
@@ -266,6 +319,7 @@ export default ({ app }) => resource({
 				res.status(500).json(e);
 			}
 		}
-	},
+	}
+	,
 
 });

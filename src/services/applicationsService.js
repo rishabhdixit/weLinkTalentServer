@@ -54,6 +54,21 @@ module.exports = {
 				}
 			});
 		}),
+	getApplicationsCount: async (app, searchCriteria) => new Promise((resolve, reject) => {
+		app.models.application.native((err, collection) => {
+			if (err) {
+				reject(err);
+			} else {
+				collection.count(searchCriteria, (error, count) => {
+					if (error) {
+						reject(error);
+					} else {
+						resolve(count);
+					}
+				});
+			}
+		});
+	}),
 	updateApplication: async (app, applicationId, updateObj) =>
 		new Promise((resolve, reject) => {
 			app.models.application.native((err, collection) => {
