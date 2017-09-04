@@ -253,9 +253,11 @@ export default ({ app }) => resource({
 						const requestBody = {
 							userType: Constants.REFEREE,
 							appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-							userEmail: referencesInfo[i].emailAddress,
-							userName: `${referencesInfo[i].firstName} ${referencesInfo[i].lastName}`,
-							candidateName: `${profileData.firstName} ${profileData.lastName}`,
+							refereeEmail: referencesInfo[i].emailAddress,
+							refereeFirstName: referencesInfo[i].firstName,
+							refereeLastName: referencesInfo[i].lastName,
+							candidateFirstName: profileData.firstName,
+							candidateLastName: profileData.lastName,
 							token,
 						};
 						tokensArray.push({
@@ -303,8 +305,9 @@ export default ({ app }) => resource({
 					const requestBody = {
 						userType: Constants.CANDIDATE,
 						appUrl: process.env.HOST ? 'http://welinktalent-client.herokuapp.com' : 'http://localhost:4200',
-						userEmail: candidateDetails.emailAddress,
-						userName: `${candidateDetails.firstName} ${candidateDetails.lastName}`,
+						candidateEmail: candidateDetails.emailAddress,
+						candidateFirstName: candidateDetails.firstName,
+						candidateLastName: candidateDetails.lastName,
 						// recruiterName: `${recruiterDetails.firstName} ${recruiterDetails.lastName}`,
 						recruiterFeedback: application[0].recruiter_comment,
 					};
