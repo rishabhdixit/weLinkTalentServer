@@ -54,7 +54,7 @@ export default ({ app }) => resource({
 			});
 			const applicationSearchCriteria = {
 				job_id: { $in: jobIds },
-				// applied_by_candidate: true
+				applied_by_candidate: true,
 			};
 			const applicationsCount = await applicationsService.getApplicationsCount(
 				app,
