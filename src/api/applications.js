@@ -204,9 +204,16 @@ export default ({ app }) => resource({
 		const applicationObj = {};
 		applicationObj.form_data = _.cloneDeep(req.body);
 		if (req.files && req.files.length) {
+			let filePath;
 			applicationObj.resume_urls = [];
 			for (let i = 0; i < req.files.length; i += 1) {
-				applicationObj.resume_urls.push(path.join(__dirname, req.files[i].path));
+				if (process.env.HOST) {
+					filePath = path.join(config.host, req.file.filename);
+				} else {
+					const domain = `${config.host}:${config.port}`;
+					filePath = path.join(domain, req.file.filename);
+				}
+				applicationObj.resume_urls.push(filePath);
 			}
 		}
 		if (_.get(applicationObj, 'form_data.skills')) {
