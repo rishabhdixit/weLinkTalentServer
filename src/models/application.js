@@ -102,27 +102,6 @@ const Application = Waterline.Collection.extend({
 			if (!form.skills || !form.skills.length) {
 				return cb('No skills provided');
 			}
-			if (!form.leadership) {
-				return cb('No value for leadership provided');
-			}
-			if (!form.selfManagement) {
-				return cb('No value for selfManagement provided');
-			}
-			if (!form.relationships) {
-				return cb('No value for selfManagement provided');
-			}
-			if (!form.analytical) {
-				return cb('No value for analytical provided');
-			}
-			if (!form.fitToJobReason) {
-				return cb('No value for fitToJobReason provided');
-			}
-			if (!form.jobRelatedAchievements) {
-				return cb('No value for jobRelatedAchievements provided');
-			}
-			if (!form.management) {
-				return cb('No value for management provided');
-			}
 		}
 		if (values.references_info && values.references_info.length) {
 			let errorMsg;
