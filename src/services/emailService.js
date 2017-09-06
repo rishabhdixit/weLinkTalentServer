@@ -32,7 +32,7 @@ module.exports = {
 			'Below is a link to the short questionnaire.<br><br>' +
 
 			'Please click the link below to get started.<br>' +
-			`${requestBody.token}<br><br>` +
+			`${requestBody.appUrl}/referee-feedback?token=${requestBody.token}<br><br>` +
 
 		'Thank you for your trust.<br>' +
 			'WeLinkTalent Team<br><br>' +
@@ -69,7 +69,7 @@ module.exports = {
 			'Below is a link to the short questionnaire.<br><br>' +
 
 			'Please click the link below to get started.<br>' +
-			`${requestBody.token}<br><br>` +
+			`${requestBody.appUrl}/referee-feedback?token=${requestBody.token}<br><br>` +
 
 			'Thank you for your trust.<br>' +
 			'WeLinkTalent Team<br><br>' +
