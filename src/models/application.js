@@ -99,30 +99,8 @@ const Application = Waterline.Collection.extend({
 			if (!form.reasonForLeaving) {
 				return cb('No value for reason for leaving provided');
 			}
-			if (!form.basePerMonth) {
-				return cb('No value for base per month provided');
-			} else if (!Number(form.basePerMonth) || Number(form.basePerMonth) < 0) {
-				return cb('Please provide valid number for base per month');
-			}
-			if (!form.bonus) {
-				return cb('No value for bonus provided');
-			} else if (!Number(form.bonus) || Number(form.bonus) < 0) {
-				return cb('Please provide valid number for bonus');
-			}
 			if (!form.skills || !form.skills.length) {
 				return cb('No skills provided');
-			}
-			if (!form.strength) {
-				return cb('No value for strength provided');
-			}
-			if (!form.improvements) {
-				return cb('No value for improvements provided');
-			}
-			if (!form.achievements) {
-				return cb('No value for management provided');
-			}
-			if (!form.management) {
-				return cb('No value for management provided');
 			}
 		}
 		if (values.references_info && values.references_info.length) {
