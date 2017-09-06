@@ -1,5 +1,4 @@
 import Waterline from 'waterline';
-import moment from 'moment';
 
 const Profile = Waterline.Collection.extend({
 	identity: 'profile',
@@ -112,12 +111,6 @@ const Profile = Waterline.Collection.extend({
 	afterValidate(values, cb) {
 		if (values.NRIC && (!Number(values.NRIC) || Number(values.NRIC) < 0)) {
 			return cb('NRIC is not valid');
-		}
-		if (values.visaValidity && !moment(values.visaValidity).isValid()) {
-			return cb('Visa validitity is not a proper date');
-		}
-		if (values.noticePeriod && !moment(values.noticePeriod).isValid()) {
-			return cb('Notice period is not a proper date');
 		}
 		if (values.mobileNumber && !Number(values.mobileNumber)) {
 			return cb('Mobile number is not valid');
