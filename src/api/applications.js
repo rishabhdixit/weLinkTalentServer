@@ -208,10 +208,10 @@ export default ({ app }) => resource({
 			applicationObj.resume_urls = [];
 			for (let i = 0; i < req.files.length; i += 1) {
 				if (process.env.HOST) {
-					filePath = path.join(config.host, req.file.filename);
+					filePath = path.join(config.host, req.files[i].filename);
 				} else {
 					const domain = `${config.host}:${config.port}`;
-					filePath = path.join(domain, req.file.filename);
+					filePath = path.join(domain, req.files[i].filename);
 				}
 				applicationObj.resume_urls.push(filePath);
 			}
