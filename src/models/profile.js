@@ -73,7 +73,7 @@ const Profile = Waterline.Collection.extend({
 			type: 'string',
 		},
 
-		noticePeriodNegotioble: {
+		noticePeriodNegotiable: {
 			type: 'boolean',
 		},
 
