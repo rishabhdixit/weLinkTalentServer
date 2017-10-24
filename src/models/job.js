@@ -147,6 +147,11 @@ const Job = Waterline.Collection.extend({
 			type: 'boolean',
 			defaultsTo: false,
 		},
+
+		salary_negotiable: {
+			type: 'boolean',
+			defaultsTo: false,
+		},
 	},
 
 	afterValidate(values, cb) {
